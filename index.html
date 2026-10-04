@@ -5382,8 +5382,8 @@ function lessonPage(A){
    <div class="meta">⏱ ${esc(A.min||"")}</div>${A.goal?`<div class="goal">🎯 <b>Ao final você vai:</b> ${A.goal}</div>`:""}</div>
    <div class="content">${A.body}
    ${quiz?`<h2>🧠 Teste rápido</h2><div class="quiz">${quiz}</div>`:""}
-   ${(A.pdf&&A.pdf.length)?`<h2>📚 Para ir além (complemento)</h2><p style="font-size:14px;color:#a1a1aa">${PUBLICO?"Livros e apostilas que falam do mesmo assunto, com a página onde o tema é explicado, para quem tiver o material.":"Material da pasta de estudos que fala do mesmo assunto, com a página onde o tema é explicado. O link abre o PDF direto nessa página."}</p><div class="pdfs">${A.pdf.map(m=>{ const pg=m[2]; const pt=pg?` <b class="pgn">${esc(pg[1]||("pág. "+pg[0]))}</b>`:""; const isImg=/\.(png|jpg)$/i.test(m[1]);
-     if(PUBLICO) return isImg?"":`<span class="mat">📄 ${esc(m[0])}${pt}</span>`;
+   ${(A.pdf&&A.pdf.length)?`<h2>📚 Para ir além (complemento)</h2><p style="font-size:14px;color:#a1a1aa">${PUBLICO?"Livros e apostilas que falam do mesmo assunto, com a página onde o tema é explicado. Os PDFs não ficam neste site porque são obras de outros autores: toque no nome para procurar o material na internet e, com ele em mãos, vá direto à página indicada.":"Material da pasta de estudos que fala do mesmo assunto, com a página onde o tema é explicado. O link abre o PDF direto nessa página."}</p><div class="pdfs">${A.pdf.map(m=>{ const pg=m[2]; const pt=pg?` <b class="pgn">${esc(pg[1]||("pág. "+pg[0]))}</b>`:""; const isImg=/\.(png|jpg)$/i.test(m[1]);
+     if(PUBLICO) return isImg?"":`<a class="mat" href="https://www.google.com/search?q=${encodeURIComponent(m[0].replace(/[·:()]/g," ")+" pdf livro")}" target="_blank" rel="noopener" title="Procurar este material na internet">🔎 ${esc(m[0])}${pt}</a>`;
      return `<a class="mat" href="${fileUrl(m[1])}${pg?"#page="+pg[0]:""}" target="_blank" rel="noopener">${isImg?"🗺️":"📄"} ${esc(m[0])}${pt}</a>`; }).join("")}</div>`:""}
    </div>
    <div class="lfoot">${prev?`<a class="btn" href="#/a/${prev.id}">← Anterior</a>`:"<span></span>"}

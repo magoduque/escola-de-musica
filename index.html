@@ -4900,6 +4900,97 @@ plus("n5m4",2, guiado("Ouça e bata junto", `${stB("C5/q3* C5/q3 C5/q3 C5/q3* C5
 plus("n5m4",3, erros(["Tentar pensar em todas as camadas ao mesmo tempo enquanto toca. Estude uma de cada vez até ficar automática; no palco, pense só na música.","Medir progresso por quantidade de material novo. O critério é o do o mapa: memória, reflexo de 1 segundo, precisão 5x.","Parar de ouvir música. Todo o estudo serve para tocar melhor o que você ouve e imagina."]));
 
 </script>
+<script>
+/* ===== PÁGINAS DOS COMPLEMENTOS =====
+   [aula, trecho do nome do arquivo, página do PDF, página impressa no livro (opcional)]
+   A página do PDF é a que o link abre; a impressa ajuda quem tem o livro físico. */
+const PAGINAS = [
+  /* Bohumil Med - Teoria da Música (2 páginas do livro por página do PDF) */
+  ["n1m1a3","Bohumil Med 4",6,11], ["n1m3a1","Bohumil Med 4",7,13], ["n1m3a2","Bohumil Med 4",9,16],
+  ["n1m4a5","Bohumil Med 4",20,39], ["n2m1a1","Bohumil Med 4",16,30], ["n2m2a1","Bohumil Med 4",51,100],
+  ["n2m2a3","Bohumil Med 4",51,100], ["n2m2a5","Bohumil Med 4",67,133], ["n2m3a2","Bohumil Med 4",31,60],
+  ["n2m5a2","Bohumil Med 4",107,213],
+  /* Arban */
+  ["tbm3a2","Arbans Complete",13], ["tbm4a1","Arbans Complete",13], ["tbm4a3","Arbans Complete",43],
+  ["tbm4a5","Arbans Complete",147], ["tbm4a6","Arbans Complete",174], ["tbm5a2","Arbans Complete",43],
+  ["tbm5a3","Arbans Complete",13], ["tbm6a3","Arbans Complete",138], ["tbm7a5","Arbans Complete",281],
+  /* Farkas */
+  ["n2m5a3","Philip Farkas",61,53], ["tbm4a1","Philip Farkas",61,53], ["tbm7a4","Philip Farkas",74,66],
+  ["tbm2a1","Philip Farkas",80,72], ["tbm2a3","Philip Farkas",42,34],
+  /* Método Básico para trombone */
+  ["tbm1a1","Método Básico Para trombone",4,3], ["tbm1a2","Método Básico Para trombone",5,4],
+  ["tbm1a3","Método Básico Para trombone",5,4], ["tbm1a4","Método Básico Para trombone",8,7],
+  ["tbm2a1","Método Básico Para trombone",6,5], ["tbm2a3","Método Básico Para trombone",6,5],
+  /* Pablo Gusmão */
+  ["n1m1a1","Pablo Gusmão",3], ["n1m4a4","Pablo Gusmão",6], ["n2m3a1","Pablo Gusmão",11],
+  ["n2m3a3","Pablo Gusmão",22], ["n3m1a2","Pablo Gusmão",24],
+  /* Aquecimento para metais (Gage) */
+  ["tbm2a2","Aquecimento para metais",2], ["tbm4a4","Aquecimento para metais",2], ["tbm5a1","Aquecimento para metais",2],
+  ["tbm7a1","Aquecimento para metais",2], ["tbm4a3","Aquecimento para metais",4],
+  /* Da Capo */
+  ["tbm1a2","Da Capo",3], ["tbm2a4","Da Capo",5], ["n1m4a6","Da Capo",8], ["tbm7a5","Da Capo",5],
+  /* Bateria: Faccioli, Rocca, ICM e outros */
+  ["btm1a1","Anderson-Faccioli",1], ["btm1a2","Anderson-Faccioli",3], ["btm1a3","Anderson-Faccioli",2], ["btm11a5","Anderson-Faccioli",1],
+  ["btm5a1","Edgard Rocca",58], ["btm5a2","Edgard Rocca",59], ["btm5a4","Edgard Rocca",62], ["btm5a5","Edgard Rocca",61],
+  ["btm3a5","Método de Estudo para Bateria",24,23], ["btm6a3","Método de Estudo para Bateria",27,26], ["btm11a3","Método de Estudo para Bateria",5,4],
+  ["btm3a2","Tommy Igoe",1], ["btm3a4","Tommy Igoe",2], ["btm6a1","Tommy Igoe",1], ["btm8a2","Tommy Igoe",6], ["btm9a2","Tommy Igoe",7],
+  ["btm1a3","Duda moura",4], ["btm1a4","Duda moura",2],
+  ["btm1a4","Método Bateria 16",2], ["btm3a2","Método Bateria 16",13],
+  ["btm3a1","Metodo De Bateria.pdf",1], ["btm3a3","Metodo De Bateria.pdf",1],
+  ["btm1a2","Apostila-estudos-bateria",5],
+  ["btm1a1","MANUAL DO BATERA",6], ["btm1a3","MANUAL DO BATERA",7], ["btm3a1","MANUAL DO BATERA",3],
+  ["btm4a4","Metodo de bateria 2",2], ["btm9a3","Thiago Sena",3], ["btm11a5","Thiago Sena",3],
+  ["btm11a1","Bíblia para afinar",12],
+  /* Teoria: apostilas */
+  ["n1m1a1","Apostila de Teoria Musical [2.0]",3], ["n1m3a1","Apostila de Teoria Musical [2.0]",3], ["n2m1a2","Apostila de Teoria Musical [2.0]",24],
+  ["n1m1a2","Penezzi",4], ["n2m1a1","Penezzi",21],
+  ["n1m1a3","Iniciacao_Musical",2], ["n1m2a1","Iniciacao_Musical",3],
+  ["n1m2a2","Sistema de cifragens",11], ["n3m1a5","Sistema de cifragens",1],
+  ["n1m2a3","Descomplicando",12],
+  ["n1m3a4","Fred Dantas",25],
+  ["n2m3a4","Serie Harmonica",1], ["n3m4a3","Serie Harmonica",1],
+  ["n1m4a1","andamento variacoes",1], ["n2m5a1","andamento variacoes",1],
+  ["n2m5a4","BOOK_20DO_20CARNAVAL",4], ["tbm7a5","BOOK_20DO_20CARNAVAL",4],
+  ["n3m2a1","Harmonia-Essencial",25], ["n3m2a1","Curso_de_harmonia1",50],
+  /* Trombone: estudos */
+  ["tbm3a2","Rubank",2], ["tbm6a5","Rubank",3], ["tbm4a2","Rochut",11],
+  /* Improvisação e jazz */
+  ["n4m1a1","clave de Fá",15], ["n4m1a4","clave de Fá",155], ["n5m4a1","clave de Fá",13],
+  ["n4m2a4","Jerry Coker.pdf",30,19], ["n4m3a4","Jerry Coker.pdf",61,50], ["n5m2a1","Jerry Coker.pdf",44,33],
+  ["n4m3a4","Cromatismo",2], ["n5m2a1","Cromatismo",4], ["n5m2a3","Cromatismo",3],
+  /* Livros escaneados (páginas achadas por leitura do texto) */
+  ["n3m1a2","Improvisação Vol I Almir",79], ["n3m1a4","Improvisação Vol I Almir",80], ["n3m2a2","Improvisação Vol I Almir",93],
+  ["n3m2a5","Improvisação Vol I Almir",94], ["n3m3a2","Improvisação Vol I Almir",100], ["n3m4a4","Improvisação Vol I Almir",109],
+  ["n4m2a2","Improvisação Vol I Almir",121,120], ["n5m1a3","Improvisação Vol I Almir",102],
+  ["n4m2a2","vol ii - almir",156,335], ["n4m2a3","vol ii - almir",157,336], ["n5m1a1","vol ii - almir",7,186], ["n5m1a2","vol ii - almir",17,196],
+  ["n1m4a2","(Pozzoli)",5], ["n1m4a3","(Pozzoli)",5], ["n1m4a4","(Pozzoli)",8], ["n2m4a2","(Pozzoli)",11],
+  ["n2m1a3","LIVRO DE ESCALA",19,17], ["n3m4a2","LIVRO DE ESCALA",13,11], ["n5m2a3","LIVRO DE ESCALA",17,15], ["tbm6a2","LIVRO DE ESCALA",13,11],
+  ["btm3a3","ted reed",33], ["btm4a4","ted reed",33], ["btm8a1","ted reed",14], ["btm11a5","ted reed",4],
+  ["btm3a4","Steve-Mansfield",26], ["btm6a1","Steve-Mansfield",3], ["btm7a2","Steve-Mansfield",36], ["btm9a3","Steve-Mansfield",103],
+  ["btm5a1","Sergio_Gomes",9], ["btm5a2","Sergio_Gomes",15], ["btm5a3","Sergio_Gomes",22], ["btm5a5","Sergio_Gomes",87],
+  ["n1m4a2","Bohumil Med - Ritmo",7,12], ["n2m4a1","Bohumil Med - Ritmo",32,62], ["n2m4a3","Bohumil Med - Ritmo",38,74],
+  ["n3m1a1","Ian Guest Vol 1",8], ["n3m1a3","Ian Guest Vol 1",28], ["n3m3a3","Ian Guest Vol 1",47],
+  ["n3m2a5","Ian Guest Vol 2",11], ["n4m2a3","Ian Guest Vol 2",25], ["n5m1a3","Ian Guest Vol 2",34],
+  ["n3m2a4","Hindemith",33], ["n5m3a1","Hindemith",11],
+  ["n3m2a3","Koellreuter",10,13], ["n3m3a1","Koellreuter",17,20],
+  ["n1m3a2","Regras da Grafia",11], ["n2m1a2","Regras da Grafia",18],
+  ["n1m3a5","Compendio de Teoria",27], ["n2m3a2","Compendio de Teoria",97]
+];
+const PAG_FALHAS = [];
+(function(){
+  const nf = s => s.normalize("NFC").toLowerCase();
+  const byId = {};
+  CURSO.forEach(L => L.mods.forEach(M => M.aulas.forEach((A,j) => { byId[M.id+"a"+(j+1)] = A; })));
+  PAG_FALHAS.length = 0;
+  PAGINAS.forEach(([id, trecho, pg, livro]) => {
+    const A = byId[id], t = nf(trecho);
+    const m = A && (A.pdf||[]).find(p => nf(p[1]).includes(t));
+    if(!m){ PAG_FALHAS.push(id+" / "+trecho); return; }
+    m[2] = [pg, livro && livro !== pg ? `pág. ${pg} do PDF · pág. ${livro} do livro` : `pág. ${pg}`];
+  });
+})();
+
+</script>
 
 <script>
 /* ================= MÚSICA: PARSE ================= */

@@ -179,6 +179,18 @@ section.lvl{padding:34px 48px 6px;min-width:0}
 .how{font-family:var(--body);text-align:left;font-size:13.5px;color:#d4d4d8;line-height:1.6;margin:8px 0 0}
 .how b{color:#fff}
 .illus svg{max-width:100%;height:auto}
+.ear{font-family:var(--body);text-align:left}
+.ebar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 10px}
+.escore{margin-left:auto;font-weight:900;font-size:13px;color:#fde68a}
+.eopts{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.eopt{background:#1f1f25;border:1px solid #3f3f46;color:#fff;border-radius:9px;padding:10px 8px;font-weight:800;font-size:13px;cursor:pointer;font-family:var(--body)}
+.eopt:hover{border-color:#a1a1aa}.eopt.ok{background:#14532d;border-color:#22c55e}.eopt.no{background:#5f1616;border-color:#ef4444}
+.efb{min-height:22px;margin-top:10px;font-size:14px;line-height:1.5}.efb b{color:#fff}
+.eopt svg{max-width:100%;height:auto;display:block;margin:auto}
+.ditin{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;min-height:30px}.ditin span{background:#27272a;border-radius:6px;padding:4px 10px;font-weight:900}
+.ditin span.ok{background:#14532d}.ditin span.no{background:#5f1616}
+.vozmeter{font-size:40px;font-weight:900;text-align:center;margin:8px 0}.vozbar{height:14px;background:#27272a;border-radius:7px;position:relative;margin:6px 0}
+.vozbar i{position:absolute;top:-3px;width:6px;height:20px;border-radius:3px;background:#fde68a;left:50%}.vozbar b{position:absolute;left:calc(50% - 1px);top:-5px;width:2px;height:24px;background:#22c55e}
 .chrow{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
 .chd{cursor:pointer;border-radius:10px;padding:2px;transition:background .15s}
 .chd:hover,.chd.on{background:#26262c}
@@ -278,6 +290,13 @@ function tab(notes,o){ return `<div class="fig" data-tab="${enc(Object.assign({n
 function braco(o){ return `<div class="fig" data-braco="${enc(o)}"></div>`; }
 /* batida de violão: batida({t, beats:4, sub:2, pat:"D.DUDUDU", ch:["C","G"], bpm:[60,80,100], how}) */
 function batida(o){ return `<div class="fig groove" data-strum="${enc(o)}"></div>`; }
+/* ---- treino de ouvido ---- */
+/* treino({tipo:"int"|"dir"|"acorde"|"grau"|"prog"|"modo"|"baixo"|"ritmo"|"tonica", t, ...opções}) */
+function treino(o){ return `<div class="fig" data-ear="${enc(o)}"></div>`; }
+/* ditado melódico: ditado({n:4, graus:[1,2,3,4,5], tom:"C"|"rand", t}) */
+function ditado(o){ return `<div class="fig" data-dit="${enc(o||{})}"></div>`; }
+/* afinador de voz pelo microfone: cante({t, de:"C3", ate:"C5"}) */
+function cante(o){ return `<div class="fig" data-voz="${enc(o||{})}"></div>`; }
 function tbl(head,rows){ return `<div class="tblwrap"><table><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</table></div>`; }
 </script>
 
@@ -6506,6 +6525,435 @@ mods:VGMODS});
 
 </script>
 <script>
+/* ================= TRILHA DO OUVIDO (PERCEPÇÃO MUSICAL) ================= */
+const OUMODS = [];
+const resp = (titulo, html) => `<details class="box dica" style="cursor:pointer"><summary><b>👁 ${titulo}</b></summary><div style="margin-top:10px">${html}</div></details>`;
+
+/* ============ OU 1 · FUNDAMENTOS ============ */
+OUMODS.push({id:"oum1", t1:"Fundamentos", t2:"do Ouvido", g:"👂", c:"#0369a1", sub:"Ouvido relativo, voz, tônica, graus e ritmo",
+desc:"Como o ouvido musical funciona e como se treina: ouvido relativo, cantar afinado (com afinador pelo microfone), sentir a tônica, reconhecer os graus da escala pelo método funcional e ditado rítmico.",
+aulas:[
+{t:"O ouvido se treina: como os grandes fizeram", e:"🎧", min:"15 min", sub:"Ouvido relativo, contexto e constância",
+goal:"entender o que é ouvido relativo, como ele se desenvolve e montar sua rotina diária de treino.",
+body:`
+<p>\"Ter ouvido\" não é um dom que se tem ou não tem: é uma <b>habilidade que se treina</b>, como ler. Quase todos os grandes músicos desenvolveram o ouvido de propósito, com exercícios e muita escuta ativa.</p>
+${tbl(["Tipo de ouvido","O que é","Dá para treinar?"],[["<b>Ouvido absoluto</b>","reconhecer uma nota isolada (\"isso é um Ré\") sem referência","muito pouco em adultos; é raro e <b>não é necessário</b> para ser um ótimo músico"],["<b>Ouvido relativo</b>","reconhecer as notas pela <b>relação</b> entre elas e com o tom (\"essa é a 5ª do tom\")","<b>sim, totalmente</b>: é o ouvido que permite tirar músicas, improvisar e acompanhar"]])}
+<h2>Como os grandes treinaram</h2>
+<ul>
+<li><b>Louis Armstrong</b> aprendeu tocando ao lado do seu mestre King Oliver, de ouvido: a tradição do jazz era oral.</li>
+<li><b>Charlie Parker</b> passou anos tocando junto com os discos de Lester Young, até saber os solos de cor, e os treinava <b>nos 12 tons</b>.</li>
+<li><b>Zoltán Kodály</b> criou na Hungria um sistema em que crianças cantam com <b>solfejo móvel</b> (o \"Dó\" é sempre a tônica) e sinais de mão (de John Curwen). Hoje é usado no mundo todo.</li>
+<li>Métodos modernos de treino funcional (como o de <b>Alain Benbassat</b>, base do app Functional Ear Trainer) e o \"One Note\" de <b>Bruce Arnold</b> fazem você ouvir cada nota <b>dentro de um tom</b>, depois de uma cadência. É o que você vai fazer nesta trilha.</li></ul>
+${box("ana","Reconhecer uma nota sozinha é como reconhecer uma pessoa no escuro. Reconhecer uma nota dentro de um tom é como reconhecer seus parentes numa foto de família: você sabe quem é quem pela posição e pelas semelhanças. O ouvido relativo é esse \"olhar de família\".")}
+<h2>As 5 regras do treino que funciona</h2>
+<ol><li><b>Pouco e todo dia</b>: 10 a 15 minutos diários rendem mais que 2 horas uma vez por semana.</li>
+<li><b>Sempre com contexto</b>: antes de adivinhar uma nota, ouça o tom (uma cadência). Os exercícios desta trilha já fazem isso.</li>
+<li><b>Cante</b>: o que você consegue cantar, você consegue ouvir por dentro (\"audiação\").</li>
+<li><b>Comece fácil</b> e só aumente a dificuldade quando acertar 80% ou mais.</li>
+<li><b>Ouça música de verdade</b>: tire músicas que você ama. O exercício é a academia; a música é o jogo.</li></ol>
+${treino({tipo:"dir",t:"🎯 Aquecimento: a segunda nota sobe, desce ou é igual?",how:"Parece fácil, mas muita gente confunde \"mais agudo\" com \"mais forte\". Faça 20 perguntas e veja sua porcentagem."})}
+${box("res","Ouvido relativo se treina com contexto, canto e constância. É o que os grandes fizeram: ouvir, cantar e copiar música de verdade, todos os dias.")}
+`,
+quiz:[["Qual tipo de ouvido é essencial e treinável?",["Absoluto","Relativo","Nenhum"],1,"O relativo reconhece notas pela relação com o tom."],
+["Como Charlie Parker treinou?",["Só com teoria","Tocando junto com discos de Lester Young, em todos os tons","Com aplicativos"],1,"Escuta ativa e repetição."],
+["Qual é a melhor frequência de treino?",["Pouco e todo dia","Muito uma vez por mês","Só antes de shows"],0,"Constância vence volume."]],
+pdf:[["Curso Preparatório de Solfejo e Ditado (Osvaldo Lacerda)",NP+"Curso Preparatorio de Solfejo e Ditado Musical(Osvaldo Lacerda).pdf"]]},
+
+{t:"Cantar afinado: a voz é o instrumento do ouvido", e:"🎤", min:"20 min", sub:"Imitar a nota, com afinador pelo microfone",
+goal:"cantar uma nota igual à que você ouve, usando o afinador de voz para conferir.",
+body:`
+<p>Cantar é o atalho mais rápido para treinar o ouvido. Quando você canta uma nota, o cérebro precisa <b>imaginá-la antes</b>; esse \"ouvir por dentro\" (o pedagogo Edwin Gordon chamou de <b>audiação</b>) é o mesmo que você usa para tirar músicas e improvisar. Você não precisa ter voz bonita: precisa ter voz <b>afinada</b>, e isso se aprende.</p>
+<h2>Passo a passo</h2>
+<ol><li>Ouça a nota e <b>cantarole mentalmente</b> antes de soltar a voz.</li>
+<li>Cante com \"u\" ou \"lá\", sem força, numa altura confortável. Homens costumam cantar uma oitava abaixo das mulheres: está certo, vale a mesma nota.</li>
+<li>Se não sabe se está acima ou abaixo, faça uma <b>sirene</b> lenta (deslize a voz de grave para agudo) até sentir que \"encaixou\".</li>
+<li>Segure a nota afinada por 2 segundos e memorize a sensação.</li></ol>
+${cante({t:"🎤 Afinador de voz: cante a nota pedida",de:"C3",ate:"C4",how:"O ponteiro amarelo mostra onde sua voz está; a linha verde é a nota certa. Funciona em qualquer oitava. Se o navegador pedir, permita o uso do microfone. Use fone de ouvido para o som do site não confundir o microfone."})}
+${box("dica","Sem microfone? Faça o mesmo exercício com o botão ▶ Ouvir a nota: cante junto e depois sozinho, e compare gravando no celular.")}
+<h2>Exercício de eco (todos os dias)</h2>
+<p>Toque Dó-Ré-Mi-Fá-Sol no teclado (ou ouça abaixo), uma nota de cada vez, e cante cada uma logo depois. Depois cante a escala inteira sozinho e confira no final.</p>
+${ouvirP("C4/h D4/h E4/h F4/h G4/h A4/h B4/h C5/w","Escala para cantar junto",60)}
+${erros(["Cantar forte demais: força desafina. Cante baixinho.","Ficar na nota errada por vergonha de deslizar a voz: a sirene é a ferramenta para se achar.","Achar que \"não tem jeito\": a desafinação, na enorme maioria das pessoas, é falta de treino de coordenação entre ouvido e voz."])}
+${box("res","Cante tudo o que estudar. Ouça por dentro, cante baixo, deslize até encaixar e confira no afinador.")}
+`,
+quiz:[["O que é audiação?",["Ouvir a música por dentro, mentalmente","Um tipo de fone","Ouvir muito alto"],0,"Termo do pedagogo Edwin Gordon."],
+["Um homem canta uma oitava abaixo da nota pedida. Está:",["Errado","Certo: é a mesma nota","Desafinado"],1,"A nota tem o mesmo nome em qualquer oitava."],
+["Para se achar quando está desafinado, a melhor técnica é:",["Cantar mais forte","Fazer uma sirene lenta até encaixar","Parar de cantar"],1,"Deslizar a voz ajuda a encontrar a nota."]],
+pdf:[["Solfejo (Pozzoli)",NP+"SOLFEJO - Pozzoli.pdf"],["50 Solfejos Fáceis",NP+"50 solfejos faceis.pdf"]]},
+
+{t:"A tônica: a nota de casa", e:"🏠", min:"20 min", sub:"Sentir onde a música quer descansar",
+goal:"cantar a tônica de uma progressão que não termina nela.",
+body:`
+<p>Toda música tonal tem uma <b>nota de casa</b>, a <b>tônica</b>: a nota onde a melodia \"descansa\". As outras notas criam vontade de voltar para ela. Saber cantar a tônica é o <b>primeiro passo</b> para tirar qualquer música de ouvido.</p>
+${box("ana","Pense numa música como um passeio: a tônica é a sua casa. Você pode passear pelo bairro inteiro, mas sente para que lado fica a casa. Quando a música termina na tônica, é como chegar e tirar o sapato.")}
+${ouvirP("C3+C4+E4+G4/h F2+C4+F4+A4/h | G2+B3+D4+G4/h G2+B3+F4+G4/h | C3+C4+E4+G4/w","Ouça: termina em casa (tônica)",70)} ${ouvirP("C3+C4+E4+G4/h F2+C4+F4+A4/h | G2+B3+D4+G4/h G2+B3+F4+G4/h | A2+C4+E4+A4/w","Agora não termina em casa: sente a vontade de continuar?",70)}
+<h2>Exercício: cante a tônica</h2>
+<p>O exercício toca uma progressão <b>sem terminar na tônica</b>, cada vez num tom. Cante (ou cantarole) a nota que parece \"casa\". Depois aperte <b>Revelar</b> e confira se você cantou a mesma nota.</p>
+${treino({tipo:"tonica",t:"🏠 Que nota é a casa?",how:"Dica: cante uma nota longa e veja se \"descansa\" sobre o último acorde. Se ela parece pedir para ir a outro lugar, ainda não é a tônica."})}
+${box("prof","A tônica é percebida por estatística e por função: é a nota mais frequente nos pontos de repouso e é para onde convergem a sensível (7º grau, que sobe) e o 4º grau (que desce para o 3º). A cadência V7→I contém o trítono (4º e 7º graus) que resolve na tônica e na terça: é a prova mais forte do tom.")}
+${box("res","Tônica = nota de casa. Aprenda a cantá-la a partir de qualquer trecho: esse é o alicerce de tirar músicas de ouvido.")}
+`,
+quiz:[["O que é a tônica?",["A nota mais aguda","A nota de repouso do tom","A primeira nota da música"],1,"Nem sempre a música começa nela, mas quase sempre termina."],
+["Uma progressão que termina em Lá menor, num tom de Dó maior, soa:",["Concluída","Com vontade de continuar","Igual"],1,"O VI grau é um repouso 'falso'."],
+["Por que cantar a tônica é o primeiro passo para tirar música?",["Porque mostra o tom e serve de referência para todas as notas","Porque é a nota mais bonita","Porque é obrigatório"],0,"Todas as notas são ouvidas em relação a ela."]],
+pdf:[["Curso Preparatório de Solfejo e Ditado (Osvaldo Lacerda)",NP+"Curso Preparatorio de Solfejo e Ditado Musical(Osvaldo Lacerda).pdf"]]},
+
+{t:"Os graus da escala: o treino funcional", e:"🔢", min:"30 min", sub:"Cada nota tem uma personalidade dentro do tom",
+goal:"reconhecer de ouvido os 7 graus da escala maior depois de uma cadência.",
+body:`
+<p>Este é o exercício mais eficiente de todo o treino auditivo, e é a base dos métodos de Benbassat (Functional Ear Trainer), Bruce Arnold (One Note) e do solfejo de Kodály. Você ouve uma <b>cadência</b> (que estabelece o tom) e depois <b>uma nota</b>. Sua tarefa é dizer qual grau ela é.</p>
+<h2>A personalidade de cada grau</h2>
+${tbl(["Grau","Solfejo móvel","Como soa","Para onde quer ir"],[
+["1","Dó","casa, repouso total","—"],["2","Ré","passagem, levemente instável","desce para o 1"],["3","Mi","doce, estável","fica, ou desce para o 1"],
+["4","Fá","tenso, \"pendurado\"","desce para o 3"],["5","Sol","forte, aberto, estável","fica, ou vai para o 1"],["6","Lá","suave, um pouco melancólico","desce para o 5"],
+["7","Si","muito tenso (a \"sensível\")","sobe para o 1 (meio tom acima)"]])}
+${box("ana","Solfejo móvel: em qualquer tom, a tônica se chama \"Dó\". Assim, \"Sol\" sempre quer dizer o 5º grau, seja qual for o tom. Os nomes nas opções abaixo usam esse sistema.")}
+<h2>O truque de Benbassat: resolva cantando</h2>
+<p>Quando ouvir a nota, <b>cante o caminho dela até a tônica</b>: do 6, cante 6-5-4-3-2-1; do 7, cante 7-1 (subindo). Você \"sente\" o grau pelo caminho de volta para casa.</p>
+${ouvirP("C3+C4+E4+G4/h F2+C4+F4+A4/h | G2+B3+D4+F4/h C3+C4+E4+G4/h | A4/q G4/q F4/q E4/q | D4/q C4/h. ","Exemplo: o 6º grau resolvendo até a tônica",72)}
+<h2>Exercícios em 3 níveis</h2>
+${treino({tipo:"grau",graus:[1,3,5],tom:"C",t:"Nível 1 · só 1, 3 e 5, em Dó",how:"As notas do acorde da tônica são as mais fáceis. Acerte 80% antes de passar ao nível 2."})}
+${treino({tipo:"grau",graus:[1,2,3,4,5],tom:"C",t:"Nível 2 · graus 1 a 5, em Dó"})}
+${treino({tipo:"grau",graus:[1,2,3,4,5,6,7],tom:"rand",t:"Nível 3 · todos os graus, em tons variados",how:"Agora o tom muda a cada pergunta. Use 🎵 Cadência de referência sempre que perder a sensação do tom."})}
+${box("prof","O reconhecimento por função (grau) generaliza melhor do que o de intervalos isolados, porque em música real as notas são sempre percebidas em relação a um centro. Ainda assim, intervalos (próxima aula) são úteis para melodias que modulam e para música atonal. Use os dois.")}
+${box("res","Cadência + nota → grau. Cada grau tem uma tendência (4 desce para 3, 7 sobe para 1, 6 desce para 5...). Cante a resolução até a tônica. Suba de nível quando acertar 80%.")}
+`,
+quiz:[["Qual grau é a 'sensível', que quer subir para a tônica?",["4","6","7"],2,"Fica meio tom abaixo da tônica."],
+["No solfejo móvel, em Sol maior, como se chama a tônica?",["Sol","Dó","Ré"],1,"No móvel, a tônica é sempre 'Dó'."],
+["Para que serve a cadência antes da nota?",["Para estabelecer o tom","Para enfeitar","Para aquecer o piano"],0,"Sem contexto, não há grau."]],
+pdf:[["Solfejo (Pozzoli)",NP+"SOLFEJO - Pozzoli.pdf"],["Método de Solfejo (Frederico do Nascimento)",NP+"Metodo de Solfejo - Frederico do Nascimento e Jose Raymundo da Silva - Vol 1.pdf"]]},
+
+{t:"Ritmo de ouvido", e:"🥁", min:"25 min", sub:"Ditado rítmico e sílabas de contagem",
+goal:"reconhecer pela audição o ritmo escrito correto de um compasso, em três níveis.",
+body:`
+<p>Tirar uma música é tirar <b>notas</b> e <b>ritmo</b>. Para ouvir ritmo, use sílabas que \"desenham\" a divisão do tempo enquanto escuta:</p>
+${tbl(["Figura","Sílabas","Sensação"],[["♩ semínima","\"tá\"","um passo"],["♪♪ duas colcheias","\"ti-ti\"","dois toques por passo"],["♬♬ quatro semicolcheias","\"ti-ka-ti-ka\"","quatro toques"],["♩. ♪","\"tá-a-i\"","longa e curta"],["tercina","\"tri-o-la\"","três iguais num tempo"]])}
+${box("dica","Bata o pulso com o pé e fale as sílabas junto com o que ouve. O pé não pode parar: é o metrônomo interno.")}
+${treino({tipo:"ritmo",nivel:1,t:"Nível 1 · semínimas, colcheias e mínimas",bpm:76,how:"Primeiro vêm 4 cliques de contagem; depois o ritmo. Escolha a partitura correspondente."})}
+${treino({tipo:"ritmo",nivel:2,t:"Nível 2 · com pausas, semicolcheias e pontuados",bpm:70})}
+${treino({tipo:"ritmo",nivel:3,t:"Nível 3 · com tercinas",bpm:66})}
+${box("prof","O livro Rítmica, de José Eduardo Gramani (na pasta de estudos), é referência mundial em independência e percepção rítmica: séries de 2 e 3 sobrepostas, cantadas e batidas ao mesmo tempo. O Ditado Rítmico de Pozzoli e o Ritmo de Bohumil Med trazem exercícios graduados de leitura e escrita.")}
+${box("res","Pé no pulso + sílabas de contagem. Ouça, fale e escolha a escrita. Depois de dominar, escreva ritmos de músicas que você conhece.")}
+`,
+quiz:[["Como se 'fala' uma semínima pontuada seguida de colcheia?",["tá-a-i","ti-ti","ti-ka-ti-ka"],0,"Longa (1½) e curta (½)."],
+["O que deve manter o pulso enquanto você ouve?",["O pé","Nada","Os olhos"],0,"Metrônomo interno."],
+["Uma tercina divide o tempo em:",["2","3","4"],1,"Três notas iguais."]],
+pdf:[["Rítmica (Gramani)",NP+"Gramani_Ritmica.pdf"],["Ditado Rítmico (Pozzoli)",NP+"Pozzoli - Ditado Ritmico.pdf"],["Ritmo (Bohumil Med)",NP+"Bohumil Med - Ritmo.pdf"]]}
+]});
+
+/* ============ OU 2 · MELODIA DE OUVIDO ============ */
+OUMODS.push({id:"oum2", t1:"Melodia", t2:"de Ouvido", g:"🎼", c:"#0e7490", sub:"Intervalos, tonalidade, ditado e tirar músicas",
+desc:"Tudo para tirar melodias: intervalos com músicas de referência, como descobrir a tonalidade (tônica e maior ou menor), ditado melódico interativo, o método completo de transcrição dos grandes músicos e os modos de ouvido.",
+aulas:[
+{t:"Intervalos e músicas de referência", e:"📏", min:"35 min", sub:"Associe cada distância a uma música que você conhece",
+goal:"reconhecer os intervalos ascendentes, descendentes e harmônicos, usando músicas de referência.",
+body:`
+<p>Um <b>intervalo</b> é a distância entre duas notas. O jeito clássico de memorizá-los é associar cada um ao <b>começo de uma música conhecida</b>. Cante a música por dentro e compare.</p>
+${tbl(["Intervalo","Subindo","Descendo"],[
+["2ª menor (1 semitom)","tema de <i>Tubarão</i>","<i>Para Elisa</i> (Beethoven), as duas primeiras notas"],
+["2ª maior (2)","<i>Parabéns a Você</i> (\"Pa-ra-<b>béns</b>\")","<i>Mary Had a Little Lamb</i>"],
+["3ª menor (3)","<i>Smoke on the Water</i> (1ª→2ª nota do riff)","<i>Hey Jude</i> (\"Hey-Jude\")"],
+["3ª maior (4)","<i>Oh When the Saints</i>","5ª Sinfonia de Beethoven (\"pam-pam-pam-PAAM\")"],
+["4ª justa (5)","Marcha Nupcial (\"Lá vem a noiva\")","<i>O Come, All Ye Faithful</i> (3ª→4ª nota)"],
+["Trítono (6)","tema de <i>Os Simpsons</i> (\"The Simp-sons\")","—"],
+["5ª justa (7)","<i>Star Wars</i> (tema), <i>Brilha, Brilha Estrelinha</i>","<i>Os Flintstones</i> (\"Flint-stones\")"],
+["6ª menor (8)","<i>The Entertainer</i> (do Mi para o Dó agudo)","—"],
+["6ª maior (9)","<i>My Bonnie Lies Over the Ocean</i>","—"],
+["7ª menor (10)","tema de <i>Jornada nas Estrelas</i> (série original)","—"],
+["7ª maior (11)","rara no começo de músicas: pense na oitava e desça meio tom","—"],
+["Oitava (12)","<i>Over the Rainbow</i> (\"Some-where\")","—"]])}
+${box("dica","Escolha a sua própria referência quando conhecer uma melhor: a memória funciona com o que é significativo para você. Hinos, músicas da infância e vinhetas valem.")}
+<h2>Treino em etapas</h2>
+${treino({tipo:"int",ints:[2,4,5,7,12],modo:"asc",t:"Etapa 1 · subindo: 2ª M, 3ª M, 4ª J, 5ª J e oitava"})}
+${treino({tipo:"int",ints:[1,2,3,4,5,6,7,8,9,10,11,12],modo:"asc",t:"Etapa 2 · todos, subindo"})}
+${treino({tipo:"int",ints:[1,2,3,4,5,7,12],modo:"desc",t:"Etapa 3 · descendo"})}
+${treino({tipo:"int",ints:[3,4,5,6,7,8,9,10,11,12],modo:"harm",t:"Etapa 4 · harmônicos (as duas notas juntas)",how:"No intervalo harmônico, ouça a \"cor\": 3ªs e 6ªs são doces; 4ª e 5ª são ocas; 2ªs, 7ªs e trítono são ásperos (dissonantes)."})}
+${box("res","Associe cada intervalo a uma música. Treine subindo, depois descendo, depois harmônico. Errou? Clique nas opções para comparar os sons.")}
+`,
+quiz:[["Qual intervalo começa o tema de Star Wars?",["4ª justa","5ª justa","Oitava"],1,"Uma 5ª justa ascendente."],
+["Qual música é referência de 2ª menor subindo?",["Tubarão","Parabéns","Over the Rainbow"],0,"Duas notas vizinhas, um semitom."],
+["Intervalos harmônicos ásperos (dissonantes) incluem:",["3ª e 6ª","2ª, 7ª e trítono","4ª e 5ª"],1,"Elas soam com mais atrito."]],
+pdf:[["Curso Preparatório de Solfejo e Ditado (Osvaldo Lacerda)",NP+"Curso Preparatorio de Solfejo e Ditado Musical(Osvaldo Lacerda).pdf"],["50 Solfejos Fáceis",NP+"50 solfejos faceis.pdf"]]},
+
+{t:"Como descobrir a tonalidade de uma música", e:"🗝️", min:"25 min", sub:"Tônica, maior ou menor, e a escala",
+goal:"descobrir o tom de qualquer música em 4 passos.",
+body:`
+<h2>Os 4 passos</h2>
+<ol><li><b>Cante a tônica.</b> Ouça um trecho e cante a nota de repouso (geralmente a última nota do refrão ou da música).</li>
+<li><b>Ache essa nota no instrumento.</b> Toque notas até uma coincidir com o que você canta. Essa é a tônica.</li>
+<li><b>Maior ou menor?</b> Toque o acorde maior e o menor da tônica junto com a música: um encaixa, o outro briga. Ou ouça a terça: o clima alegre e aberto é maior; o triste e fechado, menor.</li>
+<li><b>Confirme com a escala.</b> Toque a escala do tom junto com a melodia: quase todas as notas devem bater. Se uma nota \"fura\" sempre, talvez seja outro modo (mixolídio, dórico) ou um empréstimo.</li></ol>
+${treino({tipo:"prog",progs:{"Maior":"I IV V I","Menor":"i iv V i"},tom:"rand",t:"Maior ou menor? (progressões completas)"})}
+${treino({tipo:"modo",modos:["Jônio (maior)","Eólio (menor natural)"],tom:"rand",t:"Maior ou menor? (só a escala, sobre um baixo)"})}
+${box("ana","Maior e menor diferem principalmente em uma nota: a terça. Em Dó maior, Mi; em Dó menor, Mi♭. É como a mesma rua com e sem sol: tudo igual, mas o clima muda.")}
+${box("prof","Músicas pop muitas vezes \"começam\" fora da tônica (por exemplo, no VI grau ou no IV). Por isso, confie mais nos finais de frase e no refrão do que no primeiro acorde. Em músicas modais (muito comuns no rock e no forró), a tônica é clara, mas a escala tem uma nota diferente da maior ou da menor: ♭7 (mixolídio) ou 6ª maior num tom menor (dórico).")}
+${box("res","Cante a tônica → ache no instrumento → maior ou menor pela terça → confirme com a escala.")}
+`,
+quiz:[["Qual é o primeiro passo para achar o tom?",["Cantar a tônica","Tocar acordes aleatórios","Olhar a capa do disco"],0,"A tônica é a referência de tudo."],
+["Qual nota diferencia Dó maior de Dó menor?",["Sol","Mi / Mi♭","Ré"],1,"A terça."],
+["Em que parte da música a tônica costuma ficar mais clara?",["No fim das frases e do refrão","No primeiro segundo","No solo"],0,"É onde a música repousa."]],
+pdf:[["Teoria da Música (Bohumil Med)",NP+"Teoria da Música - Bohumil Med 4º Edição.pdf"]]},
+
+{t:"Ditado melódico", e:"✍️", min:"35 min", sub:"Ouça, cante e escreva",
+goal:"escrever melodias curtas que você ouve, em três níveis de dificuldade.",
+body:`
+<h2>O método de 5 passos</h2>
+<ol><li><b>Ouça sem tentar escrever</b>: só memorize.</li>
+<li><b>Cante</b> a melodia inteira. Se não consegue cantar, ainda não memorizou: ouça de novo.</li>
+<li><b>Ache a primeira nota</b> em relação à tônica (que grau é?).</li>
+<li><b>Desenhe o contorno</b>: sobe, desce, repete; passos (graus vizinhos) ou saltos.</li>
+<li><b>Preencha as notas</b> pelos graus ou intervalos e confira cantando.</li></ol>
+${ditado({n:3,graus:[1,2,3,4,5],tom:"C",t:"Nível 1 · 3 notas, graus 1 a 5, em Dó"})}
+${ditado({n:4,graus:[1,2,3,4,5,6,7,8],tom:"C",t:"Nível 2 · 4 notas, escala inteira, em Dó"})}
+${ditado({n:5,graus:[1,2,3,4,5,6,7,8],tom:"rand",salto:4,t:"Nível 3 · 5 notas com saltos, em tons variados (a 1ª nota é dada)"})}
+${box("dica","No teclado do exercício, a tecla que você clica toca. Use isso: cante a nota que você lembra e procure no teclado até ela coincidir.")}
+${box("res","Memorize, cante, ache a primeira nota pela tônica, desenhe o contorno, preencha. Ditado é a forma mais pura de 'tirar música'.")}
+`,
+quiz:[["Qual é o primeiro passo do ditado?",["Escrever rápido","Ouvir e memorizar","Tocar todas as teclas"],1,"Sem memória, não há ditado."],
+["Se você não consegue cantar a melodia, deve:",["Ouvir de novo","Chutar","Desistir"],0,"Cantar prova que memorizou."],
+["Como achar a primeira nota?",["Em relação à tônica (grau)","Aleatoriamente","Pela cor do teclado"],0,"O contexto tonal é a régua."]],
+pdf:[["Curso Preparatório de Solfejo e Ditado (Osvaldo Lacerda)",NP+"Curso Preparatorio de Solfejo e Ditado Musical(Osvaldo Lacerda).pdf"],["Bona · Método de Divisão",NP+"Bona.pdf"]]},
+
+{t:"Tirando uma música completa: o método dos mestres", e:"🎵", min:"40 min", sub:"Transcrição de ouvido, passo a passo",
+goal:"tirar de ouvido melodias completas e criar o hábito de transcrever, como fizeram os grandes.",
+body:`
+<p>Transcrever é o exercício de ouvido mais completo que existe, e o que os grandes mais usaram. A recomendação de mestres como Hal Galper é <b>aprender o trecho de ouvido, cantando e tocando até memorizar</b>, e só depois (se quiser) escrever.</p>
+<h2>O roteiro</h2>
+${tbl(["Etapa","O que fazer"],[
+["1. Escolha bem","comece com melodias curtas e lentas (cantigas, hinos, refrões); depois solos curtos"],
+["2. Corte em pedaços","trabalhe uma frase de cada vez (2 a 4 segundos)"],
+["3. Desacelere","use a velocidade 0,75x do YouTube ou programas como Transcribe! e Amazing Slow Downer, que diminuem sem mudar o tom"],
+["4. Cante","cante a frase junto até acertar todas as notas e a respiração"],
+["5. Ache no instrumento","pela tônica e pelos graus; confirme tocando junto com a gravação"],
+["6. Toque junto","toque com a gravação até soar igual, incluindo articulação e balanço"],
+["7. Leve para outros tons","como Charlie Parker: toque a frase em 2 ou 3 tons diferentes"]])}
+<h2>🎯 Desafios: tire estas melodias</h2>
+<p>Ouça, cante e encontre no seu instrumento. Só depois abra a resposta.</p>
+<p><b>Desafio 1</b> (começa na tônica, em Dó) ${ouvirP("C4/q C4/q G4/q G4/q | A4/q A4/q G4/h | F4/q F4/q E4/q E4/q | D4/q D4/q C4/h","Ouvir",96)}</p>
+${resp("Resposta do desafio 1",ex("G","C4/q C4/q G4/q G4/q | A4/q A4/q G4/h | F4/q F4/q E4/q E4/q | D4/q D4/q C4/h ||",{t:"Brilha, Brilha Estrelinha",bpm:96,time:"4/4",inst:"piano"}))}
+<p><b>Desafio 2</b> (em Sol maior; a primeira nota é Ré) ${ouvirP("D4/q G4/q. A4/e B4/q | B4/q A4/q G4/h | E4/h D4/q. D4/e | D4/w","Ouvir",90)}</p>
+${resp("Resposta do desafio 2",ex("G","D4/q G4/q. A4/e B4/q | B4/q A4/q G4/h | E4/h D4/q. D4/e | D4/w ||",{t:"Melodia criada para o curso (em Sol)",bpm:90,time:"4/4",inst:"piano",key:["F#5"],cap:"Graus: 5 – 1 – 2 – 3 | 3 – 2 – 1 | 6 – 5 – 5 | 5"}))}
+<p><b>Desafio 3</b> (em Lá menor; começa no Mi) ${ouvirP("E4/e A4/e B4/e C5/e B4/q A4/q | G#4/q A4/q B4/h | C5/e B4/e A4/e G#4/e A4/h","Ouvir",84)}</p>
+${resp("Resposta do desafio 3",ex("G","E4/e A4/e B4/e C5/e B4/q A4/q | G#4/q A4/q B4/h | C5/e B4/e A4/e G#4/e A4/h ||",{t:"Melodia criada para o curso (Lá menor harmônica)",bpm:84,time:"4/4",inst:"piano",cap:"Repare no Sol♯: é a sensível da escala menor harmônica."}))}
+${box("pra","Plano de transcrição semanal: segunda, escolha a música; terça a quinta, uma frase por dia; sexta, toque tudo junto com a gravação; sábado, toque em outro tom. Repita por um ano: seu ouvido será outro.")}
+${box("res","Escolha, corte, desacelere, cante, ache, toque junto e transponha. Transcrever música de verdade é o treino dos mestres.")}
+`,
+quiz:[["O que fazer antes de procurar as notas no instrumento?",["Cantar a frase","Escrever a partitura","Aumentar o volume"],0,"Cantar prova que você ouviu."],
+["Para que serve desacelerar a gravação?",["Para ouvir as notas rápidas sem mudar o tom","Para mudar o tom","Para cortar o som"],0,"Programas como o Transcribe! fazem isso."],
+["O que Charlie Parker fazia com o que aprendia?",["Esquecia","Tocava em vários tons","Só tocava em Dó"],1,"Transpor fixa o ouvido e os dedos."]],
+pdf:[["A Arte da Improvisação (Nelson Faria)","A arte da improvisação Nelson Faria.pdf"],["Patterns for Jazz (Coker)","Patterns for Jazz - by Jerry Coker Jimmy Casale Gary Campbel.pdf"]]},
+
+{t:"Modos e escalas de ouvido", e:"🌈", min:"30 min", sub:"Dórico, mixolídio, lídio, frígio e companhia",
+goal:"reconhecer pela audição os modos mais usados e a nota que dá a cor de cada um.",
+body:`
+<p>Cada modo tem uma <b>nota característica</b>, a que o diferencia do maior ou do menor. Ouça procurando essa nota.</p>
+${tbl(["Modo","Comparado com…","Nota característica","Onde aparece"],[["Mixolídio","maior","♭7","forró, baião, rock, blues"],["Lídio","maior","♯4","trilhas de filme, baião, jazz"],["Dórico","menor","6ª maior","funk, soul, Santana, MPB"],["Frígio","menor","♭2","flamenco, metal"],["Menor harmônica","menor","7ª maior (sensível)","clássico, música árabe, tango"]])}
+${treino({tipo:"modo",modos:["Jônio (maior)","Mixolídio","Lídio"],tom:"rand",t:"Etapa 1 · modos maiores: jônio, mixolídio, lídio"})}
+${treino({tipo:"modo",modos:["Eólio (menor natural)","Dórico","Frígio","Menor harmônica"],tom:"rand",t:"Etapa 2 · modos menores"})}
+${treino({tipo:"modo",modos:["Pentatônica maior","Pentatônica menor","Blues"],tom:"rand",t:"Etapa 3 · pentatônicas e blues"})}
+${box("res","Compare cada modo com o maior ou o menor e procure a nota característica: ♭7 (mixolídio), ♯4 (lídio), 6ª maior (dórico), ♭2 (frígio).")}
+`,
+quiz:[["Qual é a nota característica do mixolídio?",["♯4","♭7","♭2"],1,"Maior com sétima menor."],
+["O dórico é um modo menor com:",["6ª maior","♭2","7ª maior"],0,"Som menor 'cool'."],
+["O frígio é associado a:",["Flamenco e metal","Bossa nova","Valsa"],0,"Pelo ♭2."]],
+pdf:[["Harmonia e Improvisação I (Chediak)","Harmonia e Improvisação Vol I Almir Chediak.pdf"]]}
+]});
+
+/* ============ OU 3 · HARMONIA DE OUVIDO (BÁSICO) ============ */
+OUMODS.push({id:"oum3", t1:"Harmonia", t2:"de Ouvido", g:"🎹", c:"#1d4ed8", sub:"Maior e menor, tríades, baixo, funções e progressões",
+desc:"Ouvir acordes: a cor maior ou menor, as quatro tríades, a nota do baixo e as inversões, as funções I, IV e V e as progressões mais comuns da música popular, com o método para tirar a harmonia de qualquer música.",
+aulas:[
+{t:"Maior ou menor: a cor do acorde", e:"☀️", min:"20 min", sub:"O primeiro e mais importante reconhecimento",
+goal:"distinguir de ouvido acordes maiores e menores, primeiro arpejados e depois em bloco.",
+body:`
+<p>Maior soa <b>aberto, claro, estável</b>; menor soa <b>fechado, triste, introspectivo</b>. A única diferença é a terça, meio tom. Treine até a resposta ser imediata.</p>
+${ouvirP("C3+C4+E4+G4/h C3+C4+Eb4+G4/h | F2+F3+A3+C4/h F2+F3+Ab3+C4/h | G2+G3+B3+D4/h G2+G3+Bb3+D4/h","Compare: maior → menor",56)}
+${treino({tipo:"acorde",tipos:["maior","menor"],arpejo:true,t:"Etapa 1 · arpejado e depois em bloco",how:"Ouvindo nota por nota, preste atenção na nota do meio (a terça)."})}
+${treino({tipo:"acorde",tipos:["maior","menor"],t:"Etapa 2 · só em bloco"})}
+${box("dica","Cante o arpejo do acorde (1-3-5-3-1). Se a sua terça soa 'alegre', é maior; se soa 'triste', menor. Cantar torna a diferença física.")}
+${box("res","Maior = terça maior (4 semitons), som aberto. Menor = terça menor (3 semitons), som fechado. Ouça a nota do meio.")}
+`,
+quiz:[["Qual nota diferencia maior de menor?",["Fundamental","Terça","Quinta"],1,"A terça."],
+["Como soa um acorde maior?",["Aberto e claro","Tenso e áspero","Triste"],0,"De forma geral."],
+["Cantar o arpejo ajuda porque:",["Torna a diferença física e consciente","Deixa mais alto","Muda o acorde"],0,"Cantar é ouvir por dentro."]],
+pdf:[["Harmonia e Improvisação I (Chediak)","Harmonia e Improvisação Vol I Almir Chediak.pdf"]]},
+
+{t:"As quatro tríades e os acordes sus", e:"🔺", min:"25 min", sub:"Maior, menor, diminuto, aumentado, sus2 e sus4",
+goal:"reconhecer de ouvido as quatro tríades e os acordes suspensos.",
+body:`
+${tbl(["Acorde","Receita","Som"],[["Maior","4+3","aberto, estável"],["Menor","3+4","fechado, estável"],["Diminuto","3+3","apertado, tenso, \"suspense\""],["Aumentado","4+4","flutuante, misterioso, \"sonho\""],["Sus4","sem terça, com 4ª","suspenso, pede para resolver na terça"],["Sus2","sem terça, com 2ª","aberto, neutro, moderno"]])}
+${treino({tipo:"acorde",tipos:["maior","menor","dim","aum"],arpejo:true,t:"Etapa 1 · as quatro tríades (arpejadas)"})}
+${treino({tipo:"acorde",tipos:["maior","menor","dim","aum"],t:"Etapa 2 · as quatro tríades em bloco"})}
+${treino({tipo:"acorde",tipos:["maior","menor","sus4","sus2"],t:"Etapa 3 · maior, menor e suspensos"})}
+${box("res","Diminuto = apertado e tenso. Aumentado = flutuante. Sus = sem terça: não é nem maior nem menor.")}
+`,
+quiz:[["Qual tríade soa 'flutuante, misteriosa'?",["Diminuta","Aumentada","Menor"],1,"Duas terças maiores."],
+["O que falta nos acordes sus?",["A quinta","A terça","A fundamental"],1,"Ela é trocada pela 2ª ou 4ª."],
+["A tríade diminuta é formada por:",["3+3 semitons","4+4","4+3"],0,"Duas terças menores."]],
+pdf:[["Harmonia (Ian Guest), vol. 1","Harmonia - Ian Guest Vol 1.pdf"]]},
+
+{t:"Ouvir o baixo e as inversões", e:"🎸", min:"25 min", sub:"A nota mais grave conta metade da harmonia",
+goal:"cantar a nota mais grave de um acorde e reconhecer se ele está na fundamental ou invertido.",
+body:`
+<p>Para tirar a harmonia de uma música, o atalho é <b>ouvir o baixo</b>. Na maioria das vezes, o baixo toca a fundamental do acorde. Quando não toca, o acorde está <b>invertido</b> (C/E, G/B...) e soa mais \"leve\" ou \"em movimento\".</p>
+${box("pra","Exercício de canto do baixo: ouça uma música que você conhece e cante só a linha de baixo, nota por nota, por um refrão inteiro. No começo é difícil separar o grave do resto: abaixe o volume e preste atenção no fundo.")}
+${treino({tipo:"baixo",t:"Que nota está no baixo? (tríades)",how:"Cante a nota mais grave. Se ela é a 'casa' do acorde, é fundamental; se parece a nota do meio, é a 3ª; se parece a de cima, é a 5ª."})}
+${treino({tipo:"baixo",tetrade:true,t:"Avançado · tétrades com 7ª no baixo"})}
+${box("prof","A 2ª inversão (5ª no baixo) é instável na harmonia clássica e aparece quase só em situações específicas (o 6/4 cadencial, o 6/4 de passagem). A 1ª inversão (3ª no baixo) é usada para linhas de baixo que andam por graus conjuntos, como C – C/E – F. Ouvir a linha de baixo revela essas intenções.")}
+${box("res","Cante o baixo. Fundamental soa firme; com a 3ª no baixo soa mais leve; com a 5ª, suspenso.")}
+`,
+quiz:[["Num acorde C/E, qual nota está no baixo?",["Dó","Mi","Sol"],1,"A barra indica o baixo."],
+["Qual é o atalho para tirar a harmonia de uma música?",["Ouvir o baixo","Ouvir só a voz","Contar os instrumentos"],0,"O baixo costuma tocar a fundamental."],
+["Um acorde com a 3ª no baixo está em:",["Posição fundamental","1ª inversão","2ª inversão"],1,"Terça no baixo = 1ª inversão."]],
+pdf:[["Harmonia (Ian Guest), vol. 1","Harmonia - Ian Guest Vol 1.pdf"]]},
+
+{t:"Funções: I, IV e V", e:"🔁", min:"25 min", sub:"Casa, passeio e vontade de voltar",
+goal:"reconhecer de ouvido para qual acorde a música vai depois da tônica: IV, V ou VI.",
+body:`
+<p>Os três acordes principais de um tom têm sensações próprias: <b>I</b> é casa; <b>IV</b> é um passeio \"para cima\", que se afasta com calma; <b>V</b> é tensão, a porta de casa que pede para entrar; <b>VI</b> (menor) é um \"falso repouso\", mais triste.</p>
+${treino({tipo:"prog",progs:{"I → IV":"I IV","I → V":"I V"},tom:"rand",dur:1.3,t:"Etapa 1 · depois do I, vem o IV ou o V?",how:"O IV soa como se a música 'abrisse'; o V, como se ficasse em suspenso, pedindo para voltar."})}
+${treino({tipo:"prog",progs:{"I → IV":"I IV","I → V":"I V","I → vi":"I vi"},tom:"rand",dur:1.3,t:"Etapa 2 · IV, V ou VI?"})}
+${treino({tipo:"prog",progs:{"I → ii":"I ii","I → iii":"I iii","I → IV":"I IV","I → V":"I V","I → vi":"I vi"},tom:"rand",dur:1.3,t:"Etapa 3 · todos os graus do campo harmônico"})}
+${box("dica","Cante o baixo! Do I para o IV, o baixo sobe uma 4ª (Dó→Fá); do I para o V, sobe uma 5ª (Dó→Sol); do I para o VI, sobe uma 6ª ou desce uma 3ª (Dó→Lá). Juntando a direção do baixo com a cor (maior ou menor), você acerta quase sempre.")}
+${box("res","I = casa, IV = passeio, V = tensão que pede volta, VI = repouso triste. Cante o baixo e ouça a cor.")}
+`,
+quiz:[["Qual acorde 'pede para voltar' à tônica?",["IV","V","VI"],1,"É a dominante."],
+["Do I para o IV, o baixo sobe:",["Uma 4ª","Uma 5ª","Uma 2ª"],0,"Dó → Fá."],
+["O VI grau num tom maior é:",["Maior","Menor","Diminuto"],1,"Em Dó, Lá menor."]],
+pdf:[["Harmonia Funcional (Koellreutter)","Harmonia Funcional_ H. J. Koellreuter.pdf"]]},
+
+{t:"As progressões mais comuns", e:"🎶", min:"30 min", sub:"Reconhecer sequências inteiras e tirar a harmonia de músicas",
+goal:"reconhecer de ouvido as progressões mais usadas e aplicar um método para tirar a harmonia de qualquer música.",
+body:`
+${treino({tipo:"prog",progs:["I–IV–V–I","I–V–vi–IV","I–vi–IV–V","vi–IV–I–V"],tom:"rand",t:"Etapa 1 · as quatro progressões do pop"})}
+${treino({tipo:"prog",progs:["I–IV–V–I","I–V–vi–IV","I–vi–IV–V","vi–IV–I–V","I–IV–I–V","I–ii–V–I","I–iii–IV–V"],tom:"rand",t:"Etapa 2 · sete progressões"})}
+<h2>Método para tirar a harmonia de uma música</h2>
+<ol><li><b>Ache o tom</b> (Módulo 2).</li>
+<li><b>Cante o baixo</b> de cada trecho e ache as notas no instrumento.</li>
+<li>Para cada nota do baixo, teste o <b>acorde do campo harmônico</b> que começa nela.</li>
+<li>Se não encaixar, teste a <b>cor oposta</b> (maior ↔ menor) ou uma <b>inversão</b> (o baixo pode ser a 3ª de outro acorde).</li>
+<li>Escreva a sequência em <b>graus</b> (I, IV, V…): você vai começar a reconhecer as mesmas progressões em músicas diferentes.</li></ol>
+${box("pra","Pegue 5 músicas que você conhece e tente descobrir só se elas usam I–V–vi–IV. Você vai se surpreender com quantas usam.")}
+${box("res","As progressões se repetem em milhares de músicas. Reconheça-as pelo baixo e pela cor, e pense sempre em graus.")}
+`,
+quiz:[["Qual é a progressão I–V–vi–IV em Dó?",["C G Am F","C F G C","Am F C G"],0,"Dó, Sol, Lá menor, Fá."],
+["No método para tirar harmonia, depois de achar o tom você deve:",["Cantar o baixo","Adivinhar o solo","Mudar de música"],0,"O baixo revela a maioria dos acordes."],
+["Por que escrever em graus?",["Para reconhecer a mesma progressão em tons diferentes","Porque é mais bonito","Para ocupar espaço"],0,"Graus são universais."]],
+pdf:[["Harmonia e Improvisação I (Chediak)","Harmonia e Improvisação Vol I Almir Chediak.pdf"]]}
+]});
+
+/* ============ OU 4 · HARMONIA PROFISSIONAL ============ */
+OUMODS.push({id:"oum4", t1:"Harmonia", t2:"Profissional", g:"🎷", c:"#4338ca", sub:"Tétrades, tensões, alterações, II–V–I, empréstimos e graus cromáticos",
+desc:"O ouvido de quem toca MPB, jazz e música profissional: acordes com sétima, nonas, décimas primeiras e décimas terceiras, dominantes alterados, II–V–I e dominantes secundárias, empréstimo modal e o treino das 12 notas no tom (método One Note), com a rotina dos profissionais.",
+aulas:[
+{t:"Tétrades: 7M, 7, m7, m7(♭5) e °7", e:"4️⃣", min:"30 min", sub:"Os cinco acordes com sétima",
+goal:"reconhecer de ouvido as cinco tétrades principais.",
+body:`
+${tbl(["Acorde","Som","Função típica"],[["7M (maj7)","sonhador, sofisticado, \"bossa\"","I e IV (repouso colorido)"],["7 (dominante)","tenso, \"blues\", pede resolução","V"],["m7","macio, aveludado","II, III e VI"],["m7(♭5) (meio-diminuto)","escuro, \"triste e tenso\"","II do tom menor; VII do maior"],["°7 (diminuto)","dramático, \"filme de suspense\"","passagem e dominante sem fundamental"]])}
+${ouvirP("C3+E3+G3+B3/w | C3+E3+G3+Bb3/w | C3+Eb3+G3+Bb3/w | C3+Eb3+Gb3+Bb3/w | C3+Eb3+Gb3+A3/w","Ouça em sequência: C7M, C7, Cm7, Cm7(♭5), C°7",50)}
+${treino({tipo:"acorde",tipos:["7M","7","m7"],arpejo:true,t:"Etapa 1 · 7M, 7 e m7 (arpejados)",how:"Dica: entre 7M e 7, ouça a nota de cima. Na 7M ela fica a meio tom da oitava, com um brilho 'dissonante suave'; na 7, ela fica um tom abaixo e soa tensa, 'blues'."})}
+${treino({tipo:"acorde",tipos:["7M","7","m7","m7(♭5)","°7"],t:"Etapa 2 · as cinco tétrades em bloco"})}
+${treino({tipo:"acorde",tipos:["7M","7","m7","m(7M)","6","m6","7sus4"],t:"Etapa 3 · com 6, m6, m(7M) e 7sus4"})}
+${box("res","7M sonhador, 7 tenso, m7 macio, m7(♭5) escuro, °7 dramático. Cante o arpejo de cada um até reconhecer a sétima.")}
+`,
+quiz:[["Qual acorde soa 'tenso, blues' e pede resolução?",["7M","7","m7"],1,"O acorde dominante."],
+["O m7(♭5) é típico de qual grau?",["II do tom menor","I do tom maior","IV"],0,"E VII do maior."],
+["Qual a diferença entre 7M e 7?",["A sétima: maior (meio tom abaixo da oitava) ou menor (um tom abaixo)","A terça","A quinta"],0,"Si ou Si♭ em Dó."]],
+pdf:[["Harmonia (Ian Guest), vol. 2","Harmonia Ian Guest Vol 2.pdf"],["Harmonia e Improvisação I (Chediak)","Harmonia e Improvisação Vol I Almir Chediak.pdf"]]},
+
+{t:"Tensões: 9, 11 e 13", e:"💎", min:"35 min", sub:"Ouvir as cores que deixam o acorde moderno",
+goal:"reconhecer acordes com nona, décima primeira e décima terceira e a cor que cada tensão acrescenta.",
+body:`
+<p>As <b>tensões</b> são as notas acima da sétima. Elas não mudam a função do acorde, mas mudam sua <b>cor</b>. Aprenda a ouvir cada uma separada antes de reconhecer os acordes completos.</p>
+${tbl(["Tensão","Nota (em Dó)","Cor"],[["9","Ré","luminosa, \"aberta\", moderna"],["♭9","Ré♭","escura, dramática (só em dominantes)"],["♯9","Ré♯","\"suja\", blues-rock (o \"acorde de Hendrix\")"],["11","Fá","suspensa, \"quartal\" (em acordes menores)"],["♯11","Fá♯","flutuante, lídia, sofisticada"],["13","Lá","doce, elegante (em dominantes)"],["♭13","Lá♭","melancólica, tensa"]])}
+${ouvirP("C3+E3+G3+B3/w | C3+E3+G3+B3+D4/w | C3+E3+G3+B3+D4+F#4/w","Ouça: C7M → C7M(9) → C7M(9 ♯11)",50)} ${ouvirP("G2+F3+B3/w | G2+F3+B3+A4/w | G2+F3+B3+E4/w","G7 → G7(9) → G7(13)",50)}
+${treino({tipo:"acorde",tipos:["maior","add9","7M","7M(9)"],t:"Etapa 1 · a nona: maior, add9, 7M e 7M(9)"})}
+${treino({tipo:"acorde",tipos:["7","7(9)","7(13)"],t:"Etapa 2 · dominantes: 7, 7(9), 7(13)"})}
+${treino({tipo:"acorde",tipos:["m7","m7(9)","m7(11)"],t:"Etapa 3 · menores: m7, m7(9), m7(11)"})}
+${treino({tipo:"acorde",tipos:["add9","6(9)","7M(9)","7M(♯11)","7(9)","7(13)","m7(9)","m7(11)"],t:"Etapa 4 · tudo misturado (nível profissional)"})}
+${box("dica","Toque e cante só a tensão sobre o acorde: em C7M, cante Ré (9) sustentado. Aos poucos você reconhece a 'luz' que a nona traz. Os grandes arranjadores da bossa (Tom Jobim, João Donato) usavam essas cores o tempo todo: ouça \"Wave\" e \"Garota de Ipanema\" prestando atenção nos acordes.")}
+${box("res","9 luminosa, 11 suspensa, ♯11 flutuante, 13 doce. Comece comparando com o acorde sem a tensão e depois misture.")}
+`,
+quiz:[["Em Dó, a 9ª é a nota:",["Ré","Fá","Lá"],0,"Uma 2ª uma oitava acima."],
+["Qual tensão dá o som 'lídio, flutuante'?",["♯11","♭9","11"],0,"Fá♯ em Dó."],
+["A 13ª combina principalmente com qual tipo de acorde?",["Dominante (7)","Diminuto","Aumentado"],0,"G7(13) é clássico."]],
+pdf:[["Harmonia e Improvisação II (Chediak)","harmonia e improvisação vol ii - almir chediak.pdf"],["Harmonia (Ian Guest), vol. 2","Harmonia Ian Guest Vol 2.pdf"]]},
+
+{t:"Dominantes alterados: ♭9, ♯9 e ♭13", e:"⚡", min:"30 min", sub:"A tensão máxima antes da resolução",
+goal:"distinguir de ouvido o dominante natural dos dominantes com tensões alteradas.",
+body:`
+<p>Antes de resolver num acorde (principalmente num <b>menor</b>), o dominante costuma ganhar tensões <b>alteradas</b>, que deixam a resolução mais forte e dramática.</p>
+${ouvirP("G2+F3+B3+Ab4/w | C3+Eb4+G4+C5/w","G7(♭9) → Cm: a ♭9 resolve meio tom abaixo",50)} ${ouvirP("G2+F3+B3+Eb4/w | C3+Eb4+G4+C5/w","G7(♭13) → Cm",50)} ${ouvirP("E2+D3+G#3+G4/w","E7(♯9): o 'acorde de Hendrix'",50)}
+${treino({tipo:"acorde",tipos:["7","7(♭9)","7(♯9)"],t:"Etapa 1 · 7, 7(♭9) e 7(♯9)"})}
+${treino({tipo:"acorde",tipos:["7","7(9)","7(♭9)","7(♯9)","7(13)","7(♭13)","7(♯11)"],t:"Etapa 2 · todas as cores do dominante"})}
+${box("prof","Tensões naturais (9, 13) vêm da escala mixolídia; alteradas (♭9, ♯9, ♯11, ♭13) vêm de escalas como a dominante diminuta (semitom-tom) e a alterada (7º modo da menor melódica). Na prática: dominante indo para acorde maior aceita 9 e 13; indo para menor, prefere ♭9 e ♭13.")}
+${box("res","♭9 e ♭13 = dramáticas, preparam acordes menores. ♯9 = blues-rock. 9 e 13 = naturais, preparam acordes maiores.")}
+`,
+quiz:[["Qual tensão o dominante costuma usar antes de um acorde menor?",["9","♭9","13"],1,"♭9 e ♭13."],
+["O 'acorde de Hendrix' é o:",["7(♯9)","7M","m7"],0,"E7(♯9) em 'Purple Haze'."],
+["De onde vêm as tensões naturais 9 e 13 do dominante?",["Da escala mixolídia","Da escala cromática","Da menor harmônica"],0,"O modo do V grau."]],
+pdf:[["Harmonia e Improvisação II (Chediak)","harmonia e improvisação vol ii - almir chediak.pdf"]]},
+
+{t:"II–V–I, dominantes secundárias e SubV de ouvido", e:"🔄", min:"35 min", sub:"Os movimentos do jazz e da bossa",
+goal:"reconhecer de ouvido o II–V–I e as progressões com dominantes secundárias, substituição de trítono e diminuto de passagem.",
+body:`
+${treino({tipo:"prog",progs:["ii7–V7–I7M","I7M–vi7–ii7–V7","ii7(♭5)–V7(♭9)–i7"],tom:"rand",t:"Etapa 1 · II–V–I maior, menor e o turnaround"})}
+${treino({tipo:"prog",progs:["I–VI7–ii–V7","I–III7–vi–IV","I–II7–IV–I","ii7–subV7–I7M","I–♯i°7–ii7–V7"],tom:"rand",t:"Etapa 2 · dominantes secundárias, SubV e diminuto de passagem",how:"Dominante secundária = um acorde maior com sétima onde o tom pediria um menor (VI7 no lugar de vi). SubV = o baixo desce em semitons até a tônica. Diminuto de passagem = o baixo sobe em semitom entre dois acordes."})}
+${box("dica","Ouça o baixo: no II–V–I ele sobe uma 4ª, sobe outra 4ª (Ré–Sol–Dó). No SubV, ele desce meio tom duas vezes (Ré–Ré♭–Dó). No diminuto de passagem, sobe meio tom (Dó–Dó♯–Ré).")}
+${box("res","II–V–I: baixo em 4ªs. SubV: baixo cromático descendente. Diminuto de passagem: baixo cromático ascendente. Dominante secundária: um acorde maior com 7 'fora do lugar'.")}
+`,
+quiz:[["No SubV, o baixo:",["Desce em semitons até a tônica","Sobe em 4ªs","Fica parado"],0,"Ré – Ré♭ – Dó."],
+["VI7 no lugar de vi é um exemplo de:",["Dominante secundária","Empréstimo modal","Acorde diminuto"],0,"Ele prepara o II."],
+["O baixo do II–V–I em Dó é:",["Ré – Sol – Dó","Dó – Fá – Sol","Mi – Lá – Ré"],0,"Movimento de 4ª ascendente."]],
+pdf:[["Harmonia e Improvisação I (Chediak)","Harmonia e Improvisação Vol I Almir Chediak.pdf"],["A Arte da Improvisação (Nelson Faria)","A arte da improvisação Nelson Faria.pdf"]]},
+
+{t:"Empréstimo modal e as cores do tom menor", e:"🌗", min:"30 min", sub:"♭VII, ♭VI, iv menor e a cadência menor",
+goal:"reconhecer de ouvido os acordes emprestados do tom menor e as progressões típicas do menor.",
+body:`
+<p><b>Empréstimo modal</b> é usar, num tom maior, acordes do tom menor de mesma tônica. Eles trazem uma \"sombra\" ou um \"brilho épico\" muito usados no rock, no pop e na MPB.</p>
+${tbl(["Acorde emprestado","Em Dó","Som / onde aparece"],[["iv (IV menor)","Fm","nostálgico, \"saudade\" (Beatles, MPB)"],["♭VII","B♭","épico, rock (\"mixolídio\")"],["♭VI","A♭","grandioso, trilha de filme"],["♭III","E♭","rock, soul"]])}
+${treino({tipo:"prog",progs:["I–I7–IV–iv","I–♭VII–IV–I","I–♭VI–♭VII–I","I–IV–V–I"],tom:"rand",t:"Etapa 1 · tom maior com empréstimos"})}
+${treino({tipo:"prog",progs:["i–iv–V7–i","i–♭VI–♭VII–i","ii7(♭5)–V7(♭9)–i7"],tom:"rand",t:"Etapa 2 · progressões do tom menor"})}
+${box("res","iv menor = saudade; ♭VII = rock épico; ♭VI = grandioso. No tom menor, o V7 (com sensível) dá a resolução forte; ♭VI–♭VII–i é a cadência 'épica'.")}
+`,
+quiz:[["Qual acorde emprestado soa 'nostálgico'?",["iv menor","♭VII","V7"],0,"O IV que vira menor."],
+["Em Dó, o ♭VII é:",["B♭","Bm","B°"],0,"Si bemol maior."],
+["De onde vêm os acordes de empréstimo modal num tom maior?",["Do tom menor de mesma tônica","De qualquer tom","Da escala cromática"],0,"Dó maior pega acordes de Dó menor."]],
+pdf:[["Harmonia (Ian Guest), vol. 2","Harmonia Ian Guest Vol 2.pdf"],["Harmonia 3 (M. Mello)","Harmonia 3 M.Mello.pdf"]]},
+
+{t:"As 12 notas no tom e a rotina dos profissionais", e:"🏆", min:"30 min", sub:"O método One Note e o plano diário",
+goal:"reconhecer as 12 notas cromáticas dentro de um tom e seguir uma rotina profissional de treino auditivo.",
+body:`
+<p>O passo final do treino funcional (é o coração do método \"One Note\" de Bruce Arnold) é reconhecer <b>qualquer uma das 12 notas</b> dentro do tom, incluindo as que não são da escala (♭2, ♭3, ♯4, ♭6, ♭7). É o que permite tirar melodias de jazz, MPB e música com empréstimos e cromatismos.</p>
+${treino({tipo:"grau",cromatico:true,semis:[0,2,3,4,5,7,9,10,11],tom:"rand",t:"Etapa 1 · escala maior + ♭3 e ♭7 (as notas \"blues\")"})}
+${treino({tipo:"grau",cromatico:true,tom:"rand",t:"Etapa 2 · as 12 notas no tom",how:"Os nomes entre parênteses são o solfejo móvel, como se o tom fosse Dó. Use a cadência de referência sempre que precisar."})}
+<h2>A rotina diária de 20 minutos</h2>
+${tbl(["Tempo","Exercício","Onde"],[["3 min","cantar afinado: escala e arpejos no afinador de voz","Módulo 1"],["4 min","graus (diatônicos ou cromáticos)","Módulos 1 e 4"],["3 min","intervalos (uma etapa por dia)","Módulo 2"],["4 min","acordes: tríades ou tensões, conforme o nível","Módulos 3 e 4"],["3 min","progressões","Módulos 3 e 4"],["3 min","ditado melódico ou rítmico","Módulos 1 e 2"]])}
+<p>E, pelo menos 3 vezes por semana, <b>20 a 30 minutos de transcrição</b> de música de verdade (Módulo 2, aula 4). É a parte mais importante.</p>
+${box("prof","Ferramentas usadas por profissionais: o aplicativo Functional Ear Trainer (método Benbassat), os livros e áudios de Bruce Arnold (One Note), o solfejo e os sinais de mão de Kodály, a Rítmica de Gramani e os programas de desaceleração (Transcribe!, Amazing Slow Downer). O pianista Barry Harris, mestre do bebop, insistia que os alunos cantassem escalas, arpejos e linhas: \"se você não canta, não ouve\".")}
+${box("res","Domine as 12 notas no tom, siga a rotina de 20 minutos e transcreva música de verdade toda semana. É assim que se forma o ouvido de um profissional.")}
+<h2>Fontes da pesquisa</h2>
+<ul style="font-size:14px">
+<li><a href="https://tonedear.com/ear-training/functional-solfege-scale-degrees" target="_blank" rel="noopener">Functional Ear Training (tonedear)</a> · <a href="https://getmusictools.com/functional-ear-trainer" target="_blank" rel="noopener">Functional Ear Trainer (método Benbassat)</a></li>
+<li><a href="https://brucearnold.com/ear-training-guided-tour/" target="_blank" rel="noopener">Bruce Arnold · Ear Training One Note</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Kod%C3%A1ly_method" target="_blank" rel="noopener">Método Kodály (Wikipedia)</a> · <a href="https://blog.flat.io/kodaly-method-explained/" target="_blank" rel="noopener">Kodály: solfejo e sinais de mão</a></li>
+<li><a href="https://blog.uvm.edu/tgcleary/2014/01/10/oh-play-that-thing-the-use-of-transcribed-solos-in-the-jazz-tradition/" target="_blank" rel="noopener">A transcrição na tradição do jazz (Parker, Lester Young, Armstrong)</a></li>
+<li><a href="https://halgalper.com/articles/practice-and-performance-goals/" target="_blank" rel="noopener">Hal Galper · prática e aprendizado de ouvido</a></li>
+<li><a href="https://www.musicnotes.com/blog/musical-intervals-train-your-ear-with-these-easy-songs/" target="_blank" rel="noopener">Músicas de referência para intervalos (Musicnotes)</a> · <a href="https://www.gitori.com/blog/articles/songs-to-remember-intervals" target="_blank" rel="noopener">tabela de referências</a></li>
+<li><a href="https://jazzworkshops.com/the-barry-harris-vocal-workshop-video/" target="_blank" rel="noopener">Barry Harris · workshop vocal</a></li></ul>
+`,
+quiz:[["O que o método One Note treina?",["As 12 notas dentro de um tom","Só intervalos","Só ritmo"],0,"Cada nota pela sua cor no tom."],
+["Qual é a parte mais importante da rotina?",["Transcrever música de verdade","Decorar teoria","Comprar equipamento"],0,"Os exercícios preparam; a música ensina."],
+["Barry Harris insistia que os alunos:",["Cantassem escalas e linhas","Nunca cantassem","Só lessem partitura"],0,"Cantar é ouvir por dentro."]],
+pdf:[["Rítmica (Gramani)",NP+"Gramani_Ritmica.pdf"],["Curso Preparatório de Solfejo e Ditado (Osvaldo Lacerda)",NP+"Curso Preparatorio de Solfejo e Ditado Musical(Osvaldo Lacerda).pdf"]]}
+]});
+
+CURSO.push({id:"ou", nome:"Trilha do Ouvido Musical", emoji:"👂", pill:"Percepção do zero ao profissional · com exercícios que tocam e corrigem",
+desc:"Treinamento auditivo completo, baseado nos métodos que os grandes músicos usaram (treino funcional, solfejo móvel de Kodály, One Note de Bruce Arnold, transcrição como Charlie Parker): cantar afinado com afinador pelo microfone, tônica, graus da escala, ritmo, intervalos, tonalidade, ditado melódico, tirar músicas completas, modos, acordes maiores e menores, tríades, baixo, funções, progressões, tétrades, tensões 9, 11 e 13, dominantes alterados, II–V–I, empréstimo modal e as 12 notas no tom. Cada exercício sorteia, toca, corrige e conta seus acertos.",
+mods:OUMODS});
+
+</script>
+<script>
 /* ===== PÁGINAS DOS COMPLEMENTOS =====
    [aula, trecho do nome do arquivo, página do PDF, página impressa no livro (opcional)]
    A página do PDF é a que o link abre; a impressa ajuda quem tem o livro físico. */
@@ -7122,6 +7570,164 @@ function grandHTML(o,maxW){
     return `<div style="margin:6px 0 10px;border-left:3px solid #3f3f46;padding-left:4px">${staffSVG(Object.assign({clef:"G",notes:rn,minw:mw},base))}<div style="margin-top:-14px">${staffSVG(Object.assign({clef:"F",notes:lnn,minw:mw},base))}</div></div>`; }).join("");
 }
 
+
+/* ================= TREINO DE OUVIDO ================= */
+const INTN={0:"Uníssono",1:"2ª menor",2:"2ª maior",3:"3ª menor",4:"3ª maior",5:"4ª justa",6:"Trítono",7:"5ª justa",8:"6ª menor",9:"6ª maior",10:"7ª menor",11:"7ª maior",12:"Oitava"};
+const CHQ={"maior":[0,4,7],"menor":[0,3,7],"dim":[0,3,6],"aum":[0,4,8],"sus4":[0,5,7],"sus2":[0,2,7],
+ "7M":[0,4,7,11],"7":[0,4,7,10],"m7":[0,3,7,10],"m7(♭5)":[0,3,6,10],"°7":[0,3,6,9],"m(7M)":[0,3,7,11],"6":[0,4,7,9],"m6":[0,3,7,9],"7sus4":[0,5,7,10],
+ "add9":[0,4,7,14],"6(9)":[0,4,9,14],"7M(9)":[0,4,7,11,14],"7(9)":[0,4,7,10,14],"m7(9)":[0,3,7,10,14],"7(♭9)":[0,4,7,10,13],"7(♯9)":[0,4,10,15],
+ "7(13)":[0,4,10,14,21],"7(♭13)":[0,4,10,13,20],"7M(♯11)":[0,4,7,11,18],"m7(11)":[0,3,10,14,17],"7(♯11)":[0,4,10,14,18]};
+const CHN={"maior":"Maior","menor":"Menor","dim":"Diminuto","aum":"Aumentado","sus4":"Sus4","sus2":"Sus2"};
+const MODOS={"Jônio (maior)":[0,2,4,5,7,9,11],"Dórico":[0,2,3,5,7,9,10],"Frígio":[0,1,3,5,7,8,10],"Lídio":[0,2,4,6,7,9,11],"Mixolídio":[0,2,4,5,7,9,10],"Eólio (menor natural)":[0,2,3,5,7,8,10],"Lócrio":[0,1,3,5,6,8,10],
+ "Menor harmônica":[0,2,3,5,7,8,11],"Menor melódica":[0,2,3,5,7,9,11],"Pentatônica maior":[0,2,4,7,9],"Pentatônica menor":[0,3,5,7,10],"Blues":[0,3,5,6,7,10]};
+const CROMG=["1 (Dó)","♭2 (Ré♭)","2 (Ré)","♭3 (Mi♭)","3 (Mi)","4 (Fá)","♯4 (Fá♯)","5 (Sol)","♭6 (Lá♭)","6 (Lá)","♭7 (Si♭)","7 (Si)"];
+const MAJ=[0,2,4,5,7,9,11], MINN=[0,2,3,5,7,8,10], SOLF=["Dó","Ré","Mi","Fá","Sol","Lá","Si"];
+const GRAU={"I":[0,"maior"],"ii":[2,"menor"],"iii":[4,"menor"],"IV":[5,"maior"],"V":[7,"maior"],"vi":[9,"menor"],"vii°":[11,"dim"],"V7":[7,"7"],
+ "I7M":[0,"7M"],"ii7":[2,"m7"],"iii7":[4,"m7"],"IV7M":[5,"7M"],"vi7":[9,"m7"],"i":[0,"menor"],"iv":[5,"menor"],"♭VII":[10,"maior"],"♭VI":[8,"maior"],"♭III":[3,"maior"],
+ "VI7":[9,"7"],"II7":[2,"7"],"III7":[4,"7"],"I7":[0,"7"],"subV7":[1,"7"],"♯i°7":[1,"°7"],"ii7(♭5)":[2,"m7(♭5)"],"i7":[0,"m7"],"iv7":[5,"m7"],"V7(♭9)":[7,"7(♭9)"],"im7":[0,"m7"]};
+const PROGS={"I–IV–V–I":"I IV V I","I–V–vi–IV":"I V vi IV","I–vi–IV–V":"I vi IV V","vi–IV–I–V":"vi IV I V","I–IV–I–V":"I IV I V","ii–V–I":"ii V I I","I–ii–V–I":"I ii V I","I–iii–IV–V":"I iii IV V",
+ "ii7–V7–I7M":"ii7 V7 I7M I7M","I7M–vi7–ii7–V7":"I7M vi7 ii7 V7","I–VI7–ii–V7":"I VI7 ii V7","I–I7–IV–iv":"I I7 IV iv","I–♭VII–IV–I":"I ♭VII IV I","I–♭VI–♭VII–I":"I ♭VI ♭VII I",
+ "ii7–subV7–I7M":"ii7 subV7 I7M I7M","I–♯i°7–ii7–V7":"I ♯i°7 ii7 V7","I–III7–vi–IV":"I III7 vi IV","I–II7–IV–I":"I II7 IV I","ii7(♭5)–V7(♭9)–i7":"ii7(♭5) V7(♭9) i7 i7","i–♭VI–♭VII–i":"i ♭VI ♭VII i","i–iv–V7–i":"i iv V7 i"};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const nomeNota=m=>NPT[((m%12)+12)%12];
+/* toca eventos [{t,ms:[midi],d,v}] com som de piano */
+function tocaEv(ev,btn){ stopAll(); stopGroove(); const a=ac(), t0=a.currentTime+.08, N=[]; let end=0;
+  ev.forEach(e=>{ (e.ms||[]).forEach(m=>N.push(...pianoTone(freq(m),t0+e.t,e.d,e.v||(e.ms.length>1?.16:.28)))); if(e.click) N.push(...click(t0+e.t,e.acc)); end=Math.max(end,e.t+e.d); });
+  playing={nodes:N,btn}; if(btn) btn.classList.add("on"); playing.timer=setTimeout(()=>{ if(btn) btn.classList.remove("on"); playing=null; },(end+.3)*1000); }
+/* voicing próximo do anterior (condução de vozes) */
+function voicing(root,q,prev){ const iv=CHQ[q], pcs=[...new Set(iv.map(i=>((root+i)%12+12)%12))]; let best=null,bc=1e9;
+  for(let r=0;r<pcs.length;r++){ const ord=pcs.slice(r).concat(pcs.slice(0,r));
+    for(let start=50;start<=64;start++){ if(start%12!==ord[0]) continue; const v=[start]; for(let k=1;k<ord.length;k++){ let m=v[k-1]+1; while(m%12!==ord[k]) m++; v.push(m); }
+      if(v[v.length-1]>79) continue; const c=prev?v.reduce((s,m,i)=>s+Math.abs(m-(prev[Math.min(i,prev.length-1)])),0):Math.abs(v.reduce((s,m)=>s+m,0)/v.length-64);
+      if(c<bc){ bc=c; best=v; } } }
+  return best; }
+function progEv(degs,key,dur){ const ev=[]; let prev=null; degs.forEach((g,i)=>{ const [st,q]=GRAU[g]; const root=key+st; const v=voicing(root,q,prev); prev=v;
+  let b=36+((root%12)+12)%12; if(b<40) b+=12; ev.push({t:i*dur,ms:[b].concat(v),d:dur*.95}); }); return ev; }
+function cadEv(key,t0){ return progEv(["I","IV","V7","I"],key,.7).map(e=>Object.assign(e,{t:e.t+(t0||0)})); }
+/* padrões rítmicos (4/4) */
+const RCEL=[["C5/q",1],["C5/e C5/e",1],["C5/h",2],["C5/q. C5/e",2],["C5/s C5/s C5/s C5/s",1],["C5/e C5/s C5/s",1],["C5/s C5/s C5/e",1],["r/q",1],["C5/e. C5/s",1],["r/e C5/e",1],["C5/q3 C5/q3 C5/q3",2],["C5/w",4]];
+function ritmoAleat(lv){ const cel=RCEL.slice(0,lv>=3?12:lv>=2?10:5); let left=4, out=[]; let guard=0; while(left>0&&guard++<50){ const c=pick(cel); if(c[1]<=left && !(c[1]===4&&out.length)){ out.push(c[0]); left-=c[1]; } } return out.join(" "); }
+
+function mountEar(el,o){
+  const T=o.tipo, st={ok:0,tot:0,q:null,done:false};
+  let opts=[];
+  if(T==="dir") opts=["Sobe","Desce","Igual"];
+  else if(T==="int") opts=(o.ints||[1,2,3,4,5,6,7,8,9,10,11,12]).map(i=>INTN[i]);
+  else if(T==="acorde") opts=(o.tipos||["maior","menor"]).map(k=>CHN[k]||k);
+  else if(T==="grau") opts=o.cromatico?(o.semis||[0,1,2,3,4,5,6,7,8,9,10,11]).map(x=>CROMG[x]):(o.graus||[1,2,3,4,5,6,7]).map(g=>g+" · "+SOLF[g-1]);
+  else if(T==="prog") opts=Object.keys(o.progs||{}).length&&!Array.isArray(o.progs)?Object.keys(o.progs):(o.progs||["I–IV–V–I","I–V–vi–IV"]);
+  else if(T==="modo") opts=o.modos||["Jônio (maior)","Eólio (menor natural)"];
+  else if(T==="baixo") opts=o.tetrade?["Fundamental","3ª no baixo","5ª no baixo","7ª no baixo"]:["Fundamental","3ª no baixo","5ª no baixo"];
+  else if(T==="ritmo") opts=["A","B","C"];
+  const PD=Array.isArray(o.progs)||!o.progs?PROGS:o.progs;
+  const key=()=>o.tom==="C"?60:o.tom==="rand"||!o.tom?55+Math.floor(Math.random()*10):60;
+  /* gera pergunta: {ans, ev, evOf(label)} */
+  const gen=()=>{
+    if(T==="dir"){ const b=55+Math.floor(Math.random()*14), i=pick([0,1,2,3,4,5,7]), d=i===0?"Igual":pick(["Sobe","Desce"]); const b2=d==="Sobe"?b+i:d==="Desce"?b-i:b;
+      return {ans:d,ev:[{t:0,ms:[b],d:.7},{t:.85,ms:[b2],d:.9}]}; }
+    if(T==="int"){ const ints=o.ints||[1,2,3,4,5,6,7,8,9,10,11,12], i=pick(ints), b=53+Math.floor(Math.random()*12), md=o.modo==="mix"?pick(["asc","desc","harm"]):(o.modo||"asc");
+      const mk=ii=>md==="harm"?[{t:0,ms:[b,b+ii],d:1.4}]:md==="desc"?[{t:0,ms:[b+ii],d:.75},{t:.85,ms:[b],d:1}]:[{t:0,ms:[b],d:.75},{t:.85,ms:[b+ii],d:1}];
+      return {ans:INTN[i],ev:mk(i),evOf:lab=>{ const k=+Object.keys(INTN).find(x=>INTN[x]===lab); return mk(k); },extra:md==="desc"?" (descendente)":md==="harm"?" (harmônico)":""}; }
+    if(T==="acorde"){ const tipos=o.tipos||["maior","menor"], q=pick(tipos), r=48+Math.floor(Math.random()*8);
+      const mk=qq=>{ const ns=CHQ[qq].map(i=>r+i); return o.arpejo?[{t:0,ms:[ns[0]],d:2.6,v:.2}].concat(ns.slice(1).map((m,k)=>({t:.35*(k+1),ms:[m],d:2.6-.35*(k+1),v:.18}))).concat([{t:.35*ns.length+.4,ms:ns,d:1.5}]):[{t:0,ms:ns,d:1.8}]; };
+      return {ans:CHN[q]||q,ev:mk(q),evOf:lab=>mk(tipos.find(k=>(CHN[k]||k)===lab))}; }
+    if(T==="grau"&&o.cromatico){ const k=key(), sm=o.semis||[0,1,2,3,4,5,6,7,8,9,10,11], x=pick(sm), base=k+12*(k<60?1:0);
+      const mk=xx=>cadEv(k,0).concat([{t:3.3,ms:[base+xx],d:1.2}]);
+      return {ans:CROMG[x],ev:mk(x),evOf:lab=>mk(CROMG.indexOf(lab)),k}; }
+    if(T==="grau"){ const k=key(), gs=o.graus||[1,2,3,4,5,6,7], g=pick(gs), sc=o.menor?MINN:MAJ; const nt=k+12*(k<60?1:0)+sc[g-1];
+      const mk=gg=>cadEv(k,0).concat([{t:3.3,ms:[k+12*(k<60?1:0)+sc[gg-1]],d:1.2}]);
+      return {ans:g+" · "+SOLF[g-1],ev:mk(g),evOf:lab=>mk(+lab.split(" ")[0]),k}; }
+    if(T==="prog"){ const lab=pick(opts), kk=key(); const mk=l=>progEv(PD[l].split(" "),kk,o.dur||1.1);
+      return {ans:lab,ev:mk(lab),evOf:mk}; }
+    if(T==="modo"){ const lab=pick(opts), k=key(); const mk=l=>{ const sc=MODOS[l].concat([12]); const up=sc.map((s,i)=>({t:i*.32,ms:[k+s],d:.34})); const dn=sc.slice(0,-1).reverse().map((s,i)=>({t:(sc.length+i)*.32,ms:[k+s],d:.34})); return [{t:0,ms:[k-12],d:(sc.length*2)*.32+.6,v:.12}].concat(up,dn); };
+      return {ans:lab,ev:mk(lab),evOf:mk}; }
+    if(T==="baixo"){ const r=48+Math.floor(Math.random()*7), q=o.tetrade?pick(["7","m7","7M"]):pick(["maior","menor"]), iv=CHQ[q], inv=Math.floor(Math.random()*opts.length);
+      const mk=ii=>{ const ns=iv.map(x=>r+x); const bass=ns[ii]-12; return [{t:0,ms:[bass].concat(ns),d:1.8}]; };
+      return {ans:opts[inv],ev:mk(inv),evOf:lab=>mk(opts.indexOf(lab))}; }
+    if(T==="ritmo"){ const lv=o.nivel||1; let ps=[]; let g=0; while(ps.length<3&&g++<60){ const p=ritmoAleat(lv); if(!ps.includes(p)) ps.push(p); } const ci=Math.floor(Math.random()*3);
+      const mk=p=>{ const ev=[]; const q=60/(o.bpm||80); for(let i=0;i<4;i++) ev.push({t:i*q,click:true,acc:i===0,d:.05}); let t=4*q; p.split(" ").forEach(tk=>{ const n=parseTok(tk); if(!n.rest) ev.push({t,ms:[72],d:Math.min(n.beats*q*.9,1)}); t+=n.beats*q; }); return ev; };
+      return {ans:"ABC"[ci],ev:mk(ps[ci]),evOf:l=>mk(ps["ABC".indexOf(l)]),pats:ps}; }
+    if(T==="tonica"){ const k=key(); const prog=pick([["IV","V","vi","IV","V"],["ii","V","iii","vi","IV"],["vi","IV","V","IV","ii"],["IV","I","V","vi","V"]]); return {ans:null,ev:progEv(prog,k,1),k}; }
+  };
+  const isTon=T==="tonica";
+  el.innerHTML=(o.t?`<div class="gtitle">${o.t}</div>`:"")+(o.d?`<div class="gsub">${o.d}</div>`:"")+`<div class="ear"><div class="ebar"><button class="play eplay">▶ Ouvir</button><button class="play enext">↻ Nova pergunta</button>${T==="grau"||T==="tonica"?`<button class="play eref">🎵 Cadência de referência</button>`:""}<span class="escore">Acertos: 0 de 0</span></div>`+
+    (isTon?`<div class="eopts"><button class="eopt erev">👁 Revelar a tônica</button><button class="eopt eac">✓ Acertei</button><button class="eopt eer">✗ Errei</button></div>`:`<div class="eopts">${opts.map(l=>`<button class="eopt" data-l="${esc(l)}">${T==="ritmo"?`<span>${l}</span><span class="rsv"></span>`:esc(l)}</button>`).join("")}</div>`)+
+    `<div class="efb">Aperte <b>▶ Ouvir</b> e responda.</div></div>`+(o.how?`<div class="how">${o.how}</div>`:"");
+  const fb=el.querySelector(".efb"), sc=el.querySelector(".escore"), bplay=el.querySelector(".eplay");
+  const upd=()=>{ sc.textContent=`Acertos: ${st.ok} de ${st.tot}`+(st.tot?` (${Math.round(st.ok/st.tot*100)}%)`:""); };
+  const nova=()=>{ st.q=gen(); st.done=false; el.querySelectorAll(".eopt").forEach(b=>b.classList.remove("ok","no"));
+    if(T==="ritmo") el.querySelectorAll(".eopt").forEach((b,i)=>{ b.querySelector(".rsv").innerHTML=staffSVG({clef:"G",notes:st.q.pats[i]+" ||",time:"4/4",zoom:.8,h:120}); });
+    fb.innerHTML="Ouça e responda."; tocaEv(st.q.ev,bplay); };
+  bplay.onclick=()=>{ if(!st.q) return nova(); tocaEv(st.q.ev,bplay); };
+  el.querySelector(".enext").onclick=nova;
+  const eref=el.querySelector(".eref"); if(eref) eref.onclick=()=>{ if(!st.q) st.q=gen(); tocaEv(cadEv(st.q.k||60,0),eref); };
+  if(isTon){ el.querySelector(".erev").onclick=()=>{ if(!st.q) return; const k=st.q.k; tocaEv([{t:0,ms:[k],d:1.2},{t:1.4,ms:voicing(k,"maior",null).concat([k-12]),d:1.6}],null); fb.innerHTML=`A tônica era <b>${nomeNota(k)}</b>. Você cantou a mesma nota (em qualquer oitava)?`; };
+    el.querySelector(".eac").onclick=()=>{ if(!st.q||st.done) return; st.done=true; st.ok++; st.tot++; upd(); fb.innerHTML+="  ✓ Ótimo! Aperte ↻ para outra."; };
+    el.querySelector(".eer").onclick=()=>{ if(!st.q||st.done) return; st.done=true; st.tot++; upd(); fb.innerHTML+="  Sem problema: ouça de novo a progressão sabendo a resposta, e aperte ↻."; };
+    return; }
+  el.querySelectorAll(".eopt").forEach(b=>b.onclick=()=>{
+    if(!st.q){ nova(); return; }
+    if(st.done){ if(st.q.evOf) tocaEv(st.q.evOf(b.dataset.l),null); return; }
+    st.done=true; st.tot++; const okk=b.dataset.l===st.q.ans; if(okk) st.ok++; upd();
+    b.classList.add(okk?"ok":"no"); el.querySelectorAll(".eopt").forEach(x=>{ if(x.dataset.l===st.q.ans) x.classList.add("ok"); });
+    fb.innerHTML=okk?`✓ Certo: <b>${esc(st.q.ans)}</b>${st.q.extra||""}. Aperte ↻ para a próxima.`:`✗ Era <b>${esc(st.q.ans)}</b>${st.q.extra||""}.`+(st.q.evOf?` Clique nas opções para ouvir e comparar cada uma; depois aperte ↻.`:` Aperte ▶ para ouvir de novo e ↻ para a próxima.`);
+  });
+}
+
+/* ditado melódico */
+function mountDit(el,o){
+  const n=o.n||4, gs=o.graus||[1,2,3,4,5,6,7,8], st={k:60,mel:[],inp:[],ok:0,tot:0,done:false};
+  const sc=[0,2,4,5,7,9,11,12];
+  el.innerHTML=(o.t?`<div class="gtitle">${o.t}</div>`:"")+`<div class="gsub">Ouça a cadência (que mostra o tom) e a melodia. Depois toque as notas no teclado abaixo, na ordem. ${o.tom==="rand"?"O tom muda a cada pergunta: a primeira nota é dada.":"Tom: Dó maior."}</div><div class="ear"><div class="ebar"><button class="play eplay">▶ Ouvir</button><button class="play emel">▶ Só a melodia</button><button class="play enext">↻ Nova</button><span class="escore">Acertos: 0 de 0</span></div>
+    <div class="kbwrap"></div><div class="ditin"></div><div class="ebar"><button class="play edel">⌫ Apagar</button><button class="play echk">✓ Verificar</button><button class="play eans">👁 Ver resposta</button></div><div class="efb">Aperte ▶ Ouvir.</div></div>`+(o.how?`<div class="how">${o.how}</div>`:"");
+  const kw=el.querySelector(".kbwrap"), din=el.querySelector(".ditin"), fb=el.querySelector(".efb"), bp=el.querySelector(".eplay"), sco=el.querySelector(".escore");
+  const drawKb=()=>{ const from=st.k-(st.k%12===0?0:0), lo=st.k-5, hi=st.k+17; kw.innerHTML=kbdSVG({from:m2p(Math.max(48,st.k-5)),to:m2p(st.k+17),mark:"",labels:o.nomes===false?"none":"pt"});
+    kw.querySelectorAll("rect.k").forEach(r=>r.addEventListener("click",()=>{ const m=+r.dataset.m; const a=ac(); pianoTone(freq(m),a.currentTime+.02,.8,.3); if(st.done) return; if(st.inp.length<n){ st.inp.push(m); showIn(); } })); };
+  const showIn=(res)=>{ din.innerHTML=st.inp.map((m,i)=>`<span class="${res?(res[i]?"ok":"no"):""}">${i+1}. ${nomeNota(m)}</span>`).join("")||`<span style="background:none;color:#71717a">suas notas aparecem aqui</span>`; };
+  const gen=()=>{ st.k=o.tom==="rand"?55+Math.floor(Math.random()*10):60; const mel=[]; let g=pick(gs.filter(x=>[1,3,5].includes(x)).length?gs.filter(x=>[1,3,5].includes(x)):gs);
+    mel.push(g); for(let i=1;i<n;i++){ const cand=gs.filter(x=>x!==g&&Math.abs(x-g)<=(o.salto||2)); g=cand.length?pick(cand):pick(gs); mel.push(g); }
+    st.mel=mel.map(x=>st.k+sc[x-1]); st.inp=o.tom==="rand"?[st.mel[0]]:[]; st.done=false; drawKb(); showIn(); };
+  const ev=(cad)=>{ const e=cad?cadEv(st.k,0):[]; const t0=cad?3.4:0; return e.concat(st.mel.map((m,i)=>({t:t0+i*.65,ms:[m],d:.6}))); };
+  bp.onclick=()=>{ if(!st.mel.length){ gen(); fb.textContent="Toque as notas no teclado."; } tocaEv(ev(true),bp); };
+  el.querySelector(".emel").onclick=e=>{ if(st.mel.length) tocaEv(ev(false),e.target); };
+  el.querySelector(".enext").onclick=()=>{ gen(); fb.textContent="Toque as notas no teclado."; tocaEv(ev(true),bp); };
+  el.querySelector(".edel").onclick=()=>{ if(st.done) return; if(st.inp.length>(o.tom==="rand"?1:0)) st.inp.pop(); showIn(); };
+  el.querySelector(".echk").onclick=()=>{ if(!st.mel.length||st.done) return; if(st.inp.length<n){ fb.textContent=`Faltam ${n-st.inp.length} nota(s).`; return; }
+    const res=st.mel.map((m,i)=>((st.inp[i]-m)%12+12)%12===0); const ok=res.every(Boolean); st.done=true; st.tot++; if(ok) st.ok++;
+    sco.textContent=`Acertos: ${st.ok} de ${st.tot}`; showIn(res); fb.innerHTML=ok?"✓ Perfeito! Aperte ↻ para outra.":`✗ A melodia era: <b>${st.mel.map(nomeNota).join(" – ")}</b>. Ouça de novo comparando.`; };
+  el.querySelector(".eans").onclick=()=>{ if(st.mel.length) fb.innerHTML=`Resposta: <b>${st.mel.map(nomeNota).join(" – ")}</b>`; };
+  st.k=60; drawKb(); showIn();
+}
+
+/* afinador de voz */
+function autoCorr(buf,sr){ let N=buf.length, rms=0; for(let i=0;i<N;i++) rms+=buf[i]*buf[i]; rms=Math.sqrt(rms/N); if(rms<.012) return -1;
+  let r1=0,r2=N-1; const th=.2; for(let i=0;i<N/2;i++) if(Math.abs(buf[i])<th){ r1=i; break; } for(let i=1;i<N/2;i++) if(Math.abs(buf[N-i])<th){ r2=N-i; break; }
+  const b=buf.slice(r1,r2); N=b.length; const c=new Float32Array(N); for(let i=0;i<N;i++){ let s=0; for(let j=0;j<N-i;j++) s+=b[j]*b[j+i]; c[i]=s; }
+  let d=0; while(d<N-1&&c[d]>c[d+1]) d++; let mv=-1,mp=-1; for(let i=d;i<N;i++) if(c[i]>mv){ mv=c[i]; mp=i; }
+  let T0=mp; const x1=c[T0-1],x2=c[T0],x3=c[T0+1], A=(x1+x3-2*x2)/2, B=(x3-x1)/2; if(A) T0=T0-B/(2*A); return T0>0?sr/T0:-1; }
+let VOZ=null;
+function mountVoz(el,o){
+  const lo=parsePitch(o.de||"C3").midi, hi=parsePitch(o.ate||"C5").midi; let alvo=60, hold=0;
+  el.innerHTML=(o.t?`<div class="gtitle">${o.t}</div>`:"")+`<div class="ear"><div class="ebar"><button class="play vmic">🎤 Ligar microfone</button><button class="play vnova">↻ Nova nota</button><button class="play vouv">▶ Ouvir a nota</button><span class="escore vacc">Afinadas: 0</span></div>
+   <div class="gsub">Nota pedida: <b class="valvo" style="color:#fde68a;font-size:18px"></b> · cante em qualquer oitava confortável.</div><div class="vozmeter">—</div><div class="vozbar"><b></b><i></i></div><div class="efb">Ligue o microfone, ouça a nota e cante com \"u\" ou \"lá\". Segure a nota afinada por meio segundo.</div></div>`+(o.how?`<div class="how">${o.how}</div>`:"");
+  const vm=el.querySelector(".vozmeter"), bar=el.querySelector(".vozbar i"), fb=el.querySelector(".efb"), va=el.querySelector(".valvo"), acc=el.querySelector(".vacc"); let n=0;
+  const nova=()=>{ alvo=lo+Math.floor(Math.random()*(hi-lo+1)); va.textContent=nomeNota(alvo); hold=0; tocaEv([{t:0,ms:[alvo],d:1.4}],null); };
+  el.querySelector(".vnova").onclick=nova; el.querySelector(".vouv").onclick=()=>tocaEv([{t:0,ms:[alvo],d:1.4}],null);
+  va.textContent=nomeNota(alvo);
+  el.querySelector(".vmic").onclick=async e=>{
+    if(VOZ){ VOZ.stop(); VOZ=null; e.target.textContent="🎤 Ligar microfone"; return; }
+    try{ const a=ac(); const ms=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false}}); const src=a.createMediaStreamSource(ms), an=a.createAnalyser(); an.fftSize=2048; src.connect(an);
+      const buf=new Float32Array(an.fftSize); e.target.textContent="■ Desligar microfone";
+      const tm=setInterval(()=>{ an.getFloatTimeDomainData(buf); const f=autoCorr(buf,a.sampleRate); if(f<60||f>1300){ vm.textContent="—"; return; }
+        const mf=69+12*Math.log2(f/440), m=Math.round(mf), cents=Math.round((mf-m)*100); vm.textContent=nomeNota(m)+" "+(cents>0?"+":"")+cents+"¢";
+        let d=((mf-alvo)%12+12)%12; if(d>6) d-=12; bar.style.left=`calc(${50+Math.max(-50,Math.min(50,d*50))}% - 3px)`;
+        if(Math.abs(d)<.25){ hold++; vm.style.color="#22c55e"; if(hold===5){ n++; acc.textContent="Afinadas: "+n; fb.innerHTML="✓ Afinado! Aperte ↻ para outra nota."; } } else { hold=0; vm.style.color=Math.abs(d)<.6?"#fde68a":"#fca5a5"; fb.innerHTML=d>0?"Um pouco <b>alto</b> (agudo demais): desça devagar.":"Um pouco <b>baixo</b> (grave demais): suba devagar."; }
+      },100);
+      VOZ={stop:()=>{ clearInterval(tm); ms.getTracks().forEach(t=>t.stop()); }};
+    }catch(err){ fb.innerHTML="Não foi possível usar o microfone ("+esc(err.message||err)+"). Permita o acesso ao microfone no navegador. Sem microfone, use o exercício cantando junto com o botão ▶ Ouvir a nota."; }
+  };
+}
+
 /* ================= METRÔNOMO ================= */
 let metroTimer=null;
 function mountMetro(el,o){
@@ -7153,6 +7759,9 @@ function hydrate(root){
   });
   root.querySelectorAll("[data-groove]").forEach(el=>mountGroove(el,JSON.parse(decodeURIComponent(el.dataset.groove))));
   root.querySelectorAll("[data-strum]").forEach(el=>mountStrum(el,JSON.parse(decodeURIComponent(el.dataset.strum))));
+  root.querySelectorAll("[data-ear]").forEach(el=>mountEar(el,JSON.parse(decodeURIComponent(el.dataset.ear))));
+  root.querySelectorAll("[data-dit]").forEach(el=>mountDit(el,JSON.parse(decodeURIComponent(el.dataset.dit))));
+  root.querySelectorAll("[data-voz]").forEach(el=>mountVoz(el,JSON.parse(decodeURIComponent(el.dataset.voz))));
   root.querySelectorAll("[data-chords]").forEach(el=>{ const o=JSON.parse(decodeURIComponent(el.dataset.chords));
     el.innerHTML=`<div class="chrow">${o.lista.map(c=>`<div class="chd" data-f="${c[1]}" title="Clique para ouvir">${chordSVG(c[0],c[1],c[2])}</div>`).join("")}</div><div class="cap">${o.cap?o.cap+" · ":""}Clique no acorde para ouvir. Números = dedos (1 indicador, 2 médio, 3 anelar, 4 mínimo) · ○ corda solta · ✕ não tocar.</div>`;
     el.querySelectorAll(".chd").forEach(d=>d.onclick=()=>playChord(d.dataset.f)); });
@@ -7252,7 +7861,7 @@ function lessonPage(A){
     ${next?`<a class="btn pri" href="#/a/${next.id}" id="nextbtn">Próxima →</a>`:`<a class="btn pri" href="#/">🏁 Fim do curso</a>`}</div></div>`;
 }
 
-function route(){
+function route(){ if(typeof VOZ!=="undefined"&&VOZ){ VOZ.stop(); VOZ=null; }
   stopAll(); stopGroove(); clearTimeout(metroTimer);
   const h=location.hash||"#/", app=document.getElementById("app");
   let m;

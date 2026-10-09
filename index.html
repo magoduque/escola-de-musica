@@ -179,6 +179,18 @@ section.lvl{padding:34px 48px 6px;min-width:0}
 .how{font-family:var(--body);text-align:left;font-size:13.5px;color:#d4d4d8;line-height:1.6;margin:8px 0 0}
 .how b{color:#fff}
 .illus svg{max-width:100%;height:auto}
+.pa{font-family:var(--body);text-align:left}
+.pagrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
+.pabar{background:#18181b;border:1px solid #3f3f46;border-radius:9px;padding:8px 8px 6px;min-height:66px;transition:background .1s}
+.pabar.cur{background:#3b161b;border-color:var(--red)}
+.pach{display:flex;gap:8px;flex-wrap:wrap}.pach>div{flex:1;min-width:0}
+.pasym{font-size:17px;font-weight:900;color:#fff;white-space:nowrap}
+.panotes{font-size:11px;color:#a1a1aa;line-height:1.35;margin-top:2px}.panotes b{color:#fde68a;font-weight:800}
+.paalvo{font-size:11px;color:#86efac;font-weight:800}
+.paopts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}
+.paopts select{background:#1f1f25;color:#fff;border:1px solid #3f3f46;border-radius:8px;padding:6px 8px;font-family:var(--body);font-weight:700}
+.pastat{font-weight:900;font-size:14px;color:#fde68a;min-height:20px}
+@media(max-width:600px){.pagrid{grid-template-columns:repeat(2,1fr)}}
 .ear{font-family:var(--body);text-align:left}
 .ebar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 10px}
 .escore{margin-left:auto;font-weight:900;font-size:13px;color:#fde68a}
@@ -297,6 +309,8 @@ function treino(o){ return `<div class="fig" data-ear="${enc(o)}"></div>`; }
 function ditado(o){ return `<div class="fig" data-dit="${enc(o||{})}"></div>`; }
 /* afinador de voz pelo microfone: cante({t, de:"C3", ate:"C5"}) */
 function cante(o){ return `<div class="fig" data-voz="${enc(o||{})}"></div>`; }
+/* base de acompanhamento para improvisar: base({t, prog:"Dm7 G7 | C7M | ...", estilo:"swing"|"bossa"|"pop"|"balada"|"samba"|"baiao"|"blues"|"valsa", bpm:[80,120,160], notas:true, alvo:"3"|"7"|"37", eco:true, how}) */
+function base(o){ return `<div class="fig" data-base="${enc(o)}"></div>`; }
 function tbl(head,rows){ return `<div class="tblwrap"><table><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</table></div>`; }
 </script>
 
@@ -6554,9 +6568,7 @@ ${box("ana","Reconhecer uma nota sozinha é como reconhecer uma pessoa no escuro
 ${treino({tipo:"dir",t:"🎯 Aquecimento: a segunda nota sobe, desce ou é igual?",how:"Parece fácil, mas muita gente confunde \"mais agudo\" com \"mais forte\". Faça 20 perguntas e veja sua porcentagem."})}
 ${box("res","Ouvido relativo se treina com contexto, canto e constância. É o que os grandes fizeram: ouvir, cantar e copiar música de verdade, todos os dias.")}
 `,
-quiz:[["Qual tipo de ouvido é essencial e treinável?",["Absoluto","Relativo","Nenhum"],1,"O relativo reconhece notas pela relação com o tom."],
-["Como Charlie Parker treinou?",["Só com teoria","Tocando junto com discos de Lester Young, em todos os tons","Com aplicativos"],1,"Escuta ativa e repetição."],
-["Qual é a melhor frequência de treino?",["Pouco e todo dia","Muito uma vez por mês","Só antes de shows"],0,"Constância vence volume."]],
+quiz:[],
 pdf:[["Curso Preparatório de Solfejo e Ditado (Osvaldo Lacerda)",NP+"Curso Preparatorio de Solfejo e Ditado Musical(Osvaldo Lacerda).pdf"]]},
 
 {t:"Cantar afinado: a voz é o instrumento do ouvido", e:"🎤", min:"20 min", sub:"Imitar a nota, com afinador pelo microfone",
@@ -6576,9 +6588,7 @@ ${ouvirP("C4/h D4/h E4/h F4/h G4/h A4/h B4/h C5/w","Escala para cantar junto",60
 ${erros(["Cantar forte demais: força desafina. Cante baixinho.","Ficar na nota errada por vergonha de deslizar a voz: a sirene é a ferramenta para se achar.","Achar que \"não tem jeito\": a desafinação, na enorme maioria das pessoas, é falta de treino de coordenação entre ouvido e voz."])}
 ${box("res","Cante tudo o que estudar. Ouça por dentro, cante baixo, deslize até encaixar e confira no afinador.")}
 `,
-quiz:[["O que é audiação?",["Ouvir a música por dentro, mentalmente","Um tipo de fone","Ouvir muito alto"],0,"Termo do pedagogo Edwin Gordon."],
-["Um homem canta uma oitava abaixo da nota pedida. Está:",["Errado","Certo: é a mesma nota","Desafinado"],1,"A nota tem o mesmo nome em qualquer oitava."],
-["Para se achar quando está desafinado, a melhor técnica é:",["Cantar mais forte","Fazer uma sirene lenta até encaixar","Parar de cantar"],1,"Deslizar a voz ajuda a encontrar a nota."]],
+quiz:[],
 pdf:[["Solfejo (Pozzoli)",NP+"SOLFEJO - Pozzoli.pdf"],["50 Solfejos Fáceis",NP+"50 solfejos faceis.pdf"]]},
 
 {t:"A tônica: a nota de casa", e:"🏠", min:"20 min", sub:"Sentir onde a música quer descansar",
@@ -6590,12 +6600,9 @@ ${ouvirP("C3+C4+E4+G4/h F2+C4+F4+A4/h | G2+B3+D4+G4/h G2+B3+F4+G4/h | C3+C4+E4+G
 <h2>Exercício: cante a tônica</h2>
 <p>O exercício toca uma progressão <b>sem terminar na tônica</b>, cada vez num tom. Cante (ou cantarole) a nota que parece \"casa\". Depois aperte <b>Revelar</b> e confira se você cantou a mesma nota.</p>
 ${treino({tipo:"tonica",t:"🏠 Que nota é a casa?",how:"Dica: cante uma nota longa e veja se \"descansa\" sobre o último acorde. Se ela parece pedir para ir a outro lugar, ainda não é a tônica."})}
-${box("prof","A tônica é percebida por estatística e por função: é a nota mais frequente nos pontos de repouso e é para onde convergem a sensível (7º grau, que sobe) e o 4º grau (que desce para o 3º). A cadência V7→I contém o trítono (4º e 7º graus) que resolve na tônica e na terça: é a prova mais forte do tom.")}
 ${box("res","Tônica = nota de casa. Aprenda a cantá-la a partir de qualquer trecho: esse é o alicerce de tirar músicas de ouvido.")}
 `,
-quiz:[["O que é a tônica?",["A nota mais aguda","A nota de repouso do tom","A primeira nota da música"],1,"Nem sempre a música começa nela, mas quase sempre termina."],
-["Uma progressão que termina em Lá menor, num tom de Dó maior, soa:",["Concluída","Com vontade de continuar","Igual"],1,"O VI grau é um repouso 'falso'."],
-["Por que cantar a tônica é o primeiro passo para tirar música?",["Porque mostra o tom e serve de referência para todas as notas","Porque é a nota mais bonita","Porque é obrigatório"],0,"Todas as notas são ouvidas em relação a ela."]],
+quiz:[],
 pdf:[["Curso Preparatório de Solfejo e Ditado (Osvaldo Lacerda)",NP+"Curso Preparatorio de Solfejo e Ditado Musical(Osvaldo Lacerda).pdf"]]},
 
 {t:"Os graus da escala: o treino funcional", e:"🔢", min:"30 min", sub:"Cada nota tem uma personalidade dentro do tom",
@@ -6615,12 +6622,9 @@ ${ouvirP("C3+C4+E4+G4/h F2+C4+F4+A4/h | G2+B3+D4+F4/h C3+C4+E4+G4/h | A4/q G4/q 
 ${treino({tipo:"grau",graus:[1,3,5],tom:"C",t:"Nível 1 · só 1, 3 e 5, em Dó",how:"As notas do acorde da tônica são as mais fáceis. Acerte 80% antes de passar ao nível 2."})}
 ${treino({tipo:"grau",graus:[1,2,3,4,5],tom:"C",t:"Nível 2 · graus 1 a 5, em Dó"})}
 ${treino({tipo:"grau",graus:[1,2,3,4,5,6,7],tom:"rand",t:"Nível 3 · todos os graus, em tons variados",how:"Agora o tom muda a cada pergunta. Use 🎵 Cadência de referência sempre que perder a sensação do tom."})}
-${box("prof","O reconhecimento por função (grau) generaliza melhor do que o de intervalos isolados, porque em música real as notas são sempre percebidas em relação a um centro. Ainda assim, intervalos (próxima aula) são úteis para melodias que modulam e para música atonal. Use os dois.")}
 ${box("res","Cadência + nota → grau. Cada grau tem uma tendência (4 desce para 3, 7 sobe para 1, 6 desce para 5...). Cante a resolução até a tônica. Suba de nível quando acertar 80%.")}
 `,
-quiz:[["Qual grau é a 'sensível', que quer subir para a tônica?",["4","6","7"],2,"Fica meio tom abaixo da tônica."],
-["No solfejo móvel, em Sol maior, como se chama a tônica?",["Sol","Dó","Ré"],1,"No móvel, a tônica é sempre 'Dó'."],
-["Para que serve a cadência antes da nota?",["Para estabelecer o tom","Para enfeitar","Para aquecer o piano"],0,"Sem contexto, não há grau."]],
+quiz:[],
 pdf:[["Solfejo (Pozzoli)",NP+"SOLFEJO - Pozzoli.pdf"],["Método de Solfejo (Frederico do Nascimento)",NP+"Metodo de Solfejo - Frederico do Nascimento e Jose Raymundo da Silva - Vol 1.pdf"]]},
 
 {t:"Ritmo de ouvido", e:"🥁", min:"25 min", sub:"Ditado rítmico e sílabas de contagem",
@@ -6632,12 +6636,9 @@ ${box("dica","Bata o pulso com o pé e fale as sílabas junto com o que ouve. O 
 ${treino({tipo:"ritmo",nivel:1,t:"Nível 1 · semínimas, colcheias e mínimas",bpm:76,how:"Primeiro vêm 4 cliques de contagem; depois o ritmo. Escolha a partitura correspondente."})}
 ${treino({tipo:"ritmo",nivel:2,t:"Nível 2 · com pausas, semicolcheias e pontuados",bpm:70})}
 ${treino({tipo:"ritmo",nivel:3,t:"Nível 3 · com tercinas",bpm:66})}
-${box("prof","O livro Rítmica, de José Eduardo Gramani (na pasta de estudos), é referência mundial em independência e percepção rítmica: séries de 2 e 3 sobrepostas, cantadas e batidas ao mesmo tempo. O Ditado Rítmico de Pozzoli e o Ritmo de Bohumil Med trazem exercícios graduados de leitura e escrita.")}
 ${box("res","Pé no pulso + sílabas de contagem. Ouça, fale e escolha a escrita. Depois de dominar, escreva ritmos de músicas que você conhece.")}
 `,
-quiz:[["Como se 'fala' uma semínima pontuada seguida de colcheia?",["tá-a-i","ti-ti","ti-ka-ti-ka"],0,"Longa (1½) e curta (½)."],
-["O que deve manter o pulso enquanto você ouve?",["O pé","Nada","Os olhos"],0,"Metrônomo interno."],
-["Uma tercina divide o tempo em:",["2","3","4"],1,"Três notas iguais."]],
+quiz:[],
 pdf:[["Rítmica (Gramani)",NP+"Gramani_Ritmica.pdf"],["Ditado Rítmico (Pozzoli)",NP+"Pozzoli - Ditado Ritmico.pdf"],["Ritmo (Bohumil Med)",NP+"Bohumil Med - Ritmo.pdf"]]}
 ]});
 
@@ -6670,9 +6671,7 @@ ${treino({tipo:"int",ints:[1,2,3,4,5,7,12],modo:"desc",t:"Etapa 3 · descendo"})
 ${treino({tipo:"int",ints:[3,4,5,6,7,8,9,10,11,12],modo:"harm",t:"Etapa 4 · harmônicos (as duas notas juntas)",how:"No intervalo harmônico, ouça a \"cor\": 3ªs e 6ªs são doces; 4ª e 5ª são ocas; 2ªs, 7ªs e trítono são ásperos (dissonantes)."})}
 ${box("res","Associe cada intervalo a uma música. Treine subindo, depois descendo, depois harmônico. Errou? Clique nas opções para comparar os sons.")}
 `,
-quiz:[["Qual intervalo começa o tema de Star Wars?",["4ª justa","5ª justa","Oitava"],1,"Uma 5ª justa ascendente."],
-["Qual música é referência de 2ª menor subindo?",["Tubarão","Parabéns","Over the Rainbow"],0,"Duas notas vizinhas, um semitom."],
-["Intervalos harmônicos ásperos (dissonantes) incluem:",["3ª e 6ª","2ª, 7ª e trítono","4ª e 5ª"],1,"Elas soam com mais atrito."]],
+quiz:[],
 pdf:[["Curso Preparatório de Solfejo e Ditado (Osvaldo Lacerda)",NP+"Curso Preparatorio de Solfejo e Ditado Musical(Osvaldo Lacerda).pdf"],["50 Solfejos Fáceis",NP+"50 solfejos faceis.pdf"]]},
 
 {t:"Como descobrir a tonalidade de uma música", e:"🗝️", min:"25 min", sub:"Tônica, maior ou menor, e a escala",
@@ -6686,12 +6685,9 @@ body:`
 ${treino({tipo:"prog",progs:{"Maior":"I IV V I","Menor":"i iv V i"},tom:"rand",t:"Maior ou menor? (progressões completas)"})}
 ${treino({tipo:"modo",modos:["Jônio (maior)","Eólio (menor natural)"],tom:"rand",t:"Maior ou menor? (só a escala, sobre um baixo)"})}
 ${box("ana","Maior e menor diferem principalmente em uma nota: a terça. Em Dó maior, Mi; em Dó menor, Mi♭. É como a mesma rua com e sem sol: tudo igual, mas o clima muda.")}
-${box("prof","Músicas pop muitas vezes \"começam\" fora da tônica (por exemplo, no VI grau ou no IV). Por isso, confie mais nos finais de frase e no refrão do que no primeiro acorde. Em músicas modais (muito comuns no rock e no forró), a tônica é clara, mas a escala tem uma nota diferente da maior ou da menor: ♭7 (mixolídio) ou 6ª maior num tom menor (dórico).")}
 ${box("res","Cante a tônica → ache no instrumento → maior ou menor pela terça → confirme com a escala.")}
 `,
-quiz:[["Qual é o primeiro passo para achar o tom?",["Cantar a tônica","Tocar acordes aleatórios","Olhar a capa do disco"],0,"A tônica é a referência de tudo."],
-["Qual nota diferencia Dó maior de Dó menor?",["Sol","Mi / Mi♭","Ré"],1,"A terça."],
-["Em que parte da música a tônica costuma ficar mais clara?",["No fim das frases e do refrão","No primeiro segundo","No solo"],0,"É onde a música repousa."]],
+quiz:[],
 pdf:[["Teoria da Música (Bohumil Med)",NP+"Teoria da Música - Bohumil Med 4º Edição.pdf"]]},
 
 {t:"Ditado melódico", e:"✍️", min:"35 min", sub:"Ouça, cante e escreva",
@@ -6709,9 +6705,7 @@ ${ditado({n:5,graus:[1,2,3,4,5,6,7,8],tom:"rand",salto:4,t:"Nível 3 · 5 notas 
 ${box("dica","No teclado do exercício, a tecla que você clica toca. Use isso: cante a nota que você lembra e procure no teclado até ela coincidir.")}
 ${box("res","Memorize, cante, ache a primeira nota pela tônica, desenhe o contorno, preencha. Ditado é a forma mais pura de 'tirar música'.")}
 `,
-quiz:[["Qual é o primeiro passo do ditado?",["Escrever rápido","Ouvir e memorizar","Tocar todas as teclas"],1,"Sem memória, não há ditado."],
-["Se você não consegue cantar a melodia, deve:",["Ouvir de novo","Chutar","Desistir"],0,"Cantar prova que memorizou."],
-["Como achar a primeira nota?",["Em relação à tônica (grau)","Aleatoriamente","Pela cor do teclado"],0,"O contexto tonal é a régua."]],
+quiz:[],
 pdf:[["Curso Preparatório de Solfejo e Ditado (Osvaldo Lacerda)",NP+"Curso Preparatorio de Solfejo e Ditado Musical(Osvaldo Lacerda).pdf"],["Bona · Método de Divisão",NP+"Bona.pdf"]]},
 
 {t:"Tirando uma música completa: o método dos mestres", e:"🎵", min:"40 min", sub:"Transcrição de ouvido, passo a passo",
@@ -6738,9 +6732,7 @@ ${resp("Resposta do desafio 3",ex("G","E4/e A4/e B4/e C5/e B4/q A4/q | G#4/q A4/
 ${box("pra","Plano de transcrição semanal: segunda, escolha a música; terça a quinta, uma frase por dia; sexta, toque tudo junto com a gravação; sábado, toque em outro tom. Repita por um ano: seu ouvido será outro.")}
 ${box("res","Escolha, corte, desacelere, cante, ache, toque junto e transponha. Transcrever música de verdade é o treino dos mestres.")}
 `,
-quiz:[["O que fazer antes de procurar as notas no instrumento?",["Cantar a frase","Escrever a partitura","Aumentar o volume"],0,"Cantar prova que você ouviu."],
-["Para que serve desacelerar a gravação?",["Para ouvir as notas rápidas sem mudar o tom","Para mudar o tom","Para cortar o som"],0,"Programas como o Transcribe! fazem isso."],
-["O que Charlie Parker fazia com o que aprendia?",["Esquecia","Tocava em vários tons","Só tocava em Dó"],1,"Transpor fixa o ouvido e os dedos."]],
+quiz:[],
 pdf:[["A Arte da Improvisação (Nelson Faria)","A arte da improvisação Nelson Faria.pdf"],["Patterns for Jazz (Coker)","Patterns for Jazz - by Jerry Coker Jimmy Casale Gary Campbel.pdf"]]},
 
 {t:"Modos e escalas de ouvido", e:"🌈", min:"30 min", sub:"Dórico, mixolídio, lídio, frígio e companhia",
@@ -6753,9 +6745,7 @@ ${treino({tipo:"modo",modos:["Eólio (menor natural)","Dórico","Frígio","Menor
 ${treino({tipo:"modo",modos:["Pentatônica maior","Pentatônica menor","Blues"],tom:"rand",t:"Etapa 3 · pentatônicas e blues"})}
 ${box("res","Compare cada modo com o maior ou o menor e procure a nota característica: ♭7 (mixolídio), ♯4 (lídio), 6ª maior (dórico), ♭2 (frígio).")}
 `,
-quiz:[["Qual é a nota característica do mixolídio?",["♯4","♭7","♭2"],1,"Maior com sétima menor."],
-["O dórico é um modo menor com:",["6ª maior","♭2","7ª maior"],0,"Som menor 'cool'."],
-["O frígio é associado a:",["Flamenco e metal","Bossa nova","Valsa"],0,"Pelo ♭2."]],
+quiz:[],
 pdf:[["Harmonia e Improvisação I (Chediak)","Harmonia e Improvisação Vol I Almir Chediak.pdf"]]}
 ]});
 
@@ -6766,30 +6756,26 @@ aulas:[
 {t:"Maior ou menor: a cor do acorde", e:"☀️", min:"20 min", sub:"O primeiro e mais importante reconhecimento",
 goal:"distinguir de ouvido acordes maiores e menores, primeiro arpejados e depois em bloco.",
 body:`
-<p>Maior soa <b>aberto, claro, estável</b>; menor soa <b>fechado, triste, introspectivo</b>. A única diferença é a terça, meio tom. Treine até a resposta ser imediata.</p>
+<p>Maior soa <b>aberto, claro, estável</b>; menor soa <b>fechado, triste, introspectivo</b>. Ouça, compare e treine até a resposta ser imediata.</p>
 ${ouvirP("C3+C4+E4+G4/h C3+C4+Eb4+G4/h | F2+F3+A3+C4/h F2+F3+Ab3+C4/h | G2+G3+B3+D4/h G2+G3+Bb3+D4/h","Compare: maior → menor",56)}
-${treino({tipo:"acorde",tipos:["maior","menor"],arpejo:true,t:"Etapa 1 · arpejado e depois em bloco",how:"Ouvindo nota por nota, preste atenção na nota do meio (a terça)."})}
+${treino({tipo:"acorde",tipos:["maior","menor"],arpejo:true,t:"Etapa 1 · arpejado e depois em bloco",how:"Ouvindo nota por nota, preste atenção na nota do meio: é ela que muda o clima."})}
 ${treino({tipo:"acorde",tipos:["maior","menor"],t:"Etapa 2 · só em bloco"})}
 ${box("dica","Cante o arpejo do acorde (1-3-5-3-1). Se a sua terça soa 'alegre', é maior; se soa 'triste', menor. Cantar torna a diferença física.")}
-${box("res","Maior = terça maior (4 semitons), som aberto. Menor = terça menor (3 semitons), som fechado. Ouça a nota do meio.")}
+${box("res","Maior = som aberto. Menor = som fechado. Ouça a nota do meio do arpejo.")}
 `,
-quiz:[["Qual nota diferencia maior de menor?",["Fundamental","Terça","Quinta"],1,"A terça."],
-["Como soa um acorde maior?",["Aberto e claro","Tenso e áspero","Triste"],0,"De forma geral."],
-["Cantar o arpejo ajuda porque:",["Torna a diferença física e consciente","Deixa mais alto","Muda o acorde"],0,"Cantar é ouvir por dentro."]],
+quiz:[],
 pdf:[["Harmonia e Improvisação I (Chediak)","Harmonia e Improvisação Vol I Almir Chediak.pdf"]]},
 
 {t:"As quatro tríades e os acordes sus", e:"🔺", min:"25 min", sub:"Maior, menor, diminuto, aumentado, sus2 e sus4",
 goal:"reconhecer de ouvido as quatro tríades e os acordes suspensos.",
 body:`
-${tbl(["Acorde","Receita","Som"],[["Maior","4+3","aberto, estável"],["Menor","3+4","fechado, estável"],["Diminuto","3+3","apertado, tenso, \"suspense\""],["Aumentado","4+4","flutuante, misterioso, \"sonho\""],["Sus4","sem terça, com 4ª","suspenso, pede para resolver na terça"],["Sus2","sem terça, com 2ª","aberto, neutro, moderno"]])}
+${tbl(["Acorde","Como soa"],[["Maior","aberto, estável"],["Menor","fechado, estável"],["Diminuto","apertado, tenso, \"suspense\""],["Aumentado","flutuante, misterioso, \"sonho\""],["Sus4","suspenso, pede para resolver"],["Sus2","aberto, neutro, moderno"]])}
 ${treino({tipo:"acorde",tipos:["maior","menor","dim","aum"],arpejo:true,t:"Etapa 1 · as quatro tríades (arpejadas)"})}
 ${treino({tipo:"acorde",tipos:["maior","menor","dim","aum"],t:"Etapa 2 · as quatro tríades em bloco"})}
 ${treino({tipo:"acorde",tipos:["maior","menor","sus4","sus2"],t:"Etapa 3 · maior, menor e suspensos"})}
-${box("res","Diminuto = apertado e tenso. Aumentado = flutuante. Sus = sem terça: não é nem maior nem menor.")}
+${box("res","Diminuto = apertado e tenso. Aumentado = flutuante. Sus = suspenso, nem alegre nem triste.")}
 `,
-quiz:[["Qual tríade soa 'flutuante, misteriosa'?",["Diminuta","Aumentada","Menor"],1,"Duas terças maiores."],
-["O que falta nos acordes sus?",["A quinta","A terça","A fundamental"],1,"Ela é trocada pela 2ª ou 4ª."],
-["A tríade diminuta é formada por:",["3+3 semitons","4+4","4+3"],0,"Duas terças menores."]],
+quiz:[],
 pdf:[["Harmonia (Ian Guest), vol. 1","Harmonia - Ian Guest Vol 1.pdf"]]},
 
 {t:"Ouvir o baixo e as inversões", e:"🎸", min:"25 min", sub:"A nota mais grave conta metade da harmonia",
@@ -6799,12 +6785,9 @@ body:`
 ${box("pra","Exercício de canto do baixo: ouça uma música que você conhece e cante só a linha de baixo, nota por nota, por um refrão inteiro. No começo é difícil separar o grave do resto: abaixe o volume e preste atenção no fundo.")}
 ${treino({tipo:"baixo",t:"Que nota está no baixo? (tríades)",how:"Cante a nota mais grave. Se ela é a 'casa' do acorde, é fundamental; se parece a nota do meio, é a 3ª; se parece a de cima, é a 5ª."})}
 ${treino({tipo:"baixo",tetrade:true,t:"Avançado · tétrades com 7ª no baixo"})}
-${box("prof","A 2ª inversão (5ª no baixo) é instável na harmonia clássica e aparece quase só em situações específicas (o 6/4 cadencial, o 6/4 de passagem). A 1ª inversão (3ª no baixo) é usada para linhas de baixo que andam por graus conjuntos, como C – C/E – F. Ouvir a linha de baixo revela essas intenções.")}
 ${box("res","Cante o baixo. Fundamental soa firme; com a 3ª no baixo soa mais leve; com a 5ª, suspenso.")}
 `,
-quiz:[["Num acorde C/E, qual nota está no baixo?",["Dó","Mi","Sol"],1,"A barra indica o baixo."],
-["Qual é o atalho para tirar a harmonia de uma música?",["Ouvir o baixo","Ouvir só a voz","Contar os instrumentos"],0,"O baixo costuma tocar a fundamental."],
-["Um acorde com a 3ª no baixo está em:",["Posição fundamental","1ª inversão","2ª inversão"],1,"Terça no baixo = 1ª inversão."]],
+quiz:[],
 pdf:[["Harmonia (Ian Guest), vol. 1","Harmonia - Ian Guest Vol 1.pdf"]]},
 
 {t:"Funções: I, IV e V", e:"🔁", min:"25 min", sub:"Casa, passeio e vontade de voltar",
@@ -6817,9 +6800,7 @@ ${treino({tipo:"prog",progs:{"I → ii":"I ii","I → iii":"I iii","I → IV":"I
 ${box("dica","Cante o baixo! Do I para o IV, o baixo sobe uma 4ª (Dó→Fá); do I para o V, sobe uma 5ª (Dó→Sol); do I para o VI, sobe uma 6ª ou desce uma 3ª (Dó→Lá). Juntando a direção do baixo com a cor (maior ou menor), você acerta quase sempre.")}
 ${box("res","I = casa, IV = passeio, V = tensão que pede volta, VI = repouso triste. Cante o baixo e ouça a cor.")}
 `,
-quiz:[["Qual acorde 'pede para voltar' à tônica?",["IV","V","VI"],1,"É a dominante."],
-["Do I para o IV, o baixo sobe:",["Uma 4ª","Uma 5ª","Uma 2ª"],0,"Dó → Fá."],
-["O VI grau num tom maior é:",["Maior","Menor","Diminuto"],1,"Em Dó, Lá menor."]],
+quiz:[],
 pdf:[["Harmonia Funcional (Koellreutter)","Harmonia Funcional_ H. J. Koellreuter.pdf"]]},
 
 {t:"As progressões mais comuns", e:"🎶", min:"30 min", sub:"Reconhecer sequências inteiras e tirar a harmonia de músicas",
@@ -6836,9 +6817,7 @@ ${treino({tipo:"prog",progs:["I–IV–V–I","I–V–vi–IV","I–vi–IV–V
 ${box("pra","Pegue 5 músicas que você conhece e tente descobrir só se elas usam I–V–vi–IV. Você vai se surpreender com quantas usam.")}
 ${box("res","As progressões se repetem em milhares de músicas. Reconheça-as pelo baixo e pela cor, e pense sempre em graus.")}
 `,
-quiz:[["Qual é a progressão I–V–vi–IV em Dó?",["C G Am F","C F G C","Am F C G"],0,"Dó, Sol, Lá menor, Fá."],
-["No método para tirar harmonia, depois de achar o tom você deve:",["Cantar o baixo","Adivinhar o solo","Mudar de música"],0,"O baixo revela a maioria dos acordes."],
-["Por que escrever em graus?",["Para reconhecer a mesma progressão em tons diferentes","Porque é mais bonito","Para ocupar espaço"],0,"Graus são universais."]],
+quiz:[],
 pdf:[["Harmonia e Improvisação I (Chediak)","Harmonia e Improvisação Vol I Almir Chediak.pdf"]]}
 ]});
 
@@ -6856,9 +6835,7 @@ ${treino({tipo:"acorde",tipos:["7M","7","m7","m7(♭5)","°7"],t:"Etapa 2 · as 
 ${treino({tipo:"acorde",tipos:["7M","7","m7","m(7M)","6","m6","7sus4"],t:"Etapa 3 · com 6, m6, m(7M) e 7sus4"})}
 ${box("res","7M sonhador, 7 tenso, m7 macio, m7(♭5) escuro, °7 dramático. Cante o arpejo de cada um até reconhecer a sétima.")}
 `,
-quiz:[["Qual acorde soa 'tenso, blues' e pede resolução?",["7M","7","m7"],1,"O acorde dominante."],
-["O m7(♭5) é típico de qual grau?",["II do tom menor","I do tom maior","IV"],0,"E VII do maior."],
-["Qual a diferença entre 7M e 7?",["A sétima: maior (meio tom abaixo da oitava) ou menor (um tom abaixo)","A terça","A quinta"],0,"Si ou Si♭ em Dó."]],
+quiz:[],
 pdf:[["Harmonia (Ian Guest), vol. 2","Harmonia Ian Guest Vol 2.pdf"],["Harmonia e Improvisação I (Chediak)","Harmonia e Improvisação Vol I Almir Chediak.pdf"]]},
 
 {t:"Tensões: 9, 11 e 13", e:"💎", min:"35 min", sub:"Ouvir as cores que deixam o acorde moderno",
@@ -6874,9 +6851,7 @@ ${treino({tipo:"acorde",tipos:["add9","6(9)","7M(9)","7M(♯11)","7(9)","7(13)",
 ${box("dica","Toque e cante só a tensão sobre o acorde: em C7M, cante Ré (9) sustentado. Aos poucos você reconhece a 'luz' que a nona traz. Os grandes arranjadores da bossa (Tom Jobim, João Donato) usavam essas cores o tempo todo: ouça \"Wave\" e \"Garota de Ipanema\" prestando atenção nos acordes.")}
 ${box("res","9 luminosa, 11 suspensa, ♯11 flutuante, 13 doce. Comece comparando com o acorde sem a tensão e depois misture.")}
 `,
-quiz:[["Em Dó, a 9ª é a nota:",["Ré","Fá","Lá"],0,"Uma 2ª uma oitava acima."],
-["Qual tensão dá o som 'lídio, flutuante'?",["♯11","♭9","11"],0,"Fá♯ em Dó."],
-["A 13ª combina principalmente com qual tipo de acorde?",["Dominante (7)","Diminuto","Aumentado"],0,"G7(13) é clássico."]],
+quiz:[],
 pdf:[["Harmonia e Improvisação II (Chediak)","harmonia e improvisação vol ii - almir chediak.pdf"],["Harmonia (Ian Guest), vol. 2","Harmonia Ian Guest Vol 2.pdf"]]},
 
 {t:"Dominantes alterados: ♭9, ♯9 e ♭13", e:"⚡", min:"30 min", sub:"A tensão máxima antes da resolução",
@@ -6886,12 +6861,9 @@ body:`
 ${ouvirP("G2+F3+B3+Ab4/w | C3+Eb4+G4+C5/w","G7(♭9) → Cm: a ♭9 resolve meio tom abaixo",50)} ${ouvirP("G2+F3+B3+Eb4/w | C3+Eb4+G4+C5/w","G7(♭13) → Cm",50)} ${ouvirP("E2+D3+G#3+G4/w","E7(♯9): o 'acorde de Hendrix'",50)}
 ${treino({tipo:"acorde",tipos:["7","7(♭9)","7(♯9)"],t:"Etapa 1 · 7, 7(♭9) e 7(♯9)"})}
 ${treino({tipo:"acorde",tipos:["7","7(9)","7(♭9)","7(♯9)","7(13)","7(♭13)","7(♯11)"],t:"Etapa 2 · todas as cores do dominante"})}
-${box("prof","Tensões naturais (9, 13) vêm da escala mixolídia; alteradas (♭9, ♯9, ♯11, ♭13) vêm de escalas como a dominante diminuta (semitom-tom) e a alterada (7º modo da menor melódica). Na prática: dominante indo para acorde maior aceita 9 e 13; indo para menor, prefere ♭9 e ♭13.")}
 ${box("res","♭9 e ♭13 = dramáticas, preparam acordes menores. ♯9 = blues-rock. 9 e 13 = naturais, preparam acordes maiores.")}
 `,
-quiz:[["Qual tensão o dominante costuma usar antes de um acorde menor?",["9","♭9","13"],1,"♭9 e ♭13."],
-["O 'acorde de Hendrix' é o:",["7(♯9)","7M","m7"],0,"E7(♯9) em 'Purple Haze'."],
-["De onde vêm as tensões naturais 9 e 13 do dominante?",["Da escala mixolídia","Da escala cromática","Da menor harmônica"],0,"O modo do V grau."]],
+quiz:[],
 pdf:[["Harmonia e Improvisação II (Chediak)","harmonia e improvisação vol ii - almir chediak.pdf"]]},
 
 {t:"II–V–I, dominantes secundárias e SubV de ouvido", e:"🔄", min:"35 min", sub:"Os movimentos do jazz e da bossa",
@@ -6902,9 +6874,7 @@ ${treino({tipo:"prog",progs:["I–VI7–ii–V7","I–III7–vi–IV","I–II7�
 ${box("dica","Ouça o baixo: no II–V–I ele sobe uma 4ª, sobe outra 4ª (Ré–Sol–Dó). No SubV, ele desce meio tom duas vezes (Ré–Ré♭–Dó). No diminuto de passagem, sobe meio tom (Dó–Dó♯–Ré).")}
 ${box("res","II–V–I: baixo em 4ªs. SubV: baixo cromático descendente. Diminuto de passagem: baixo cromático ascendente. Dominante secundária: um acorde maior com 7 'fora do lugar'.")}
 `,
-quiz:[["No SubV, o baixo:",["Desce em semitons até a tônica","Sobe em 4ªs","Fica parado"],0,"Ré – Ré♭ – Dó."],
-["VI7 no lugar de vi é um exemplo de:",["Dominante secundária","Empréstimo modal","Acorde diminuto"],0,"Ele prepara o II."],
-["O baixo do II–V–I em Dó é:",["Ré – Sol – Dó","Dó – Fá – Sol","Mi – Lá – Ré"],0,"Movimento de 4ª ascendente."]],
+quiz:[],
 pdf:[["Harmonia e Improvisação I (Chediak)","Harmonia e Improvisação Vol I Almir Chediak.pdf"],["A Arte da Improvisação (Nelson Faria)","A arte da improvisação Nelson Faria.pdf"]]},
 
 {t:"Empréstimo modal e as cores do tom menor", e:"🌗", min:"30 min", sub:"♭VII, ♭VI, iv menor e a cadência menor",
@@ -6916,9 +6886,7 @@ ${treino({tipo:"prog",progs:["I–I7–IV–iv","I–♭VII–IV–I","I–♭VI
 ${treino({tipo:"prog",progs:["i–iv–V7–i","i–♭VI–♭VII–i","ii7(♭5)–V7(♭9)–i7"],tom:"rand",t:"Etapa 2 · progressões do tom menor"})}
 ${box("res","iv menor = saudade; ♭VII = rock épico; ♭VI = grandioso. No tom menor, o V7 (com sensível) dá a resolução forte; ♭VI–♭VII–i é a cadência 'épica'.")}
 `,
-quiz:[["Qual acorde emprestado soa 'nostálgico'?",["iv menor","♭VII","V7"],0,"O IV que vira menor."],
-["Em Dó, o ♭VII é:",["B♭","Bm","B°"],0,"Si bemol maior."],
-["De onde vêm os acordes de empréstimo modal num tom maior?",["Do tom menor de mesma tônica","De qualquer tom","Da escala cromática"],0,"Dó maior pega acordes de Dó menor."]],
+quiz:[],
 pdf:[["Harmonia (Ian Guest), vol. 2","Harmonia Ian Guest Vol 2.pdf"],["Harmonia 3 (M. Mello)","Harmonia 3 M.Mello.pdf"]]},
 
 {t:"As 12 notas no tom e a rotina dos profissionais", e:"🏆", min:"30 min", sub:"O método One Note e o plano diário",
@@ -6930,7 +6898,6 @@ ${treino({tipo:"grau",cromatico:true,tom:"rand",t:"Etapa 2 · as 12 notas no tom
 <h2>A rotina diária de 20 minutos</h2>
 ${tbl(["Tempo","Exercício","Onde"],[["3 min","cantar afinado: escala e arpejos no afinador de voz","Módulo 1"],["4 min","graus (diatônicos ou cromáticos)","Módulos 1 e 4"],["3 min","intervalos (uma etapa por dia)","Módulo 2"],["4 min","acordes: tríades ou tensões, conforme o nível","Módulos 3 e 4"],["3 min","progressões","Módulos 3 e 4"],["3 min","ditado melódico ou rítmico","Módulos 1 e 2"]])}
 <p>E, pelo menos 3 vezes por semana, <b>20 a 30 minutos de transcrição</b> de música de verdade (Módulo 2, aula 4). É a parte mais importante.</p>
-${box("prof","Ferramentas usadas por profissionais: o aplicativo Functional Ear Trainer (método Benbassat), os livros e áudios de Bruce Arnold (One Note), o solfejo e os sinais de mão de Kodály, a Rítmica de Gramani e os programas de desaceleração (Transcribe!, Amazing Slow Downer). O pianista Barry Harris, mestre do bebop, insistia que os alunos cantassem escalas, arpejos e linhas: \"se você não canta, não ouve\".")}
 ${box("res","Domine as 12 notas no tom, siga a rotina de 20 minutos e transcreva música de verdade toda semana. É assim que se forma o ouvido de um profissional.")}
 <h2>Fontes da pesquisa</h2>
 <ul style="font-size:14px">
@@ -6942,15 +6909,725 @@ ${box("res","Domine as 12 notas no tom, siga a rotina de 20 minutos e transcreva
 <li><a href="https://www.musicnotes.com/blog/musical-intervals-train-your-ear-with-these-easy-songs/" target="_blank" rel="noopener">Músicas de referência para intervalos (Musicnotes)</a> · <a href="https://www.gitori.com/blog/articles/songs-to-remember-intervals" target="_blank" rel="noopener">tabela de referências</a></li>
 <li><a href="https://jazzworkshops.com/the-barry-harris-vocal-workshop-video/" target="_blank" rel="noopener">Barry Harris · workshop vocal</a></li></ul>
 `,
-quiz:[["O que o método One Note treina?",["As 12 notas dentro de um tom","Só intervalos","Só ritmo"],0,"Cada nota pela sua cor no tom."],
-["Qual é a parte mais importante da rotina?",["Transcrever música de verdade","Decorar teoria","Comprar equipamento"],0,"Os exercícios preparam; a música ensina."],
-["Barry Harris insistia que os alunos:",["Cantassem escalas e linhas","Nunca cantassem","Só lessem partitura"],0,"Cantar é ouvir por dentro."]],
+quiz:[],
 pdf:[["Rítmica (Gramani)",NP+"Gramani_Ritmica.pdf"],["Curso Preparatório de Solfejo e Ditado (Osvaldo Lacerda)",NP+"Curso Preparatorio de Solfejo e Ditado Musical(Osvaldo Lacerda).pdf"]]}
 ]});
 
 CURSO.push({id:"ou", nome:"Trilha do Ouvido Musical", emoji:"👂", pill:"Percepção do zero ao profissional · com exercícios que tocam e corrigem",
 desc:"Treinamento auditivo completo, baseado nos métodos que os grandes músicos usaram (treino funcional, solfejo móvel de Kodály, One Note de Bruce Arnold, transcrição como Charlie Parker): cantar afinado com afinador pelo microfone, tônica, graus da escala, ritmo, intervalos, tonalidade, ditado melódico, tirar músicas completas, modos, acordes maiores e menores, tríades, baixo, funções, progressões, tétrades, tensões 9, 11 e 13, dominantes alterados, II–V–I, empréstimo modal e as 12 notas no tom. Cada exercício sorteia, toca, corrige e conta seus acertos.",
 mods:OUMODS});
+
+</script>
+<script>
+/* ================= TRILHA DE IMPROVISAÇÃO ================= */
+const IM = "../improvisação/";
+const pdfI = (nome,arq,pg,imp) => pg ? [nome, IM+arq, [pg, imp && imp!==pg ? `pág. ${pg} do PDF · pág. ${imp} do livro` : `pág. ${pg}`]] : [nome, IM+arq];
+const IMMODS = [];
+const missao = html => `<div class="box pra"><span class="bt">🎯 Missão da aula</span>${html}</div>`;
+
+/* ============ IM 1 · PRIMEIROS PASSOS ============ */
+IMMODS.push({id:"imm1", t1:"Primeiros Passos", t2:"no Improviso", g:"🎷", c:"#9a3412", sub:"Perder o medo: uma nota, três notas, pergunta e resposta, pentatônica",
+desc:"Do zero absoluto: o que é improvisar, por que qualquer pessoa consegue, e os primeiros improvisos de verdade, por cima de uma banda virtual. Começa com uma nota só e termina com a pentatônica.",
+aulas:[
+{t:"O que é improvisar (e por que você consegue)", e:"💬", min:"20 min", sub:"Improvisar é conversar com música",
+goal:"entender o que é improvisar, o que os grandes fizeram para aprender e fazer seu primeiro improviso por cima de uma base.",
+body:`
+<p><b>Improvisar é compor na hora</b>, do mesmo jeito que você conversa: ninguém decora uma conversa, mas também ninguém inventa palavras novas. Você usa um <b>vocabulário</b> que aprendeu ouvindo os outros e combina as palavras para dizer o que quer, no momento.</p>
+${box("ana","Uma criança aprende a falar ouvindo, imitando e conversando, muito antes de saber gramática. Na improvisação é igual: <b>ouvir</b> os mestres, <b>imitar</b> frases (vocabulário) e <b>tocar com os outros</b> (conversar). A teoria entra como a gramática: ajuda, mas não fala por você.")}
+<h2>O que os mestres dizem</h2>
+<ul><li><b>Jamey Aebersold</b>, criador dos famosos play-alongs: \"Todo mundo tem a capacidade de improvisar, da criança ao idoso. É preciso desejo e tempo de prática, até a distância entre a ideia e os dedos ficar cada vez menor.\"</li>
+<li>Ele também ensina: \"Toque as notas que você ouve na cabeça, as que você cantaria. A escala no papel é só um guia.\"</li>
+<li><b>Michael Tracy</b> (diretor do programa de jazz de Jamey Aebersold na Universidade de Louisville) resume o estudo em: ouvir os grandes, dominar escalas e acordes, treinar o ouvido e <b>transcrever</b>, porque \"é assim que eles aprenderam\".</li></ul>
+<h2>O que improvisar NÃO é</h2>
+<ul><li>Não é subir e descer escalas: escala é material, não é música.</li>
+<li>Não é tocar notas aleatórias e torcer: todo bom improviso tem ideias, repetição e direção.</li>
+<li>Não é só para jazz: existe improviso no choro, no samba, no forró, no blues, no rock, no louvor e na música clássica (Bach, Mozart e Beethoven improvisavam).</li></ul>
+<h2>O caminho desta trilha</h2>
+${tbl(["Módulo","O que você vai conquistar"],[["1 · Primeiros passos","perder o medo: ritmo, poucas notas, pergunta e resposta, pentatônica"],["2 · Ritmo e fraseado","soar musical: balanço, deslocamento, motivos, jogos de fraseado, contar uma história"],["3 · Notas do acorde","mostrar a harmonia: arpejos, notas-guia, cromatismo, tensão e resolução, padrões"],["4 · Escalas e modos","a escala certa para cada acorde, modal, bebop, alterada, simétricas"],["5 · O blues","a forma mais importante da música popular, do simples ao jazz"],["6 · II–V–I e standards","o coração do jazz e da bossa; como aprender um repertório"],["7 · Improviso brasileiro","bossa, samba, choro, baião, MPB e louvor"],["8 · Rumo à maestria","transcrição, discografia, rotina, tocar com outros, sua própria voz"]])}
+<h2>🎤 Seu primeiro improviso, agora</h2>
+<p>Ligue a base abaixo. Use <b>só estas cinco notas</b>: <b>Dó, Ré, Mi, Sol e Lá</b> (no piano: as teclas brancas, menos Fá e Si). Toque devagar, poucas notas, com pausas. Não existe nota errada aqui: só escute o que acontece.</p>
+${base({t:"Base 1 · Pop em Dó",prog:"C7M | C7M | Am7 | Am7",estilo:"pop",bpm:[70,85,100],how:"Toque uma frase curta, pare, ouça a banda, toque outra. Se gostar de uma ideia, repita."})}
+${box("aten","<b>Instrumentos transpositores:</b> as cifras do site estão no som real (\"em Dó\"). Sax tenor, trompete, clarinete e flugelhorn (em Si♭) leem um tom acima; sax alto e barítono (em Mi♭) leem uma 6ª maior acima. Use a caixa de seleção de tom da base para praticar em qualquer tonalidade. Na pasta de improvisação há a \"Introdução à Improvisação\" em versões para cada instrumento.")}
+${missao("Toque com a base por 5 minutos, todos os dias desta semana, usando só as 5 notas. No último dia, grave no celular e ouça: escolha a frase de que mais gostou e aprenda a tocá-la de novo.")}
+`,
+quiz:[],
+pdf:[pdfI("Conselhos para estudantes de jazz (Michael Tracy)","Conselhos-para-estudantes-de-jazz-Michael-Tracy.pdf",1),pdfI("Jazz Handbook (Jamey Aebersold)","FQBK-handbook.pdf",5),pdfI("Introdução à Improvisação (instrumentos em Dó)","Introdução à improvisação C.pdf")]},
+
+{t:"Uma nota só: o ritmo é o rei", e:"🥁", min:"25 min", sub:"Fazer música só com ritmo",
+goal:"criar frases interessantes usando apenas uma nota, variando ritmo, duração, pausa e dinâmica.",
+body:`
+<p>O maior segredo do improviso é este: <b>o ritmo importa mais do que as notas</b>. Uma nota tocada com balanço soa mais musical do que dez notas tocadas sem ritmo. Por isso começamos com <b>uma nota só</b>: o Sol.</p>
+${box("ana","Pense num ótimo contador de histórias falando uma palavra só: \"não\". Dá para dizer \"não\" com raiva, com dúvida, rindo, bem baixinho, devagar, rápido. A palavra é a mesma; o jeito muda tudo. Com uma nota é igual.")}
+<h2>Ideias rítmicas para copiar</h2>
+${ex("G","G4/q r/q G4/q r/q | G4/e G4/e r/q G4/q r/q",{t:"Ideia A · simples e no tempo",bpm:90,time:"4/4"})}
+${ex("G","r/e G4/e r/q r/e G4/e r/q | G4/q. G4/e r/h",{t:"Ideia B · no contratempo (o \"e\" do tempo)",bpm:90,time:"4/4"})}
+${ex("G","G4/e G4/e G4/e G4/e r/h | r/q G4/q G4/e r/e r/q",{t:"Ideia C · rajada e resposta",bpm:90,time:"4/4"})}
+<h2>As 6 ferramentas de quem só tem uma nota</h2>
+${tbl(["Ferramenta","Experimente"],[["Duração","notas curtas (staccato) e longas (com vibrato, se o instrumento permitir)"],["Pausa","deixe compassos inteiros em silêncio: o silêncio prepara a próxima frase"],["Contratempo","toque no \"e\" do tempo (entre os cliques): é o balanço do jazz e do samba"],["Repetição","repita um ritmo 2 ou 3 vezes; depois mude só um detalhe"],["Dinâmica","fraco, forte, crescendo dentro de uma frase"],["Oitava","a mesma nota mais grave ou mais aguda"]])}
+${base({t:"Base 2 · Só a nota Sol",prog:"C7M | Am7 | Dm7 | G7",estilo:"bossa",bpm:[80,100,120],notas:false,how:"O Sol combina com os quatro acordes. Improvise só com ele, usando as 6 ferramentas. Depois troque o estilo para Swing e para Samba: o mesmo Sol vai pedir outros ritmos."})}
+${missao("Faça 3 voltas da base só com o Sol. Na 1ª, só semínimas e pausas. Na 2ª, use contratempos. Na 3ª, misture tudo e use dinâmica. Grave e ouça: qual volta soou mais musical?")}
+`,
+quiz:[],
+pdf:[pdfI("Improvisação vol. 1 (Turi Collura) · elementos rítmicos","Livro-improvisacao- volume-1- turi - collura.pdf"),pdfI("Introdução à Improvisação (instrumentos em Dó)","Introdução à improvisação C.pdf")]},
+
+{t:"Três notas e o silêncio", e:"🤫", min:"25 min", sub:"Menos é mais: o espaço que faz a frase respirar",
+goal:"criar frases com três notas, usando o silêncio como parte da música.",
+body:`
+<p>Miles Davis ficou famoso por tocar <b>poucas notas e muito espaço</b>. Muitos iniciantes acham que improvisar é encher de notas; os mestres sabem que o silêncio dá peso a cada nota tocada. Agora você ganha três notas: <b>Sol, Lá e Dó</b>.</p>
+${ex("G","G4/q A4/q C5/h | A4/e G4/e r/q r/h | C5/q. A4/e G4/q r/q | G4/w",{t:"Exemplo com três notas e pausas",bpm:84,time:"4/4"})}
+<h2>A regra da respiração</h2>
+<p>Mesmo se você toca piano ou violão, <b>imagine que está soprando</b>: uma frase dura, no máximo, o tempo de uma respiração. Depois, pare e respire. Isso cria frases naturais de 1 a 2 compassos, separadas por pausas.</p>
+${base({t:"Base 3 · Sol, Lá e Dó",prog:"C7M | Am7 | Dm7 | G7",estilo:"swing",bpm:[60,80,100],notas:false,how:"Regra do jogo: para cada compasso tocado, deixe um compasso de silêncio. Ouça o piano e o baixo enquanto você descansa."})}
+${box("dica","Cante antes de tocar: cante uma frase com essas três notas e só depois toque. Assim a frase nasce do ouvido, não dos dedos.")}
+${missao("Invente 5 frases diferentes com Sol, Lá e Dó e escreva (ou grave) as 2 melhores. Elas são o começo do seu vocabulário.")}
+`,
+quiz:[],
+pdf:[pdfI("Curso de Improvisação (Ademir Junior)","Curso-de-improvisacao-ademir-junior-1.pdf")]},
+
+{t:"Pergunta e resposta", e:"❓", min:"30 min", sub:"Antecedente e consequente: a gramática das frases",
+goal:"criar pares de frases em que a segunda responde à primeira, e responder a frases que você ouve.",
+body:`
+<p>Quase toda melodia boa é feita de <b>perguntas e respostas</b>: uma frase que termina \"em aberto\" (suspensa) e outra que \"fecha\" (conclusiva). Na teoria isso se chama <b>antecedente e consequente</b>, e é a base do capítulo de forma do método de Turi Collura.</p>
+${ex("G","E4/q G4/q A4/q C5/q | D5/h r/h | C5/q A4/q G4/q E4/q | C4/h r/h",{t:"Pergunta (compassos 1-2, termina no Ré: suspensa) e resposta (3-4, termina no Dó: conclusiva)",bpm:84,time:"4/4"})}
+${ex("G","G4/e A4/e C5/q A4/e G4/e E4/q | G4/w | G4/e A4/e C5/q D5/e C5/e A4/q | C5/w",{t:"Mesmo ritmo, final diferente",bpm:84,time:"4/4",cap:"A resposta repete o ritmo da pergunta e muda o final: é a forma mais fácil de soar coerente."})}
+<h2>Jogo do eco: o computador pergunta, você responde</h2>
+<p>A base abaixo tem uma <b>frase do computador</b> nos compassos 1-2 (🎧) e deixa os compassos 3-4 livres para <b>sua resposta</b> (🎤). Responda imitando o ritmo da pergunta, depois variando.</p>
+${base({t:"Base 4 · Jogo do eco",prog:"C7M | Am7 | Dm7 | G7",estilo:"pop",eco:true,bpm:[70,90,110],how:"Nível 1: repita a frase igual (treina o ouvido). Nível 2: responda com o mesmo ritmo e outras notas. Nível 3: responda livremente, mas terminando numa nota do acorde."})}
+${missao("Toque com um amigo ou com uma gravação sua: um faz 2 compassos de pergunta, o outro responde. Troquem os papéis. É assim que músicos \"conversam\" num show.")}
+`,
+quiz:[],
+pdf:[pdfI("Improvisação vol. 1 (Turi Collura) · forma musical","Livro-improvisacao- volume-1- turi - collura.pdf"),pdfI("Fraseologia","FRASEOLOGIA.pdf",1)]},
+
+{t:"A pentatônica: sua primeira escala completa", e:"🖐️", min:"35 min", sub:"Cinco notas que funcionam quase sempre",
+goal:"tocar a pentatônica maior e menor no seu instrumento e improvisar com ela por cima de uma base.",
+body:`
+<p>A <b>pentatônica</b> tem 5 notas e nenhuma \"briga\" forte com os acordes do tom. É a escala do blues, do rock, do pop, do louvor e da música oriental. A <b>pentatônica de Dó maior</b> (Dó Ré Mi Sol Lá) tem as mesmas notas da <b>pentatônica de Lá menor</b> (Lá Dó Ré Mi Sol).</p>
+${kb("C4","C5","C4:Dó D4:Ré E4:Mi G4:Sol A4:Lá C5:Dó",{seq:"C4/e D4/e E4/e G4/e A4/e C5/e A4/e G4/e E4/e D4/e C4/h",cap:"Pentatônica de Dó maior = pentatônica de Lá menor."})}
+${braco({de:4,ate:9,marks:"6-5:R 6-8 5-5 5-7 4-5 4-7:R 3-5 3-7 2-5 2-8 1-5:R 1-8",cap:"No violão/guitarra: pentatônica de Lá menor, desenho 1 (R = Lá)"})}
+<h2>Exercícios de vocabulário</h2>
+${ex("G","C4/e D4/e E4/e G4/e D4/e E4/e G4/e A4/e | E4/e G4/e A4/e C5/e G4/e A4/e C5/e D5/e | C5/w",{t:"Padrão de 4 notas subindo pela pentatônica",bpm:80,time:"4/4"})}
+${ex("G","A4/e C5/e D5/e E5/e G5/q E5/q | D5/e C5/e A4/q G4/q A4/q",{t:"Frase pentatônica em Lá menor",bpm:84,time:"4/4"})}
+${base({t:"Base 5 · Lá menor (dórico)",prog:"Am7 | Am7 | D7 | D7",estilo:"pop",bpm:[70,90,110],how:"Use a pentatônica de Lá menor (Lá Dó Ré Mi Sol). Comece e termine as frases no Lá. Depois troque o estilo para Samba e Bossa."})}
+${base({t:"Base 6 · Pop em Dó (I–V–VI–IV)",prog:"C | G | Am | F",estilo:"balada",bpm:[60,72,90],how:"Mesma escala (agora pensando em Dó maior). Use notas longas e termine as frases em Dó, Mi ou Sol."})}
+${missao("Aprenda a pentatônica em 3 tons (Dó, Sol e Fá) e em toda a extensão do seu instrumento. Use a seleção de tom da base para praticar nos três.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 1 (Alex Noppe) · escalas pentatônicas","Alex Noppe - Jazz Improvisation 1.pdf",19,16),pdfI("Curso de Improvisação (Turi Collura)","Curso de Improvisalçao Turi Collura.pdf")]}
+]});
+
+/* ============ IM 2 · RITMO E FRASEADO ============ */
+IMMODS.push({id:"imm2", t1:"Ritmo e", t2:"Fraseado", g:"🎶", c:"#b45309", sub:"Balanço, deslocamento, motivos, jogos de fraseado e o arco do solo",
+desc:"O que separa o improviso amador do profissional não são as notas: é o ritmo, a articulação e a construção das frases. Aqui você aprende a soar musical: swing, deslocamento, desenvolvimento de motivos, os jogos de fraseado de Alex Noppe e como contar uma história.",
+aulas:[
+{t:"O balanço: swing e articulação de jazz", e:"🕺", min:"30 min", sub:"Colcheias desiguais, contratempo acentuado e o \"du-dot\"",
+goal:"tocar colcheias com swing, acentuar os contratempos e usar a articulação típica do jazz.",
+body:`
+<p>No jazz, as colcheias escritas iguais são tocadas <b>desiguais</b>: a primeira de cada par mais longa, a segunda mais curta, como numa tercina (\"dúu-ba dúu-ba\"). Isso é o <b>swing</b>. Na bossa, no samba, no choro, no pop e no rock, as colcheias são tocadas iguais.</p>
+${ex("G","C4/e D4/e E4/e F4/e G4/e A4/e B4/e C5/e | B4/e A4/e G4/e F4/e E4/e D4/e C4/q",{t:"Escala em colcheias: toque primeiro igual, depois com swing",bpm:100,time:"4/4",cap:"O som aqui é reto; o swing é você quem coloca. Cante \"dúu-ba dúu-ba\" junto."})}
+<h2>A articulação 2 em 2 (o segredo do sotaque)</h2>
+<p>Como ensina Adriano Canetta (Donale Studio, material na pasta de estudos): no jazz, as ligaduras de duas em duas notas <b>começam no contratempo</b>, não no tempo. Ou seja: a nota do \"e\" do tempo é ligada à nota do tempo seguinte. Isso faz o acento cair naturalmente nos contratempos, que é o balanço do jazz.</p>
+${tbl(["Articulação","Sinal","Fonética","Uso"],[["Tenuto","traço sobre a nota","\"du\"","nota cheia, com o valor inteiro"],["Marcato","^ sobre a nota","\"dot\"","nota curta e mais forte (fim de frase, acentos)"],["Ligado 2 em 2","começando no \"e\"","\"du-ba du-ba\"","colcheias em swing"],["Nota fantasma","( ) ou x","\"(n)\" quase sem som","dá leveza ao fraseado"]])}
+${box("dica","Diga em voz alta: \"du-<b>ba</b> du-<b>ba</b> du-<b>ba</b> du-<b>DOT</b>\", acentuando o \"ba\". Depois toque a escala com esse sotaque. Ouça Charlie Parker, Clifford Brown ou Wes Montgomery e repare que todos fazem isso.")}
+${base({t:"Base 7 · Swing para treinar o balanço",prog:"C7M | A7 | Dm7 | G7",estilo:"swing",bpm:[90,120,160],how:"Toque a escala de Dó maior em colcheias com swing, acentuando os contratempos. O piano e o baixo vão te mostrar o balanço; encaixe-se neles."})}
+${missao("Ouça 10 minutos de um disco de jazz (ex.: <i>Kind of Blue</i>, de Miles Davis) só prestando atenção no ritmo das colcheias. Depois imite cantando.")}
+`,
+quiz:[],
+pdf:[pdfI("Padrões de articulação no jazz (Donale)","Padrões de articulação no jazz.pdf",1),pdfI("Jazz Handbook (Aebersold) · articulações","FQBK-handbook.pdf",28,27)]},
+
+{t:"Deslocamento rítmico e antecipações", e:"↔️", min:"25 min", sub:"A mesma ideia em lugares diferentes do compasso",
+goal:"deslocar uma frase pelo compasso e criar surpresa rítmica sem mudar as notas.",
+body:`
+<p>Uma das ferramentas mais poderosas: pegue uma frase curta e <b>comece em lugares diferentes</b> do compasso. As notas são as mesmas, mas o efeito muda completamente. Os grandes improvisadores fazem isso o tempo todo (o livro <i>Forward Motion</i>, de Hal Galper, é inteiro sobre a força do contratempo).</p>
+${ex("G","E5/e:no_1 G5/e A5/q r/h | r/e:no_e_do_1 E5/e G5/e A5/q r/e r/q | r/q:no_2 E5/e G5/e A5/q r/q | r/q r/e:no_e_do_2 E5/e G5/e A5/q.",{t:"O mesmo motivo começando em 4 lugares",bpm:96,time:"4/4"})}
+<h2>Antecipação</h2>
+<p>Antecipar é tocar a nota do próximo acorde <b>meio tempo antes</b> dele chegar (no \"e\" do 4). É a marca registrada da música brasileira (samba, bossa, choro) e do jazz moderno. Em vez de cair no tempo 1, a frase \"chega antes\" e dá impulso.</p>
+${base({t:"Base 8 · Treino de deslocamento",prog:"Dm7 | G7 | C7M | C7M",estilo:"swing",bpm:[90,110,140],how:"Escolha uma frase de 3 notas. Toque-a começando no tempo 1, depois no \"e\" do 1, depois no 2, depois no \"e\" do 2. Na volta seguinte, antecipe cada mudança de acorde no \"e\" do 4."})}
+${missao("Pegue a sua frase favorita da aula anterior e toque-a em 4 posições diferentes do compasso, por cima da base. Escolha a versão que mais balança.")}
+`,
+quiz:[],
+pdf:[pdfI("Improvisação vol. 1 (Turi Collura) · elementos rítmicos","Livro-improvisacao- volume-1- turi - collura.pdf"),pdfI("Jazz Improvisation 4 (Alex Noppe) · jogos de motivo","Alex Noppe - Jazz Improvisation 4.pdf",38,35)]},
+
+{t:"Motivo e desenvolvimento", e:"🌱", min:"35 min", sub:"Repetição, sequência, variação: a cola dos grandes solos",
+goal:"desenvolver uma ideia curta (motivo) com 6 técnicas e usar isso para dar coerência ao improviso.",
+body:`
+<p>Jamey Aebersold: \"<b>Repetição e sequência são a cola que segura os solos</b>. O ouvinte precisa ouvir alguma repetição, senão não consegue lembrar de nada do que você tocou.\" O iniciante evita repetir por medo de parecer pobre; o mestre repete <b>de propósito</b> e varia.</p>
+${ex("G","C5/e:motivo D5/e E5/q G5/h | C5/e:repetição D5/e E5/q G5/h | D5/e:sequência E5/e F5/q A5/h | C5/q:ritmo D5/e E5/e G5/h | C5/e:inversão B4/e A4/q F4/h | C5/e:fragmento D5/e E5/q C5/e D5/e E5/q | C5/q:aumentação D5/q E5/h | G5/w",{t:"Um motivo e 6 formas de desenvolvê-lo",bpm:92,time:"4/4"})}
+${tbl(["Técnica","O que fazer"],[["Repetição","toque igual (2 ou 3 vezes no máximo)"],["Sequência","repita o desenho começando em outra nota (subindo ou descendo pela escala)"],["Variação rítmica","mesmas notas, outro ritmo"],["Inversão","o contorno ao contrário: o que subia, desce"],["Fragmentação","use só um pedaço do motivo e repita esse pedaço"],["Aumentação / diminuição","o mesmo motivo com notas mais longas ou mais curtas"],["Deslocamento","o motivo começando em outro tempo (aula anterior)"]])}
+${base({t:"Base 9 · Desenvolvendo um motivo",prog:"C7M | C7M | Dm7 | G7",estilo:"bossa",bpm:[80,100,120],how:"Toque o motivo Dó-Ré-Mi-Sol e desenvolva-o por 4 voltas, sem inventar nenhuma ideia nova: só variações dele. Parece limitado, mas é assim que se aprende a construir solos coerentes."})}
+${missao("Ouça o solo de Sonny Rollins em <i>St. Thomas</i> ou de Miles Davis em <i>So What</i> e identifique quando eles repetem e variam uma ideia. Os dois são aulas de desenvolvimento de motivo.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Handbook (Aebersold) · soloing","FQBK-handbook.pdf",5),pdfI("Jazz Improvisation 4 (Alex Noppe) · motive games","Alex Noppe - Jazz Improvisation 4.pdf",38,35),pdfI("Curso de Improvisação vol. 2 (Turi Collura)","Curso de Improvisalçao Turi Collura volume 2.pdf")]},
+
+{t:"Jogos de fraseado", e:"🎲", min:"40 min", sub:"Os jogos de Alex Noppe para frases naturais",
+goal:"praticar os jogos de fraseado e de movimento que treinam frases com começo, meio e fim.",
+body:`
+<p>Alex Noppe, no livro <i>Jazz Improvisation 4</i> (na pasta de estudos), propõe <b>jogos</b> que fazem a ponte entre o estudo técnico e o improviso livre. Cada jogo tem uma regra simples; a regra obriga você a pensar em frases.</p>
+${tbl(["Jogo","Regra"],[
+["1 · Dois e dois","toque 2 compassos, descanse 2. Repita até o fim da música."],
+["2 · Meio da frase","em cada grupo de 4 compassos, toque os compassos 2 e 3 e descanse o 1 e o 4. Depois inverta."],
+["3 · Três e dois","grupos de 5 compassos: toque 3, descanse 2."],
+["4 · Começo e fim fora do lugar","comece e termine as frases no meio do compasso, com anacruses."],
+["5 · Só mínimas","improvise só com mínimas e algumas pausas, buscando a linha mais suave possível."],
+["6 · Só semínimas","o mesmo, só com semínimas."],
+["7 · Só colcheias e tercinas","linhas contínuas, sem parar, mostrando os acordes."]])}
+${base({t:"Base 10 · Progressão de 8 compassos para os jogos",prog:"C7M | A7 | Dm7 | G7 | Em7 | A7 | Dm7 G7 | C7M",estilo:"swing",bpm:[80,110,140],how:"Faça um jogo por dia. Nos jogos 5 e 6, procure andar por graus vizinhos de um acorde para o outro: é o treino de condução de vozes do improvisador."})}
+${box("prof","Os jogos de movimento perpétuo (só mínimas, só semínimas) são um treino clássico de condução melódica: com notas longas, você é obrigado a escolher a nota que liga um acorde ao seguinte. Músicos como Bill Evans e Lennie Tristano usavam exercícios desse tipo.")}
+${missao("Faça os 7 jogos ao longo de uma semana (um por dia). No domingo, improvise livre e repare como suas frases ficaram mais organizadas.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 4 (Alex Noppe) · phrasing games","Alex Noppe - Jazz Improvisation 4.pdf",19,16),pdfI("Practice Techniques (Mark Watkins)","Practice Techniques.pdf")]},
+
+{t:"Contando uma história: o arco do solo", e:"📖", min:"30 min", sub:"Dinâmica, registro e o checklist da musicalidade",
+goal:"planejar um solo com começo, desenvolvimento, clímax e final, e usar o checklist de musicalidade.",
+body:`
+<p>Um bom solo funciona como uma boa história: <b>apresenta</b>, <b>desenvolve</b>, chega a um <b>clímax</b> e <b>conclui</b>. Os grandes solos quase sempre seguem esse arco.</p>
+${fig(`<svg width="600" height="180" viewBox="0 0 600 180" font-family="Montserrat,sans-serif" font-size="12" font-weight="800"><path d="M20 150 C150 140 200 110 280 90 C360 70 420 20 470 25 C510 30 540 110 580 140" stroke="#ff4d4d" stroke-width="4" fill="none"/><line x1="20" y1="160" x2="580" y2="160" stroke="#52525b"/>
+<text x="40" y="132" fill="#e4e4e7">começo: poucas notas, região média</text><text x="230" y="118" fill="#e4e4e7">desenvolvimento</text><text x="420" y="16" fill="#fca5a5">clímax</text><text x="500" y="128" fill="#e4e4e7">final</text><text x="20" y="176" fill="#a1a1aa">tempo do solo →  (a altura da linha = intensidade: notas, registro, volume, densidade)</text></svg>`,"O arco de um solo")}
+<h2>Checklist da musicalidade (o que faz você soar profissional)</h2>
+<ol>
+<li><b>Respire</b>: frases com começo e fim, separadas por pausas.</li>
+<li><b>Comece simples</b>: o começo é para apresentar, não para impressionar.</li>
+<li><b>Repita e varie</b> suas ideias (aula 3).</li>
+<li><b>Notas do acorde nos tempos fortes</b>, principalmente no começo e no fim das frases (Módulo 3).</li>
+<li><b>Varie o ritmo</b>: semínimas, colcheias, tercinas, notas longas, pausas.</li>
+<li><b>Varie o registro</b>: grave, médio e agudo. Guarde o agudo para o clímax.</li>
+<li><b>Dinâmica</b>: cresça junto com a intensidade da história.</li>
+<li><b>Cuide do som</b>: uma nota longa bonita vale mais do que vinte rápidas sem som. Jamey Aebersold: \"O som é a primeira coisa que o ouvinte percebe.\"</li>
+<li><b>Ouça a banda</b> e responda ao que o baterista e o pianista fazem.</li>
+<li><b>Termine bem</b>: a última frase decide a impressão do solo inteiro. Termine numa nota estável, com convicção.</li>
+<li><b>Cante o que toca</b>: se você não conseguiria cantar a frase, ela provavelmente veio dos dedos, não do ouvido.</li>
+<li><b>Grave-se</b> e ouça no dia seguinte, como se fosse outra pessoa.</li></ol>
+${base({t:"Base 11 · Blues em Fá para um solo completo",prog:"F7 | Bb7 | F7 | F7 | Bb7 | Bb7 | F7 | D7 | Gm7 | C7 | F7 D7 | Gm7 C7",estilo:"swing",bpm:[90,120,150],how:"Planeje 3 voltas (choruses): 1ª calma, com poucas notas; 2ª desenvolvendo ideias e subindo de região; 3ª com o clímax no meio e um final claro."})}
+${missao("Grave um solo de 3 voltas na base acima. Ouça com o checklist na mão e dê uma nota de 0 a 10 para cada item. Escolha os 2 itens mais fracos para treinar na semana.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Handbook (Aebersold) · things that create interest","FQBK-handbook.pdf",27,26),pdfI("Curso de Improvisação · Modo avançado (Ademir Junior)","Curso-de-improvisacao-ademir-junior-1.pdf",3)]}
+]});
+
+/* ============ IM 3 · NOTAS DO ACORDE ============ */
+IMMODS.push({id:"imm3", t1:"Notas", t2:"do Acorde", g:"🎯", c:"#15803d", sub:"Arpejos, notas-guia, cromatismo, tensão e resolução, padrões",
+desc:"A improvisação vertical: mostrar a harmonia com a melodia. Arpejos, as notas-guia (3ª e 7ª) que definem cada acorde, aproximação cromática e enclosure, tensão e resolução, padrões e o estudo nos 12 tons.",
+aulas:[
+{t:"Arpejos: as notas que nunca erram", e:"🪜", min:"35 min", sub:"Começar e terminar frases nas notas do acorde",
+goal:"tocar os arpejos de cada acorde de uma progressão e improvisar usando-os como base das frases.",
+body:`
+<p>As <b>notas do acorde</b> (1, 3, 5 e 7) são as mais estáveis sobre ele. Aebersold: \"Nossos ouvidos ouvem as notas do acorde primeiro; por isso é natural começar e terminar as frases nelas.\" Turi Collura chama isso de <b>improvisação vertical</b>: o foco nas notas dos acordes.</p>
+${ex("G","D4/e F4/e A4/e C5/e A4/e F4/e D4/q | G4/e B4/e D5/e F5/e D5/e B4/e G4/q | C5/e E5/e G5/e B5/e G5/e E5/e C5/q | C5/w",{t:"Arpejos de Dm7, G7 e C7M (subindo e descendo)",bpm:84,time:"4/4"})}
+${ex("G","C5/e A4/e F4/e D4/e F4/e A4/e C5/q | B4/e G4/e F4/e D4/e F4/e G4/e B4/q | B4/e G4/e E4/e C4/e E4/e G4/e B4/q | C5/w",{t:"Arpejos começando pela 7ª (descendo): som mais \"jazzístico\"",bpm:84,time:"4/4"})}
+<h2>Como estudar arpejos (método de Noppe)</h2>
+<ul><li>Em todos os tipos: 7M, 7, m7, m7(♭5) e °7.</li><li>Começando de cada nota (1, 3, 5, 7) e em todas as inversões.</li><li>Subindo e descendo, em toda a extensão do instrumento.</li><li><b>Nos 12 tons</b>: use o ciclo de quartas (C, F, B♭, E♭, A♭, D♭, G♭, B, E, A, D, G).</li></ul>
+${base({t:"Base 12 · II–V–I com as notas na tela",prog:"Dm7 | G7 | C7M | C7M",estilo:"swing",bpm:[80,100,130],how:"Jogo do arpejo: toque só as notas do arpejo de cada acorde (aparecem na tela). Depois use o seletor de tom para fazer o mesmo em Fá, Si♭ e Sol."})}
+${missao("Uma semana de arpejos: todo dia, 10 minutos de arpejos de 4 notas no ciclo de quartas, mais 5 minutos improvisando só com eles na base. No fim da semana, troque para a progressão em outro tom.")}
+`,
+quiz:[],
+pdf:[pdfI("Improvisação vol. 1 (Turi Collura) · improvisação vertical","Livro-improvisacao- volume-1- turi - collura.pdf"),pdfI("Jazz Improvisation 1 (Alex Noppe) · major scales and arpeggios","Alex Noppe - Jazz Improvisation 1.pdf",6,3)]},
+
+{t:"Notas-guia: a 3ª e a 7ª", e:"🧭", min:"35 min", sub:"Duas notas que contam a harmonia inteira",
+goal:"tocar as linhas de notas-guia de uma progressão e usar a 3ª no tempo 1 de cada compasso (jogo de Noppe).",
+body:`
+<p>A <b>3ª</b> diz se o acorde é maior ou menor; a <b>7ª</b> diz se é 7M, 7 ou m7. Juntas, elas são as <b>notas-guia</b> (guide tones). Com elas, qualquer pessoa ouve a harmonia, mesmo sem acompanhamento. E o mais bonito: de um acorde para o seguinte, elas quase sempre andam <b>meio tom ou nada</b>.</p>
+${ex("G","F4/w:3ª_de_Dm7 | F4/w:7ª_de_G7 | E4/w:3ª_de_C7M | E4/w",{t:"Linha de notas-guia 1",bpm:72,time:"4/4"})}
+${ex("G","C5/w:7ª_de_Dm7 | B4/w:3ª_de_G7 | B4/w:7ª_de_C7M | B4/w",{t:"Linha de notas-guia 2",bpm:72,time:"4/4"})}
+${ex("G","F4/q A4/q C5/q A4/q | B4/q D5/q F5/q D5/q | E5/w | E5/w",{t:"Uma frase que cai nas notas-guia em cada troca de acorde",bpm:90,time:"4/4",cap:"Fá (3ª de Dm7) → Si (3ª de G7) → Mi (3ª de C7M). Repare que a última nota de cada compasso está a um passo da nota-guia seguinte."})}
+<h2>Jogo das terças (Alex Noppe)</h2>
+<ol><li>No tempo 1 de cada compasso, <b>caia na 3ª do acorde</b>.</li><li>Você \"ganha\" o jogo quando as linhas soam naturais, sem saltos forçados para chegar na 3ª: <b>planeje antes</b>.</li><li>Depois faça o mesmo com a 7ª; e depois alternando 3ª e 7ª.</li></ol>
+${base({t:"Base 13 · Jogo das terças",prog:"C7M | A7 | Dm7 | G7 | Em7 | A7 | Dm7 G7 | C7M",estilo:"swing",alvo:"3",bpm:[70,100,130],how:"A nota-alvo de cada compasso aparece em verde (🎯). Comece só com a nota-alvo em semínimas; depois chegue nela com uma frase."})}
+${base({t:"Base 14 · Jogo das 3ªs e 7ªs",prog:"Dm7 | G7 | C7M | A7",estilo:"bossa",alvo:"37",bpm:[80,100,120]})}
+${missao("Toque as linhas de notas-guia de 3 músicas que você conhece. Cante a linha enquanto a base toca. Quando conseguir cantar as notas-guia de uma música, você entendeu a harmonia dela.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 4 (Alex Noppe) · guide-tone games","Alex Noppe - Jazz Improvisation 4.pdf",25,22),pdfI("Notas Melódicas","Notas Melódicas.pdf",1)]},
+
+{t:"Aproximação cromática e enclosure", e:"🎯", min:"35 min", sub:"Chegar nas notas-alvo como os músicos de bebop",
+goal:"chegar nas notas do acorde por aproximação cromática, por cima, por baixo e por cerco (enclosure).",
+body:`
+<p>Depois de saber <b>onde</b> chegar (a nota-alvo), aprenda <b>como</b> chegar com estilo. As aproximações cromáticas usam notas fora da escala para criar tensão, que se resolve na nota-alvo. É a linguagem do bebop e do choro.</p>
+${ex("G","G4/q B4/q D5/q D#5/q:por_baixo | E5/w | G4/q B4/q D5/q F5/q:por_cima | E5/w | G4/q B4/q F5/q:cerco D#5/q | E5/w | G4/q A4/q C#5/q:duplo D5/e D#5/e | E5/w",{t:"4 formas de chegar no Mi (3ª de C7M) vindo de G7",bpm:90,time:"4/4"})}
+${tbl(["Técnica","Como","Exemplo (alvo Mi)"],[["Cromática por baixo","meio tom abaixo do alvo","Ré♯ → Mi"],["Diatônica por cima","a nota da escala acima do alvo","Fá → Mi"],["Cerco (enclosure)","uma nota acima e uma abaixo, depois o alvo","Fá → Ré♯ → Mi"],["Duplo cromatismo","duas notas cromáticas seguidas","Ré → Ré♯ → Mi"]])}
+${box("dica","Regra de ouro: a nota cromática cai no <b>tempo fraco</b> (ou no \"e\") e o alvo no <b>tempo forte</b>. Assim a tensão soa intencional, não erro.")}
+${base({t:"Base 15 · Treino de aproximações",prog:"G7 | C7M | D7 | G7",estilo:"swing",alvo:"3",bpm:[80,110,140],how:"Escolha uma técnica por volta. Chegue em cada nota-alvo (🎯) no tempo 1 usando essa técnica."})}
+${missao("Escreva 4 frases de 1 compasso que terminem no tempo 1 do compasso seguinte, uma com cada técnica. Toque-as em 3 tons. Elas viram vocabulário seu.")}
+`,
+quiz:[],
+pdf:[pdfI("Cromatismo","Cromatismo.pdf",1),pdfI("Arte da Improvisação (Nelson Faria)","A arte da improvisação Nelson Faria.pdf")]},
+
+{t:"Tensão e resolução", e:"⚖️", min:"30 min", sub:"Notas T e R: o drama dentro da frase",
+goal:"usar notas de tensão em tempos fortes resolvendo em notas do acorde (apojaturas).",
+body:`
+<p>Turi Collura chama de <b>notas T</b> (tensão) e <b>R</b> (resolução): uma nota que não é do acorde, num tempo forte, cria expectativa; quando ela anda para a nota do acorde vizinha, a expectativa se resolve. É o mesmo princípio de um suspiro, e é o que deixa a melodia \"emocionante\".</p>
+${ex("G","F5/q:C7M E5/h. | E5/q:Dm7 D5/h. | Ab4/q:G7 G4/h. | B4/q:Am7 A4/h.",{t:"Apojaturas: tensão no tempo 1, resolução logo depois",bpm:72,time:"4/4",cap:"Fá sobre C7M (4ª → 3ª), Mi sobre Dm7 (9ª → fundamental), Lá♭ sobre G7 (♭9 → fundamental), Si sobre Am7 (9ª → fundamental)."})}
+${tbl(["Acorde","Tensões que soam bem","Resolvem em"],[["7M (maior)","9, ♯11, 13","8 (fundamental), 5, 5"],["m7","9, 11","8 (fundamental), 3"],["7 (dominante)","9, 13; e as alteradas ♭9, ♯9, ♭13","8, 5, 5; ou na nota do acorde seguinte"]])}
+${base({t:"Base 16 · Tensão e resolução",prog:"C7M | Am7 | Dm7 | G7",estilo:"balada",bpm:[56,68,80],how:"Em cada compasso, toque uma nota de tensão no tempo 1 e resolva no tempo 2 ou 3. Andamento lento para saborear cada resolução."})}
+${missao("Pegue uma melodia que você ama e procure as apojaturas dela (notas fortes que não são do acorde). Quase toda melodia emocionante usa esse recurso.")}
+`,
+quiz:[],
+pdf:[pdfI("Improvisação vol. 1 (Turi Collura) · notas T e R","Livro-improvisacao- volume-1- turi - collura.pdf"),pdfI("Notas Melódicas","Notas Melódicas.pdf",1)]},
+
+{t:"Padrões e os 12 tons", e:"🔢", min:"35 min", sub:"Padrões digitais, ciclo de quartas e o vocabulário de Coltrane",
+goal:"tocar padrões digitais (1-2-3-5, 1-3-5-7, 5-3-2-1) nos 12 tons e aplicá-los numa progressão.",
+body:`
+<p>Um <b>padrão digital</b> é uma fórmula de graus (os \"dígitos\" da escala) aplicada a qualquer acorde. Como escreve Mark Watkins (<i>Practice Techniques</i>, na pasta de estudos), padrões ensinam a linguagem como uma lista de vocabulário: o 1-2-3-5 aparece no solo de John Coltrane em <i>Giant Steps</i>. Jerry Coker escreveu um livro inteiro deles (<i>Patterns for Jazz</i>), também na pasta.</p>
+${ex("G","C4/e:C7M D4/e E4/e G4/e F4/e:F7M G4/e A4/e C5/e | Bb4/e:Bb7M C5/e D5/e F5/e Eb5/e:Eb7M F5/e G5/e Bb5/e | Ab4/e:Ab7M Bb4/e C5/e Eb5/e Db5/e:Db7M Eb5/e F5/e Ab5/e | Db5/w",{t:"1-2-3-5 no ciclo de quartas",bpm:84,time:"4/4"})}
+${ex("G","D4/e:Dm7 F4/e A4/e C5/e B4/e:G7 G4/e F4/e D4/e | E4/e:C7M G4/e B4/e D5/e C5/q r/q",{t:"1-3-5-7 subindo e 7-5-3-1 descendo num II–V–I",bpm:88,time:"4/4"})}
+${tbl(["Padrão","Graus","Bom para"],[["Digital 1","1-2-3-5","acordes maiores e dominantes"],["Arpejo","1-3-5-7","qualquer acorde"],["Descendente","5-3-2-1","resolver frases"],["Coltrane","1-2-3-5 / 5-3-2-1 alternados","mudanças rápidas de acorde"],["Escala em 3ªs","1-3, 2-4, 3-5…","fluência na escala"]])}
+<h2>O ciclo de quartas</h2>
+<p><b>C – F – B♭ – E♭ – A♭ – D♭ – G♭ – B – E – A – D – G</b>. Quase todas as progressões de jazz andam assim (o V vai para o I uma quarta acima). Estudar nessa ordem treina exatamente o movimento que você vai encontrar nas músicas.</p>
+${base({t:"Base 17 · Dominantes no ciclo",prog:"C7 | F7 | Bb7 | Eb7 | Ab7 | Db7 | Gb7 | B7 | E7 | A7 | D7 | G7",estilo:"swing",bpm:[70,100,130],how:"Toque o 1-2-3-5 de cada acorde (mixolídio). Quando estiver fácil, alterne 1-2-3-5 num compasso e 5-3-2-1 no seguinte."})}
+${missao("Escolha um padrão por semana e toque-o nos 12 tons, sem papel, até ficar automático. Depois aplique-o numa música real.")}
+`,
+quiz:[],
+pdf:[pdfI("Patterns for Jazz (Jerry Coker)","Patterns_for_Jazz_by_Jerry_Coker Sax.pdf"),pdfI("John Coltrane Patterns","JohnColtranePatterns.pdf",1),pdfI("Practice Techniques (Mark Watkins)","Practice Techniques.pdf",1),pdfI("Jazz scale patterns","Jazz scale patterns  exercises etc.pdf",1)]}
+]});
+
+</script>
+<script>
+/* ============ IM 4 · ESCALAS E MODOS NA PRÁTICA ============ */
+IMMODS.push({id:"imm4", t1:"Escalas e", t2:"Modos", g:"🌈", c:"#0369a1", sub:"Uma escala para cada acorde, modal, bebop, alterada e simétricas",
+desc:"As escalas como reservatório de notas, não como exercício: qual usar em cada acorde, como soar modal (dórico e mixolídio), a escala bebop, a menor melódica e seus modos (alterada, lídio dominante) e as escalas simétricas e pares de tríades do jazz moderno.",
+aulas:[
+{t:"Uma escala para cada acorde", e:"🗂️", min:"35 min", sub:"A tabela prática do improvisador",
+goal:"saber que escala usar em cada tipo de acorde e improvisar trocando de escala junto com a harmonia.",
+body:`
+<p>A escala é um <b>reservatório de notas</b> que combinam com o acorde. As notas do acorde vão nos tempos fortes; as outras notas da escala ligam uma à outra. A base de acompanhamento deste site já mostra a escala sugerida embaixo de cada cifra.</p>
+${tbl(["Acorde","Escala principal","Outras opções","Cuidado com"],[
+["7M (maior)","jônio (maior)","lídio (com ♯11), pentatônica maior","a 4ª no tempo forte (choca com a 3ª)"],
+["m7","dórico","eólio, pentatônica menor","—"],
+["7 (dominante)","mixolídio","bebop dominante, blues, lídio dominante","a 4ª no tempo forte"],
+["7 alterado / 7(♭9)","alterada","diminuta semitom-tom","—"],
+["m7(♭5)","lócrio","lócrio ♮2 (6º modo da menor melódica)","—"],
+["°7","diminuta tom-semitom","—","—"],
+["m6 / m(7M)","menor melódica","dórico","—"]])}
+${box("ana","A escala é a sua caixa de lápis de cor; o acorde é o desenho já traçado. Você pinta dentro (notas do acorde nos tempos fortes) e usa as outras cores para ligar uma área à outra.")}
+<h2>Exercício: escala no ritmo</h2>
+<p>Toque a escala de cada acorde <b>em colcheias contínuas</b>, mudando junto com a harmonia e começando cada compasso numa nota do acorde (não precisa ser a fundamental). É o exercício que mais rápido ensina a \"trocar de escala sem parar\".</p>
+${base({t:"Base 18 · Escalas mudando com os acordes",prog:"C7M | Am7 | Dm7 | G7 | Em7 | A7 | Dm7 | G7",estilo:"swing",bpm:[80,110,140],how:"Comece em semínimas, depois colcheias. Leia a escala embaixo de cada cifra (dá para esconder com 👁 quando decorar)."})}
+${missao("Escreva, de memória, a escala de cada acorde de uma música que você toca. Depois toque a música só com colcheias contínuas sobre a base, mudando a escala na hora certa.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 3 (Alex Noppe) · scale choices","Alex Noppe - Jazz Improvisation 3.pdf",4,1),pdfI("Jazz Handbook (Aebersold) · scale syllabus","FQBK-handbook.pdf",15,14)]},
+
+{t:"Modal: dórico e mixolídio", e:"🌊", min:"35 min", sub:"Um acorde por muito tempo: como não ficar repetitivo",
+goal:"improvisar em vamps de um acorde só, usando a nota característica do modo e as técnicas de motivo.",
+body:`
+<p>Na música <b>modal</b>, um acorde dura muitos compassos. O desafio não é \"acertar as notas\" (é fácil), mas <b>criar interesse</b>. O exemplo clássico é <i>So What</i> (Miles Davis, 1959): 16 compassos de Dm7, 8 de E♭m7 e mais 8 de Dm7.</p>
+${tbl(["Modo","Nota característica","Ouvir em"],[["Dórico (m7)","a 6ª maior (em Ré dórico: Si)","<i>So What</i>, <i>Impressions</i>, <i>Oye Como Va</i>"],["Mixolídio (7)","a 7ª menor (em Sol mixolídio: Fá)","funk, blues, baião, forró"]])}
+${ex("G","D4/e F4/e A4/e B4/e C5/q B4/q | A4/e G4/e F4/e E4/e D4/h",{t:"Frase dórica: destaca o Si (6ª maior)",bpm:96,time:"4/4"})}
+${ex("G","G4/e A4/e B4/e D5/e F5/q E5/q | D5/e C5/e B4/e A4/e G4/h",{t:"Frase mixolídia: destaca o Fá (7ª menor)",bpm:96,time:"4/4"})}
+<h2>Como manter o interesse num acorde só</h2>
+<ul><li><b>Motivos</b> e desenvolvimento (Módulo 2): a ferramenta principal.</li>
+<li><b>Pentatônicas diferentes</b> sobre o mesmo acorde: sobre Dm7, as pentatônicas de Ré menor, Lá menor e Mi menor soam cada vez mais \"modernas\".</li>
+<li><b>Registro e dinâmica</b>: suba aos poucos, construa a intensidade.</li>
+<li><b>Sair e voltar</b> (side-slipping): toque uma frase meio tom acima e resolva de volta (Módulo 8).</li></ul>
+${base({t:"Base 19 · Vamp dórico (estilo So What)",prog:"Dm7 | Dm7 | Dm7 | Dm7 | Dm7 | Dm7 | Dm7 | Dm7 | Ebm7 | Ebm7 | Ebm7 | Ebm7 | Dm7 | Dm7 | Dm7 | Dm7",estilo:"swing",bpm:[110,136,170]})}
+${base({t:"Base 20 · Vamp mixolídio (funk/baião)",prog:"G7 | G7 | G7 | G7",estilo:"baiao",bpm:[80,100,120],how:"Experimente também o estilo Pop: o mesmo modo serve para funk, rock e forró."})}
+${missao("Improvise 3 minutos sem parar sobre o vamp dórico, usando só uma ideia (motivo) desenvolvida de todas as formas. Grave e confira se o ouvinte consegue acompanhar sua \"história\".")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 1 (Alex Noppe) · Milestones e modos","Alex Noppe - Jazz Improvisation 1.pdf",14,11),pdfI("Ciclo dos modos da escala maior","Circle_Major_Modes.pdf",1)]},
+
+{t:"A escala bebop", e:"🚀", min:"30 min", sub:"A nota de passagem que põe as notas do acorde no tempo",
+goal:"usar a escala bebop dominante e a bebop maior para tocar linhas de colcheias que encaixam na harmonia.",
+body:`
+<p>A <b>escala bebop dominante</b> é a mixolídia com uma nota de passagem cromática (a 7ª maior). Com 8 notas, quando você desce em colcheias começando numa nota do acorde no tempo, <b>todas as notas do acorde caem nos tempos</b>. Foi sistematizada pelo professor David Baker a partir das linhas de Charlie Parker e Dizzy Gillespie.</p>
+${ex("G","G5/e F#5/e F5/e E5/e D5/e C5/e B4/e A4/e | G4/w",{t:"Sol bebop dominante descendo: G, F, D, B nos tempos",bpm:110,time:"4/4"})}
+${ex("G","C5/e B4/e A4/e G#4/e G4/e F4/e E4/e D4/e | C4/w",{t:"Dó bebop maior (com Sol♯ de passagem)",bpm:110,time:"4/4"})}
+<h2>As 3 regras da linha bebop</h2>
+<ol><li>Comece numa <b>nota do acorde, no tempo</b>.</li><li>Desça pela escala bebop em colcheias: as notas do acorde ficam nos tempos.</li><li>Se você mudar de direção ou pular uma nota, \"reorganize\" com um cromatismo para voltar ao encaixe.</li></ol>
+${box("prof","David Baker (no material da pasta de estudos, <i>Bebop Characteristics</i>) lista entre as marcas do bebop: frases longas usando extensões dos acordes, colcheias como unidade básica, uso de cromatismo e de 'citações' de outras músicas. Os 'generic patterns' dele (Noppe, <i>Jazz Improvisation 4</i>) aplicam a escala bebop a qualquer II–V.")}
+${base({t:"Base 21 · Dominantes para a escala bebop",prog:"G7 | G7 | C7 | C7 | D7 | D7 | G7 | G7",estilo:"swing",bpm:[100,130,170]})}
+${missao("Toque a bebop dominante descendo a partir de cada nota do acorde (1, 3, 5, 7) nos 12 tons. É o exercício técnico que mais aproxima seu som da linguagem do jazz.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 4 (Alex Noppe) · bebop scale","Alex Noppe - Jazz Improvisation 4.pdf",15,12),pdfI("Jazz Handbook (Aebersold) · bebop characteristics","FQBK-handbook.pdf",38,37)]},
+
+{t:"Menor melódica, alterada e lídio dominante", e:"🧪", min:"35 min", sub:"As cores do dominante moderno",
+goal:"usar a escala alterada sobre dominantes que vão para acordes menores e o lídio dominante sobre dominantes que não resolvem.",
+body:`
+<p>A <b>menor melódica</b> (Dó Ré Mi♭ Fá Sol Lá Si) gera dois modos muito usados sobre acordes dominantes:</p>
+${tbl(["Modo","Sobre","Som","Truque para achar"],[["Alterada (7º modo)","7(♭9, ♯9, ♭13) que vai para um acorde menor","tensão máxima","menor melódica meio tom acima da fundamental: G7alt = Lá♭ menor melódica"],["Lídio dominante (4º modo)","7(♯11), dominantes que não resolvem, II7, ♭VII7","brilhante, \"flutuante\"","menor melódica uma 5ª acima: D7(♯11) = Lá menor melódica"]])}
+${ex("G","F5/e:G7alt Eb5/e Db5/e B4/e Bb4/e Ab4/e G4/e F4/e | Eb4/q:Cm G4/q C5/h",{t:"Escala alterada de Sol descendo e resolvendo em Dó menor",bpm:96,time:"4/4"})}
+${ex("G","D4/e:D7(♯11) E4/e F#4/e G#4/e A4/e B4/e C5/e A4/e | F#4/w",{t:"Lídio dominante de Ré: o Sol♯ (♯11) dá o brilho",bpm:96,time:"4/4"})}
+${base({t:"Base 22 · II–V–I menor (alterada no V)",prog:"Dm7(b5) | G7(b9) | Cm6 | Cm6",estilo:"swing",bpm:[90,120,150],how:"No G7, use a alterada; no Cm6, a menor melódica de Dó. Ouça como a tensão do G7 'cai' no Cm."})}
+${base({t:"Base 23 · Lídio dominante no II7 (som de bossa)",prog:"C7M | C7M | D7(#11) | D7(#11) | Dm7 | G7 | C7M | C7M",estilo:"bossa",bpm:[100,120,140]})}
+${missao("Aprenda a menor melódica nos 12 tons. Depois, para cada dominante de uma música, pergunte: ele vai para um acorde menor (alterada) ou não resolve (lídio dominante)?")}
+`,
+quiz:[],
+pdf:[pdfI("Ciclo dos modos da menor melódica","Circle_Melódica_menor Modes.pdf",1),pdfI("Jazz Improvisation 2 (Alex Noppe) · dealing with complicated chords","Alex Noppe - Jazz Improvisation 2.pdf",30,27)]},
+
+{t:"Escalas simétricas e pares de tríades", e:"♾️", min:"35 min", sub:"Diminuta, tons inteiros e o som do jazz moderno",
+goal:"usar a diminuta semitom-tom, a escala de tons inteiros e pares de tríades sobre dominantes.",
+body:`
+<p>As escalas <b>simétricas</b> repetem um padrão fixo de intervalos (Noppe, <i>Jazz Improvisation 4</i>):</p>
+${tbl(["Escala","Padrão","Sobre","Detalhe"],[["Diminuta semitom-tom","S-T-S-T…","7(♭9), 7(♭9 ♯9 ♯11 13)","só existem 3 diminutas diferentes"],["Diminuta tom-semitom","T-S-T-S…","acordes °7","nenhuma nota a evitar"],["Tons inteiros","T-T-T…","7(♯5), 7(♭13)","só existem 2 escalas de tons inteiros"]])}
+${ex("G","G4/e:G7(♭9) Ab4/e Bb4/e B4/e C#5/e D5/e E5/e F5/e | E5/w:C",{t:"Diminuta semitom-tom sobre G7(♭9) resolvendo no Mi de C",bpm:96,time:"4/4"})}
+${ex("G","G4/e:G7(♯5) A4/e B4/e C#5/e D#5/e F5/e G5/q | C5/w:C",{t:"Tons inteiros sobre G7(♯5)",bpm:96,time:"4/4"})}
+<h2>Pares de tríades</h2>
+<p>Em vez de escalas, use <b>duas tríades maiores</b> que juntas formam o som desejado (Noppe, <i>Jazz Improvisation 3</i>). Sobre C7(♭9 ♯11), por exemplo, as tríades de <b>Dó</b> e de <b>Fá♯</b> (a um trítono de distância) tocam todas as tensões da diminuta.</p>
+${ex("G","C4/e E4/e G4/e F#4/e A#4/e C#5/e E5/e G5/e | F5/w",{t:"Par de tríades Dó + Fá♯ sobre C7, resolvendo no Fá",bpm:96,time:"4/4"})}
+${base({t:"Base 24 · Dominantes alterados para as simétricas",prog:"C7M | A7(b9) | Dm7 | G7(b9) | C7M | E7(#5) | Am7 | D7(b9)",estilo:"swing",bpm:[90,120,150]})}
+${missao("Escolha uma das três escalas simétricas e crie 3 frases curtas com ela. Use-as só no dominante e sempre resolva numa nota do acorde seguinte: o segredo do som \"moderno\" é a resolução.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 4 (Alex Noppe) · diminished and whole-tone","Alex Noppe - Jazz Improvisation 4.pdf",18,15),pdfI("Jazz Improvisation 3 (Alex Noppe) · triad pairs","Alex Noppe - Jazz Improvisation 3.pdf",14,11)]}
+]});
+
+/* ============ IM 5 · O BLUES ============ */
+IMMODS.push({id:"imm5", t1:"O", t2:"Blues", g:"🎺", c:"#1e40af", sub:"Forma, escala blues, licks, blues de jazz, blues menor e vários choruses",
+desc:"O blues é a escola de todo improvisador: forma curta, emoção direta e todo o vocabulário do jazz, do rock e do soul. Do blues básico ao bebop blues, com a forma de construir vários choruses e trocar frases com a banda.",
+aulas:[
+{t:"A forma do blues e a escala blues", e:"🔵", min:"35 min", sub:"12 compassos, 3 acordes e a nota azul",
+goal:"tocar a forma de 12 compassos sem se perder e improvisar com a escala blues.",
+body:`
+<p>O blues mais comum tem <b>12 compassos</b> e três acordes com sétima: I7, IV7 e V7. Em Fá: <b>F7, B♭7 e C7</b>. A estrutura é de \"pergunta, repetição e resposta\", como nas letras de blues (frase, a mesma frase, conclusão).</p>
+${tbl(["Compassos 1-4","Compassos 5-8","Compassos 9-12"],[["F7 | B♭7 | F7 | F7","B♭7 | B♭7 | F7 | F7","C7 | B♭7 | F7 | C7"]])}
+<p>A <b>escala blues</b> de Fá: <b>Fá – Lá♭ – Si♭ – Si – Dó – Mi♭</b>. O Si (♭5) é a <i>blue note</i>: use-a de passagem. Um truque dos músicos de blues: tocar a 3ª menor (Lá♭) e <b>deslizar</b> para a 3ª maior (Lá) do F7.</p>
+${ex("G","F4/e Ab4/e Bb4/e B4/e C5/e Eb5/e F5/q | Eb5/e C5/e B4/e Bb4/e Ab4/e F4/e F4/q",{t:"Escala blues de Fá, subindo e descendo",bpm:96,time:"4/4"})}
+${base({t:"Base 25 · Blues em Fá (shuffle)",prog:"F7 | Bb7 | F7 | F7 | Bb7 | Bb7 | F7 | F7 | C7 | Bb7 | F7 | C7",estilo:"blues",bpm:[80,100,130],how:"Primeira volta: só ouça e conte os 12 compassos. Depois improvise com a escala blues. Se se perder, espere o compasso 1 (o baterista e o baixo deixam claro)."})}
+${base({t:"Base 26 · Blues com pergunta e resposta",prog:"F7 | Bb7 | F7 | F7 | Bb7 | Bb7 | F7 | F7 | C7 | Bb7 | F7 | C7",estilo:"blues",eco:true,bpm:[80,100,120],how:"O computador toca 2 compassos, você responde nos 2 seguintes, durante toda a forma."})}
+${missao("Ouça 5 blues por dia durante uma semana (ex.: B.B. King, <i>The Thrill Is Gone</i>; Miles Davis, <i>Freddie Freeloader</i>; Charlie Parker, <i>Now's the Time</i>). Conte os 12 compassos de cada um.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 1 (Alex Noppe) · the blues","Alex Noppe - Jazz Improvisation 1.pdf",9,6),pdfI("Jazz Handbook (Aebersold) · blues scale","FQBK-handbook.pdf",31,30)]},
+
+{t:"Licks de blues e como criar os seus", e:"🎸", min:"35 min", sub:"Vocabulário pronto e a fábrica de licks",
+goal:"tocar 4 licks de blues nos acordes certos e criar licks próprios com riffs e notas azuis.",
+body:`
+${ex("G","C5/e Eb5/e F5/q Eb5/e C5/e Bb4/q | C5/w",{t:"Lick 1 · o clássico de 5 notas",bpm:96,time:"4/4"})}
+${ex("G","F4/e Ab4/e A4/e C5/e Eb5/q C5/q | F5/h r/h",{t:"Lick 2 · a 3ª menor deslizando para a maior (Lá♭ → Lá)",bpm:96,time:"4/4"})}
+${ex("G","B4/e C5/e Eb5/e C5/e B4/e Bb4/e Ab4/e F4/e | F4/w",{t:"Lick 3 · descendo pela escala blues com a blue note",bpm:96,time:"4/4"})}
+${ex("G","F5/q. Eb5/e F5/q r/q | F5/q. Eb5/e C5/q r/q",{t:"Lick 4 · riff de pergunta e resposta",bpm:96,time:"4/4"})}
+<h2>A fábrica de licks</h2>
+<ol><li><b>Riff</b>: invente uma frase de 1 compasso e repita-a sobre os 12 compassos, mudando só o necessário quando o acorde muda (o estilo das big bands de Count Basie).</li>
+<li><b>Nota azul</b>: toda frase pode passar pela ♭5 ou pela 3ª menor deslizando para a maior.</li>
+<li><b>Variações de um lick</b>: pegue o lick 1 e toque mais rápido, mais lento, começando no \"e\" do tempo, uma oitava acima.</li>
+<li><b>Lick do mestre</b>: copie uma frase de um disco (aula de transcrição) e faça 3 variações dela.</li></ol>
+${base({t:"Base 27 · Blues em Fá para os licks",prog:"F7 | Bb7 | F7 | F7 | Bb7 | Bb7 | F7 | F7 | C7 | Bb7 | F7 | C7",estilo:"blues",bpm:[80,100,130]})}
+${missao("Monte seu \"caderno de licks\": 1 lick novo por dia, tocado nos tons de Fá, Si♭ e Dó (use o seletor de tom). Em um mês, você terá 30 frases prontas para usar.")}
+`,
+quiz:[],
+pdf:[pdfI("Riffs e Solos (Eduardo Ardanuy)","../guitarra violão/Eduardo Ardanuy - Riffs E Solos.pdf"),pdfI("Jazz Improvisation 1 (Alex Noppe) · blues heads","Alex Noppe - Jazz Improvisation 1.pdf",10,7)]},
+
+{t:"Blues de jazz (bebop blues)", e:"🎷", min:"40 min", sub:"O blues com II–V, dominantes secundárias e diminutos",
+goal:"improvisar sobre a forma de blues do bebop, mostrando os II–V e as dominantes.",
+body:`
+<p>Os músicos de bebop enriqueceram o blues com <b>II–V</b>, <b>dominantes secundárias</b> e <b>diminutos de passagem</b>. A forma continua com 12 compassos; muda a quantidade de acordes.</p>
+${tbl(["Compassos 1-4","Compassos 5-8","Compassos 9-12"],[["F7 | B♭7 | F7 | Cm7 F7","B♭7 | B°7 | F7 | Am7(♭5) D7(♭9)","Gm7 | C7 | F7 D7 | Gm7 C7"]])}
+${box("dica","Estratégia em 3 níveis: (1) toque a escala blues em tudo, ignorando os acordes novos; (2) acrescente as notas-guia nos acordes novos (Cm7–F7, B°7, D7, Gm7–C7); (3) toque linhas bebop mostrando cada acorde. Os três níveis soam bem: é o mesmo caminho que os músicos fizeram historicamente.")}
+${base({t:"Base 28 · Bebop blues em Fá",prog:"F7 | Bb7 | F7 | Cm7 F7 | Bb7 | Bdim7 | F7 | Am7(b5) D7(b9) | Gm7 | C7 | F7 D7 | Gm7 C7",estilo:"swing",alvo:"3",bpm:[100,140,180]})}
+${missao("Ouça e cante as melodias de 3 blues de Charlie Parker (<i>Now's the Time</i>, <i>Billie's Bounce</i>, <i>Au Privave</i>). Aprenda uma delas de ouvido e toque-a sobre a base.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 4 (Alex Noppe) · development of the blues","Alex Noppe - Jazz Improvisation 4.pdf",41,38),pdfI("Improvisação vol. 1 (Turi Collura) · o blues","Livro-improvisacao- volume-1- turi - collura.pdf")]},
+
+{t:"Blues menor", e:"🌑", min:"30 min", sub:"O blues sombrio de Coltrane e do soul",
+goal:"improvisar sobre o blues menor usando a pentatônica menor, o dórico e a resolução do V7.",
+body:`
+${tbl(["Compassos 1-4","Compassos 5-8","Compassos 9-12"],[["Cm7 | Cm7 | Cm7 | Cm7","Fm7 | Fm7 | Cm7 | Cm7","A♭7 | G7(♭9) | Cm7 | G7(♭9)"]])}
+<p>A pentatônica menor e a escala blues de <b>Dó</b> funcionam em quase toda a forma. Os pontos especiais são o <b>A♭7</b> (use o lídio dominante de Lá♭ ou simplesmente as notas do acorde) e o <b>G7(♭9)</b> (alterada ou diminuta, resolvendo no Mi♭ ou no Dó do Cm7).</p>
+${ex("G","G4/e Bb4/e C5/e Eb5/e F5/q Eb5/q | C5/e Bb4/e G4/q C5/h",{t:"Frase sobre Cm7 (pentatônica menor de Dó)",bpm:96,time:"4/4"})}
+${base({t:"Base 29 · Blues menor em Dó",prog:"Cm7 | Cm7 | Cm7 | Cm7 | Fm7 | Fm7 | Cm7 | Cm7 | Ab7 | G7(b9) | Cm7 | G7(b9)",estilo:"swing",bpm:[100,130,170],how:"Ouça John Coltrane em <i>Mr. P.C.</i> e <i>Equinox</i>, dois blues menores clássicos."})}
+${missao("Toque o blues menor em 3 estilos (swing, bossa e pop/rock) e adapte suas frases a cada um.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 2 (Alex Noppe) · minor ii-V-I","Alex Noppe - Jazz Improvisation 2.pdf",24,21)]},
+
+{t:"Vários choruses e troca de quatro", e:"🔄", min:"30 min", sub:"Construir um solo longo e conversar com a banda",
+goal:"construir um solo de vários choruses com contraste e participar de uma troca de quatro compassos.",
+body:`
+<p>Cada volta da forma é um <b>chorus</b>. Num solo de vários choruses, cada um precisa ter <b>um papel</b>:</p>
+${tbl(["Chorus","Ideia"],[["1º","apresentar: frases curtas, região média, muito espaço"],["2º","desenvolver: um motivo que cresce, frases mais longas"],["3º","riff: uma ideia repetida que empolga (o estilo de Count Basie e dos saxofonistas de blues)"],["4º","clímax: região aguda, mais notas, intensidade"],["5º","conclusão: descer a energia e terminar claramente"]])}
+<h2>Troca de quatro (trading fours)</h2>
+<p>Num show de jazz, é comum o solista e o baterista (ou dois solistas) <b>trocarem 4 compassos</b>: um toca 4, o outro responde em 4. É uma conversa: escute a frase do outro e responda a ela (aproveite um ritmo ou uma nota que ele tocou).</p>
+${base({t:"Base 30 · Troca de quatro (o computador começa)",prog:"F7 | Bb7 | F7 | F7 | Bb7 | Bb7 | F7 | F7 | C7 | Bb7 | F7 | C7",estilo:"swing",eco:true,ecoN:4,bpm:[100,130,160],how:"O computador toca 4 compassos (🎧) e você responde nos 4 seguintes (🎤). Responda à frase dele!"})}
+${missao("Grave um solo de 5 choruses seguindo a tabela. Depois faça a troca de quatro com a base por 10 minutos.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Handbook (Aebersold) · playing the blues","FQBK-handbook.pdf",34,33)]}
+]});
+
+/* ============ IM 6 · II–V–I E STANDARDS ============ */
+IMMODS.push({id:"imm6", t1:"II–V–I e", t2:"Standards", g:"📚", c:"#4338ca", sub:"O coração do jazz e da bossa e como aprender um repertório",
+desc:"O II–V–I maior e menor com vocabulário pronto, como aprender e transformar licks, o método de 9 passos para aprender um standard, as formas mais comuns, o repertório essencial e as substituições (rhythm changes e SubV).",
+aulas:[
+{t:"II–V–I maior: vocabulário essencial", e:"🔑", min:"40 min", sub:"Três frases clássicas e como estudá-las em todos os tons",
+goal:"tocar três frases de II–V–I e aplicá-las em vários tons.",
+body:`
+<p>O <b>II–V–I</b> (Dm7 – G7 – C7M em Dó) está em quase todo standard de jazz e de bossa nova. Quem domina o II–V–I em todos os tons consegue tocar a maior parte do repertório. As frases abaixo foram escritas para este curso, no estilo da linguagem bebop.</p>
+${ex("G","D4/e:Dm7 F4/e A4/e C5/e E5/e D5/e C5/e A4/e | B4/e:G7 D5/e F5/e A5/e Ab5/e F5/e D5/e B4/e | C5/e:C7M E5/e G5/e B5/e A5/q r/q",{t:"Frase 1 · arpejos com 9ª e ♭9 resolvendo no Dó",bpm:100,time:"4/4"})}
+${ex("G","A4/q:Dm7 G4/e F4/e E4/e F4/e A4/e C5/e | B4/q:G7 D5/e F5/e A5/e G5/e F5/e D#5/e | E5/w:C7M",{t:"Frase 2 · aproximação cromática no Mi (3ª do C7M)",bpm:100,time:"4/4"})}
+${ex("G","D5/e:Dm7 C5/e B4/e A4/e G4/e F4/e E4/e D4/e | G5/e:G7 F#5/e F5/e E5/e D5/e C5/e B4/e A4/e | G4/q:C7M E4/q C4/h",{t:"Frase 3 · escala dórica e bebop dominante descendo",bpm:100,time:"4/4"})}
+${base({t:"Base 31 · II–V–I em todos os tons",prog:"Dm7 | G7 | C7M | C7M",estilo:"swing",alvo:"3",bpm:[90,120,160],how:"Toque cada frase sobre a base. Depois mude o tom (seletor) e toque a mesma frase no novo tom. Faça um tom por dia, seguindo o ciclo de quartas."})}
+${base({t:"Base 32 · II–V–I descendo em tons",prog:"Dm7 | G7 | C7M | C7M | Cm7 | F7 | Bb7M | Bb7M | Bbm7 | Eb7 | Ab7M | Ab7M | Abm7 | Db7 | Gb7M | Gb7M",estilo:"swing",bpm:[90,120,160],how:"A mesma ideia descendo um tom a cada 4 compassos, como em muitos standards."})}
+${missao("Escolha 1 das frases e toque-a nos 12 tons sem ler. Esse é o exercício mais citado pelos grandes professores: um lick em 12 tons vale mais do que 12 licks num tom só.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 2 (Alex Noppe) · ii-V7-I licks","Alex Noppe - Jazz Improvisation 2.pdf",12,9),pdfI("Patterns for Jazz (Jerry Coker)","Patterns_for_Jazz_by_Jerry_Coker Sax.pdf"),pdfI("100 frases com a escala maior","100_-_Frases_com_a_Escala_Maior.pdf",1)]},
+
+{t:"II–V–I menor", e:"🌘", min:"35 min", sub:"m7(♭5) – 7(♭9) – m6",
+goal:"tocar e reconhecer o II–V–I menor e usar a escala certa em cada acorde.",
+body:`
+<p>No tom menor, o II–V–I é <b>Dm7(♭5) – G7(♭9) – Cm6</b> (ou Cm7). Escalas: lócrio no II, alterada ou diminuta no V, menor melódica (ou dórico) no I.</p>
+${ex("G","D4/e:Dm7(♭5) F4/e Ab4/e C5/e Bb4/e Ab4/e F4/e D4/e | B4/e:G7(♭9) D5/e F5/e Ab5/e G5/e F5/e Eb5/e D5/e | Eb5/q:Cm6 C5/q G4/h",{t:"Frase de II–V–I menor",bpm:100,time:"4/4"})}
+${base({t:"Base 33 · II–V–I menor",prog:"Dm7(b5) | G7(b9) | Cm6 | Cm6",estilo:"bossa",alvo:"3",bpm:[90,110,130]})}
+${base({t:"Base 34 · Maior e menor alternados",prog:"Dm7 | G7 | C7M | C7M | Dm7(b5) | G7(b9) | Cm6 | Cm6",estilo:"swing",bpm:[90,120,150]})}
+${missao("Toque a frase de II–V–I menor em Lá menor, Ré menor e Sol menor, os tons menores mais comuns nos standards.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 2 (Alex Noppe) · minor ii-V7-I","Alex Noppe - Jazz Improvisation 2.pdf",24,21)]},
+
+{t:"Como aprender e transformar vocabulário", e:"🧬", min:"30 min", sub:"De lick decorado a linguagem própria",
+goal:"transformar uma frase aprendida em várias frases novas e incorporá-la ao seu improviso.",
+body:`
+<p>Decorar licks não é o objetivo: é o começo. Como explica Mark Watkins (<i>Practice Techniques</i>), padrões e frases ensinam a linguagem \"como uma lista de vocabulário\"; o domínio vem quando você <b>usa as palavras em frases suas</b>.</p>
+<h2>As 7 transformações</h2>
+${tbl(["Transformação","Exemplo com a Frase 1 do II–V–I"],[["1. Mudar o ritmo","as mesmas notas em tercinas, ou com pausas no meio"],["2. Começar em outro tempo","deslocar meio tempo"],["3. Fragmentar","usar só o pedaço do G7"],["4. Mudar a oitava","a 2ª metade uma oitava abaixo"],["5. Mudar a direção","o arpejo descendo em vez de subindo"],["6. Mudar o tipo de acorde","adaptar para o II–V–I menor"],["7. Combinar","começo de uma frase + final de outra"]])}
+${box("prof","Jerry Coker (<i>Patterns for Jazz</i>) e David Baker organizaram centenas de padrões por tipo de acorde, sempre nos 12 tons. Os músicos de Coltrane a Michael Brecker estudavam exatamente assim: um padrão, todas as tonalidades, depois a aplicação em músicas.")}
+${base({t:"Base 35 · Prática de transformação",prog:"Dm7 | G7 | C7M | A7(b9) | Dm7 | G7 | C7M | C7M",estilo:"swing",bpm:[90,120,150]})}
+${missao("Pegue a sua frase favorita do Módulo 6 e escreva as 7 transformações. Toque cada uma sobre a base. Você terá multiplicado uma frase por oito.")}
+`,
+quiz:[],
+pdf:[pdfI("Practice Techniques (Mark Watkins)","Practice Techniques.pdf",1),pdfI("Jazz Improvisation 4 (Alex Noppe) · David Baker generic patterns","Alex Noppe - Jazz Improvisation 4.pdf",16,13),pdfI("Solo Fluency (Philip Tauber)","Solo Fluency-Vol.1 by Philip Tauber.pdf")]},
+
+{t:"Como aprender um standard", e:"📖", min:"40 min", sub:"O método de 9 passos, as formas e o repertório essencial",
+goal:"aplicar o método de 9 passos para aprender um standard e conhecer o repertório inicial.",
+body:`
+<h2>O método de 9 passos (Alex Noppe, <i>How to Learn Tunes</i>)</h2>
+<ol><li><b>Ouça a música</b> até memorizar os principais detalhes; ouça várias gravações.</li>
+<li><b>Aprenda a melodia</b> de cor, de preferência de ouvido, tocando junto com a gravação.</li>
+<li><b>Descubra a forma</b>: blues? AABA? ABAC? Quantos compassos?</li>
+<li><b>Aprenda os acordes</b> (de um songbook confiável, como os da série de Aebersold).</li>
+<li><b>Trabalhe sobre os acordes</b>: escalas, arpejos, padrões; segure as 3ªs e 7ªs.</li>
+<li><b>Ache as conexões</b>: trechos repetidos em outro tom, cadeias de dominantes, onde estão os II–V–I.</li>
+<li><b>Isole os trechos difíceis</b> e estude-os sozinhos.</li>
+<li><b>Improvise</b> em vários andamentos e estilos, o quanto antes de memória.</li>
+<li><b>Aprenda em outro tom</b>: cantores pedem outros tons, e isso treina muito o ouvido.</li></ol>
+${tbl(["Forma","Estrutura","Exemplos"],[["Blues","12 compassos","<i>Now's the Time</i>, <i>Blue Monk</i>, <i>Mr. P.C.</i>"],["AABA","32 compassos (8+8+8+8)","<i>I Got Rhythm</i>, <i>Satin Doll</i>, <i>Take the A Train</i>"],["ABAC","32 compassos","<i>All of Me</i>, <i>Autumn Leaves</i> (forma AAB)"],["Modal","poucos acordes longos","<i>So What</i>, <i>Impressions</i>, <i>Maiden Voyage</i>"]])}
+<h2>Repertório essencial (lista de Michael Tracy)</h2>
+<p><i>Autumn Leaves</i>, <i>Blue Bossa</i>, <i>Cantaloupe Island</i>, <i>Doxy</i>, <i>Footprints</i>, <i>The Girl from Ipanema</i>, <i>Impressions</i>, <i>Maiden Voyage</i>, <i>Misty</i>, <i>St. Thomas</i>, <i>Satin Doll</i>, <i>So What</i>, <i>Solar</i>, <i>Song for My Father</i>, <i>Summertime</i>, <i>Take the A Train</i>, <i>Tune Up</i>, <i>Watermelon Man</i>; e os blues <i>All Blues</i>, <i>C Jam Blues</i>, <i>Bags' Groove</i>, <i>Blue Monk</i>, <i>Freddie Freeloader</i>, <i>Mr. P.C.</i>, <i>Now's the Time</i>, <i>Sonnymoon for Two</i>. As partituras estão nos Real Books da pasta de estudos.</p>
+${base({t:"Base 36 · Progressão da seção A de Autumn Leaves (em Sol menor)",prog:"Cm7 | F7 | Bb7M | Eb7M | Am7(b5) | D7(b9) | Gm6 | Gm6",estilo:"swing",alvo:"3",bpm:[90,120,160],how:"Repare: são um II–V–I maior (Cm7–F7–B♭7M) seguido de um II–V–I menor (Am7(♭5)–D7–Gm). Esse padrão está em centenas de músicas."})}
+${missao("Escolha um standard da lista por mês e siga os 9 passos. Em um ano, 12 músicas de cor, em mais de um tom: isso já é repertório de profissional.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 1 (Alex Noppe) · how to learn tunes","Alex Noppe - Jazz Improvisation 1.pdf",31,28),pdfI("The Real Book, vol. 1","Real-Book.pdf"),pdfI("Maratona de Standards","Maratona de Standart.pdf"),pdfI("Conselhos para estudantes de jazz (Michael Tracy)","Conselhos-para-estudantes-de-jazz-Michael-Tracy.pdf",6)]},
+
+{t:"Rhythm changes e substituições", e:"🔁", min:"40 min", sub:"O I–VI–II–V, a substituição de trítono e as mudanças de I Got Rhythm",
+goal:"improvisar sobre o turnaround I–VI–II–V e a seção A de rhythm changes, usando substituições.",
+body:`
+<p><b>Rhythm changes</b> são os acordes de <i>I Got Rhythm</i> (George Gershwin), usados em centenas de temas de bebop (<i>Oleo</i>, <i>Anthropology</i>, <i>Moose the Mooche</i>, <i>Dexterity</i>). A seção A é um <b>turnaround</b> I–VI–II–V repetido.</p>
+${base({t:"Base 37 · Rhythm changes (seção A) em Si♭",prog:"Bb6 G7 | Cm7 F7 | Dm7 G7 | Cm7 F7 | Fm7 Bb7 | Eb7M Ab7 | Dm7 G7 | Cm7 F7",estilo:"swing",bpm:[110,150,200],how:"Dois acordes por compasso: comece pensando só em Si♭ maior (com a pentatônica e a escala blues de Si♭); depois mostre os II–V."})}
+<h2>Substituição de trítono (SubV)</h2>
+<p>Qualquer dominante pode ser trocado pelo dominante <b>meio tom acima do acorde de chegada</b>: G7 → D♭7 antes de C. O baixo desce em semitons (Ré – Ré♭ – Dó) e o som fica sofisticado.</p>
+${base({t:"Base 38 · II–SubV–I",prog:"Dm7 | Db7 | C7M | C7M | Em7 | Eb7 | Dm7 | Db7",estilo:"bossa",bpm:[90,110,130],how:"Sobre o D♭7, use o lídio dominante de Ré♭ (= notas da alterada de Sol). Ouça a linha do baixo descendo."})}
+${missao("Aprenda a melodia de um tema de rhythm changes de ouvido (ex.: <i>Oleo</i>, de Sonny Rollins) e improvise 3 choruses sobre a base.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 2 (Alex Noppe) · rhythm changes","Alex Noppe - Jazz Improvisation 2.pdf",15,12),pdfI("Jazz Improvisation 2 (Alex Noppe) · tri-tone substitution","Alex Noppe - Jazz Improvisation 2.pdf",22,19)]}
+]});
+
+</script>
+<script>
+/* ============ IM 7 · IMPROVISO BRASILEIRO ============ */
+IMMODS.push({id:"imm7", t1:"Improviso", t2:"Brasileiro", g:"🇧🇷", c:"#15803d", sub:"Bossa, samba, choro, baião, variação da melodia, MPB e louvor",
+desc:"A linguagem de improvisação da música brasileira: o fraseado da bossa nova, a síncope do samba e do choro, a escala nordestina do baião e do forró, a improvisação temática (variar a melodia) e como improvisar em MPB, pop e louvor.",
+aulas:[
+{t:"Bossa nova: suavidade e antecipações", e:"🌴", min:"35 min", sub:"Frases cantáveis, tensões e o balanço de Getz e João Gilberto",
+goal:"improvisar sobre uma bossa usando antecipações, notas longas e as tensões 9 e 13.",
+body:`
+<p>Na bossa, o improviso é <b>cantável e econômico</b>: notas longas, muito espaço, antecipações (a frase chega meio tempo antes do acorde) e as cores das tensões (9ª, 11ª, 13ª). A referência absoluta é o disco <i>Getz/Gilberto</i> (1964), com Stan Getz no sax e João Gilberto no violão.</p>
+${ex("G","r/e Eb5/e D5/e C5/e Bb4/q G4/q | C5/h. r/q | r/e F5/e Eb5/e D5/e C5/q Ab4/q | G4/w",{t:"Frase de bossa sobre Cm7 – Fm7 (colcheias iguais, sem swing)",bpm:120,time:"4/4"})}
+${tbl(["Recurso","Como usar na bossa"],[["Antecipação","toque a nota do próximo acorde no \"e\" do 4"],["Tensões","termine frases na 9ª ou na 13ª do acorde, não só na fundamental"],["Notas longas","deixe a nota soar enquanto a harmonia muda por baixo dela"],["Dinâmica","toque baixo: bossa é música de voz baixinha"],["Colcheias","iguais (sem swing), com leveza"]])}
+${base({t:"Base 39 · Progressão de Blue Bossa (Kenny Dorham)",prog:"Cm7 | Cm7 | Fm7 | Fm7 | Dm7(b5) | G7(b9) | Cm7 | Cm7 | Ebm7 | Ab7 | Db7M | Db7M | Dm7(b5) | G7(b9) | Cm7 | Dm7(b5) G7(b9)",estilo:"bossa",bpm:[110,130,150],how:"Repare na modulação para Ré♭ maior nos compassos 9-12 (um II–V–I em Ré♭) e a volta para Dó menor."})}
+${missao("Ouça o solo de Stan Getz em <i>The Girl from Ipanema</i> e cante as primeiras 4 frases. Toque-as sobre a base, e depois crie 4 frases suas no mesmo espírito.")}
+`,
+quiz:[],
+pdf:[pdfI("Arte da Improvisação (Nelson Faria)","A arte da improvisação Nelson Faria.pdf"),pdfI("Brazilian Guitar Book (Nelson Faria)","../guitarra violão/Nelson Faria - Brazilian Guitar Book.pdf",64,62)]},
+
+{t:"Samba e choro: a síncope brasileira", e:"🥁", min:"40 min", sub:"Semicolcheias, síncopes e o cromatismo dos chorões",
+goal:"usar a síncope típica do samba e as linhas em semicolcheias do choro no improviso.",
+body:`
+<p>A célula rítmica mais brasileira de todas é a <b>síncope</b>: semicolcheia – colcheia – semicolcheia (\"ta-<b>tá</b>-ta\"). Ela está no samba, no choro, no maxixe e no baião. Já o <b>choro</b> é a música brasileira de improvisação mais antiga: linhas virtuosas em semicolcheias, arpejos, cromatismos e bordaduras, com mestres como Pixinguinha, Jacob do Bandolim, Waldir Azevedo, Paulo Moura e, hoje, Hamilton de Holanda.</p>
+${ex("G","C5/s D5/e C5/s A4/s G4/e A4/s G4/s E4/e G4/s C5/q",{t:"Síncopes em sequência (samba)",bpm:80,time:"4/4"})}
+${ex("G","G4/s B4/s D5/s F5/s E5/s D5/s B4/s G4/s Ab4/s B4/s D5/s F5/s E5/s C5/s G4/s E4/s | C4/w",{t:"Linha de choro: arpejo de G7 com cromatismo (Lá♭) resolvendo em Dó",bpm:72,time:"4/4"})}
+<h2>Os recursos do chorão</h2>
+<ul><li><b>Arpejos</b> rápidos subindo e descendo pelos acordes.</li><li><b>Bordaduras</b>: nota – vizinha – nota (Dó-Ré-Dó, Dó-Si-Dó).</li><li><b>Cromatismos</b> de passagem, principalmente no dominante.</li><li><b>Baixarias</b>: no violão de 7 cordas, linhas no grave ligando os acordes (pense nelas também como fraseado).</li></ul>
+${base({t:"Base 40 · Samba",prog:"C7M | A7 | Dm7 | G7",estilo:"samba",bpm:[80,96,112],how:"Use síncopes. No A7 e no G7, experimente cromatismos e arpejos rápidos."})}
+${base({t:"Base 41 · Harmonia de choro em Dó",prog:"C | C | G7 | G7 | G7 | G7 | C | C7 | F | Fm6 | C | A7 | Dm7 | G7 | C | G7",estilo:"samba",bpm:[70,88,104],how:"Típica de choro: I, V7, I7 indo para o IV, o IV menor (empréstimo) e o VI7 (dominante secundária)."})}
+${missao("Ouça <i>Carinhoso</i> e <i>Lamentos</i> (Pixinguinha) e <i>Noites Cariocas</i> (Jacob do Bandolim). Aprenda de ouvido uma frase de cada e toque-as sobre a base de choro.")}
+`,
+quiz:[],
+pdf:[pdfI("Improvisação vol. 1 (Turi Collura) · improvisação no choro","Livro-improvisacao- volume-1- turi - collura.pdf"),pdfI("Arte da Improvisação (Nelson Faria)","A arte da improvisação Nelson Faria.pdf")]},
+
+{t:"Baião e forró: a escala nordestina", e:"🪗", min:"30 min", sub:"Mixolídio, lídio e a mistura dos dois",
+goal:"improvisar com a escala nordestina (mixolídia com 4ª aumentada) sobre baião e forró.",
+body:`
+<p>As melodias de Luiz Gonzaga, Sivuca, Dominguinhos e Hermeto Pascoal usam muito o <b>modo mixolídio</b> (7ª menor) e o <b>lídio</b> (4ª aumentada). Juntos, eles formam a <b>escala nordestina</b>, também chamada de lídio-mixolídio (é o lídio dominante): <b>Dó Ré Mi Fá♯ Sol Lá Si♭</b>.</p>
+${ex("G","C5/e D5/e E5/e F#5/e G5/q F#5/q | E5/e D5/e C5/e Bb4/e C5/h",{t:"Frase nordestina sobre C7: Fá♯ (♯4) e Si♭ (♭7)",bpm:100,time:"4/4"})}
+${ex("G","G4/s C5/e D5/s E5/e C5/e Bb4/s C5/e D5/s C5/q",{t:"Síncope de baião com a ♭7",bpm:90,time:"4/4"})}
+${base({t:"Base 42 · Baião em Dó",prog:"C7 | C7 | Bb | C7",estilo:"baiao",bpm:[80,100,120],how:"Use a escala nordestina de Dó. No compasso do Si♭, toque a ♭7 (Si♭) como nota de repouso."})}
+${missao("Ouça <i>Asa Branca</i> e <i>Qui Nem Jiló</i> (Luiz Gonzaga) prestando atenção nas notas Si♭ e Fá♯ das melodias. Depois improvise sobre a base usando-as.")}
+`,
+quiz:[],
+pdf:[pdfI("Brazilian Guitar Book (Nelson Faria)","../guitarra violão/Nelson Faria - Brazilian Guitar Book.pdf")]},
+
+{t:"Improvisação temática: variando a melodia", e:"🎀", min:"35 min", sub:"O caminho de Turi Collura, Louis Armstrong e Sonny Rollins",
+goal:"improvisar variando a própria melodia da música: ornamentos, ritmo, notas de passagem e paráfrase.",
+body:`
+<p>A forma mais antiga e mais musical de improvisar é <b>variar a melodia</b>. Louis Armstrong fazia isso nos anos 1920; Sonny Rollins construiu solos inteiros desenvolvendo o tema. Turi Collura começa seu método justamente pela <b>improvisação temática</b>. O ouvinte reconhece a música e se encanta com as mudanças.</p>
+${ex("G","E4/q E4/q F4/q G4/q | G4/q F4/q E4/q D4/q",{t:"Melodia original (Ode à Alegria)",bpm:96,time:"4/4"})}
+${ex("G","E4/q. E4/e F4/q G4/q | r/e G4/e F4/q E4/q D4/q",{t:"Variação 1 · mudando o ritmo",bpm:96,time:"4/4"})}
+${ex("G","E4/e D4/e E4/q F4/e G4/e A4/e G4/e | G4/e A4/e F4/q E4/e F4/e D4/q",{t:"Variação 2 · ornamentos e notas de passagem",bpm:96,time:"4/4"})}
+${ex("G","r/q E5/e D5/e C5/e B4/e G4/q | A4/e G4/e F4/q E4/e D#4/e D4/q",{t:"Variação 3 · paráfrase (só lembra a melodia), com cromatismo",bpm:96,time:"4/4"})}
+${base({t:"Base 43 · Ode à Alegria (para variar a melodia)",prog:"C | G7 | C | G7 | C | G7 | C | G7 C",estilo:"pop",bpm:[80,96,112],how:"Primeira volta: toque a melodia original. Segunda: varie só o ritmo. Terceira: acrescente ornamentos. Quarta: paráfrase livre."})}
+${missao("Faça isso com uma música que você ama: toque a melodia em 4 voltas, cada uma mais distante da original. Esta é a ponte entre tocar músicas e improvisar.")}
+`,
+quiz:[],
+pdf:[pdfI("Improvisação vol. 1 (Turi Collura) · improvisação temática","Livro-improvisacao- volume-1- turi - collura.pdf"),pdfI("Curso de Improvisação vol. 2 (Turi Collura)","Curso de Improvisalçao Turi Collura volume 2.pdf")]},
+
+{t:"MPB, pop e louvor: improvisar sem atrapalhar", e:"⛪", min:"30 min", sub:"Solos curtos, preenchimentos e intros",
+goal:"fazer introduções, solos curtos e preenchimentos (fills) em músicas cantadas, sem competir com a voz.",
+body:`
+<p>Em música cantada, o improvisador tem três papéis:</p>
+${tbl(["Papel","Quando","Como"],[["Introdução","antes do cantor entrar","apresente a melodia (ou parte dela) com variações; termine preparando a entrada da voz"],["Preenchimento (fill)","nas pausas da voz","frases curtas, no espaço entre um verso e outro. Nunca por cima da voz."],["Solo","no meio da música","4 a 16 compassos; parta da melodia e cresça até o refrão seguinte"]])}
+<h2>Dicas que funcionam em qualquer estilo</h2>
+<ul><li>Use a <b>pentatônica maior</b> do tom e notas longas: soa \"igreja\" e \"pop\" na hora.</li>
+<li>Termine as frases nas notas da melodia (o ouvinte reconhece).</li>
+<li>Resolva acordes sus (Gsus4 → G) com a melodia: Dó → Si.</li>
+<li>No louvor, menos é mais: o foco é a congregação cantar. Toque no registro em que a voz não está.</li></ul>
+${base({t:"Base 44 · Balada pop / louvor em Sol",prog:"G | D | Em | C",estilo:"balada",bpm:[60,72,84],how:"Faça preenchimentos de 1 compasso, deixando o compasso seguinte livre (imagine a voz cantando)."})}
+${base({t:"Base 45 · Pop rock",prog:"C | G | Am | F",estilo:"pop",bpm:[90,110,130]})}
+${missao("Escolha uma música da sua igreja ou do seu repertório pop. Crie uma introdução de 4 compassos baseada na melodia e 3 preenchimentos para os espaços entre os versos.")}
+`,
+quiz:[],
+pdf:[pdfI("Por Todo Canto · Método vocal","Por Todo Canto - Método Vocal (Livro).pdf")]}
+]});
+
+/* ============ IM 8 · RUMO À MAESTRIA ============ */
+IMMODS.push({id:"imm8", t1:"Rumo à", t2:"Maestria", g:"👑", c:"#7c2d12", sub:"Transcrição, discografia, rotina, tocar com outros, diagnóstico e sua voz",
+desc:"O caminho que os grandes seguiram: transcrever, ouvir muito, praticar com organização, tocar com outros músicos, diagnosticar e corrigir os próprios pontos fracos, e desenvolver uma voz própria, com o vocabulário avançado do jazz moderno.",
+aulas:[
+{t:"Transcrição: a escola dos mestres", e:"✍️", min:"40 min", sub:"O método completo e os solos para cada nível",
+goal:"transcrever um solo com o método completo e saber quais solos estudar em cada fase.",
+body:`
+<p>Ademir Junior, saxofonista que tocou com Hermeto Pascoal e João Bosco, escreve (texto na pasta de estudos): \"<b>o hábito da transcrição é tão importante para o estudante de música quanto a imitação o é para as crianças</b>\". Ele transcreveu solos por 13 anos. Alex Noppe: \"Todo o aprendizado em livros não se compara à informação de uma única gravação\".</p>
+<h2>O método (Noppe + Galper + Ademir)</h2>
+<ol><li><b>Ouça até cantar</b> o solo inteiro (ou o trecho), com articulação e respiração.</li>
+<li><b>Mapeie a forma</b>: quantos choruses, quantos compassos, onde começa cada seção.</li>
+<li><b>Descubra os acordes</b> (de ouvido ou num songbook confiável).</li>
+<li><b>Trabalhe por trechos</b> de 4 a 8 compassos.</li>
+<li><b>Ritmo primeiro</b>, depois as notas. Use o botão de pausa e programas que desaceleram sem mudar o tom (Transcribe!, Amazing Slow Downer, YouTube 0,75x).</li>
+<li><b>Toque junto</b> com a gravação até soar igual, incluindo articulação, dinâmica e inflexões.</li>
+<li><b>Analise</b>: quais notas caem nos tempos fortes? Que padrões ele repete?</li>
+<li><b>Extraia vocabulário</b>: escolha 3 frases e leve-as para os 12 tons (Módulo 6).</li></ol>
+${tbl(["Nível","Solos para transcrever"],[
+["Iniciante","Miles Davis: <i>So What</i> e <i>Freddie Freeloader</i> (<i>Kind of Blue</i>); Stan Getz: <i>The Girl from Ipanema</i>; Paul Desmond: <i>Take Five</i>"],
+["Intermediário","Sonny Rollins: <i>Tenor Madness</i> e <i>St. Thomas</i>; Lee Morgan: <i>The Sidewinder</i>; Cannonball Adderley: <i>Autumn Leaves</i> (<i>Somethin' Else</i>); Clifford Brown: <i>Joy Spring</i>"],
+["Avançado","Charlie Parker: <i>Now's the Time</i> e <i>Confirmation</i>; John Coltrane: <i>Blue Train</i> e <i>Giant Steps</i>; Bill Evans: <i>Autumn Leaves</i> (<i>Portrait in Jazz</i>); Michael Brecker"],
+["Brasileiros","frases de Pixinguinha, Jacob do Bandolim, Paulo Moura, Victor Assis Brasil, Hermeto Pascoal, Toninho Horta e Hamilton de Holanda"]])}
+${box("dica","Escolha um solo um pouco abaixo do seu limite. Transcrever algo difícil demais desanima; algo fácil demais não ensina. O ideal é aprender de 4 a 8 compassos por dia.")}
+${missao("Transcreva os 2 primeiros choruses do solo de Miles Davis em <i>So What</i>. Toque junto com o disco e depois sobre a base 19 (vamp dórico).")}
+`,
+quiz:[],
+pdf:[pdfI("Transcrição de solos (Ademir Junior)","Trascrição de solos.pdf",1),pdfI("Jazz Improvisation 1 (Alex Noppe) · how to transcribe","Alex Noppe - Jazz Improvisation 1.pdf",32,29),pdfI("Solo Fluency (Philip Tauber)","Solo Fluency-Vol.1 by Philip Tauber.pdf")]},
+
+{t:"Ouvir os mestres: a discografia essencial", e:"💿", min:"25 min", sub:"O que ouvir e como ouvir",
+goal:"montar sua lista de escuta e praticar a escuta ativa.",
+body:`
+<p>Michael Tracy: \"Não consigo imaginar um estudante de uma atividade criativa que não mergulhe em exemplos.\" Abaixo, a lista de discos marco sugerida por ele e por Alex Noppe (os dois materiais estão na pasta de estudos), mais clássicos brasileiros.</p>
+${tbl(["Disco","Por quê"],[
+["Miles Davis · <i>Kind of Blue</i> (1959)","o disco mais famoso do jazz; modal; solos de Miles, Coltrane, Cannonball e Bill Evans"],
+["John Coltrane · <i>Blue Train</i> (1957)","hard bop, linhas longas, blues"],
+["Herbie Hancock · <i>Maiden Voyage</i> (1965)","jazz modal moderno"],
+["Sonny Rollins · <i>Night at the Village Vanguard</i> (1957)","improvisação temática, trio sem piano"],
+["Charlie Parker & Dizzy Gillespie · <i>Jazz at Massey Hall</i> (1953)","o bebop na sua forma mais pura"],
+["Clifford Brown & Max Roach (1954)","fraseado, som e clareza"],
+["Wes Montgomery · <i>Smokin' at the Half Note</i> (1965)","guitarra, oitavas, swing"],
+["Horace Silver · <i>Song for My Father</i> (1965)","hard bop com sabor latino"],
+["Count Basie · <i>Atomic Basie</i> (1958)","big band, swing, riffs"],
+["Stan Getz & João Gilberto · <i>Getz/Gilberto</i> (1964)","bossa nova: a referência de fraseado suave"],
+["Elis Regina & Tom Jobim · <i>Elis & Tom</i> (1974)","MPB, harmonia e interpretação"],
+["Jacob do Bandolim · <i>Vibrações</i> (1967)","choro: linguagem, articulação, virtuosismo"]])}
+<h2>Escuta ativa (não é ouvir de fundo)</h2>
+<ol><li>Ouça uma faixa inteira prestando atenção <b>só na bateria</b>; depois só no baixo; depois só no piano.</li><li>Descubra a <b>forma</b> e conte os choruses de cada solista.</li><li><b>Cante</b> a melodia e trechos dos solos.</li><li>Repare em como cada solista <b>começa e termina</b> o solo.</li></ol>
+${missao("Monte uma playlist com 1 faixa de cada disco da tabela e ouça uma por dia com escuta ativa. Anote 1 coisa que você aprendeu de cada.")}
+`,
+quiz:[],
+pdf:[pdfI("Conselhos para estudantes de jazz (Michael Tracy)","Conselhos-para-estudantes-de-jazz-Michael-Tracy.pdf",5),pdfI("Jazz Improvisation 1 (Alex Noppe) · significant recordings","Alex Noppe - Jazz Improvisation 1.pdf",33,30)]},
+
+{t:"A rotina do improvisador", e:"🗓️", min:"30 min", sub:"Os 4 passos de Noppe e a rotina de Michael Tracy",
+goal:"montar uma rotina diária equilibrada para 30, 60 ou 120 minutos.",
+body:`
+<h2>Os 4 passos (Alex Noppe)</h2>
+${tbl(["Passo","O que é","Exemplos"],[["1 · Fundamentos","seu instrumento: som, afinação, tempo, extensão, técnica","notas longas, escalas lentas com som bonito"],["2 · Trabalho técnico (vocabulário)","escalas, arpejos, padrões, licks, nos 12 tons","\"saco de sorteio\": papéis com escalas e padrões; sorteie alguns por dia"],["3 · Tocar música","aplicar tudo em músicas reais e jogos de improviso","bases deste site, jogos de fraseado, standards"],["4 · Ouvir","escuta ativa e transcrição","Módulo 8, aulas 1 e 2"]])}
+<h2>Rotina sugerida</h2>
+${tbl(["Tempo total","Fundamentos","Técnica / vocabulário","Música e jogos","Ouvir / transcrever"],[["30 min","5","10","10","5"],["60 min","10","15","20","15"],["120 min (modelo de Tracy)","15 (notas longas e som)","15 (escalas e acordes) + 15 (leitura)","10 (improvisação)","20+ (transcrever e tocar junto)"]])}
+${box("dica","Varie: Noppe usa um saco com papéis de escalas e padrões e sorteia alguns por dia, para nunca estudar sempre o mesmo. E <b>tudo em 12 tons</b>: escolha 2 tons por dia (segunda, Dó e Fá♯; terça, Ré♭ e Sol...).")}
+${box("prof","A pesquisa sobre prática deliberada mostra que o progresso vem de sessões focadas, com objetivos específicos e feedback (gravar-se é o feedback mais barato), mais do que de horas sem foco. Michael Tracy: \"A prática focada, com metas específicas, paga dividendos.\"")}
+${missao("Escreva sua rotina numa folha, com os minutos de cada passo, e cole perto do seu instrumento. Siga por 21 dias e grave um solo no 1º e no 21º dia para comparar.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 4 (Alex Noppe) · practicing jazz in four steps","Alex Noppe - Jazz Improvisation 4.pdf",4,1),pdfI("Conselhos para estudantes de jazz (Michael Tracy)","Conselhos-para-estudantes-de-jazz-Michael-Tracy.pdf",4),pdfI("Practice Techniques (Mark Watkins)","Practice Techniques.pdf",1)]},
+
+{t:"Tocando com outros: jam session e comunicação", e:"🤝", min:"25 min", sub:"Forma, sinais, escuta e o que fazer quando erra",
+goal:"participar de uma jam com segurança: saber a forma, os sinais e como se recuperar de erros.",
+body:`
+<h2>As regras de ouro (Jamey Aebersold)</h2>
+<ol><li><b>Não se perca na forma.</b> Se se perder, ouça a seção rítmica: o baterista costuma marcar o começo das seções com um prato. A música anda em frases de 2, 4 e 8 compassos: você nunca está longe de um começo.</li>
+<li><b>Nota que não era a pretendida?</b> Mova meio tom para cima ou para baixo: provavelmente você volta para a escala ou o acorde. E, se repetir a \"nota errada\" com convicção, ela vira intenção.</li>
+<li><b>Ouça os outros</b> e responda: se o baterista faz um acento, use esse ritmo; se o pianista toca uma ideia, dialogue com ela.</li></ol>
+<h2>Etiqueta e sinais da jam</h2>
+${tbl(["Situação","O que fazer"],[["Antes de tocar","combine a música, o tom, o andamento e a ordem dos solos"],["Quer passar o solo","olhe para o próximo solista nos últimos compassos"],["Trocar de quatro","o líder aponta 4 dedos e o baterista; alternem 4 compassos"],["Voltar ao tema","o líder toca a cabeça (melodia) de novo ou aponta para a cabeça"],["Terminar","quem lidera sinaliza o final; o mais comum é repetir os últimos 4 compassos (tag) 2 ou 3 vezes"],["Enquanto outro sola","acompanhe baixinho ou fique em silêncio; nunca \"brigue\" com o solista"]])}
+${base({t:"Base 46 · Simulação de jam (troca de quatro)",prog:"Dm7 | G7 | C7M | C7M | Cm7 | F7 | Bb7M | Bb7M | Ebm7 | Ab7 | Db7M | Db7M | Dm7 | G7 | C7M | C7M",estilo:"swing",eco:true,ecoN:4,bpm:[110,140,180]})}
+${missao("Procure uma jam session na sua cidade (ou um amigo músico). Leve 2 músicas que você sabe de cor e a forma bem estudada. Ir e tocar uma música já é uma vitória.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Handbook (Aebersold) · soloing","FQBK-handbook.pdf",5)]},
+
+{t:"Diagnóstico: como melhorar musicalmente", e:"🩺", min:"30 min", sub:"Sintoma, causa e o exercício que resolve",
+goal:"identificar seus pontos fracos no improviso e aplicar o exercício certo para cada um.",
+body:`
+<p>Grave um solo de 2 ou 3 choruses e ouça no dia seguinte. Depois use a tabela: encontre o sintoma, entenda a causa e faça o exercício indicado por 2 semanas.</p>
+${tbl(["Sintoma","Causa provável","O que treinar"],[
+["\"Meus solos parecem escalas\"","falta de ritmo e de motivos","Uma nota só (1.2), motivo e desenvolvimento (2.3), jogos 5 a 7 (2.4)"],
+["\"Toco notas demais\"","medo do silêncio","Três notas e o silêncio (1.3), jogo dois e dois (2.4)"],
+["\"Fico sem ideias\"","pouco vocabulário","transcrição (8.1), licks em 12 tons (6.1 e 6.3)"],
+["\"Não soa jazz, não tem balanço\"","articulação e tempo","swing e articulação (2.1), tocar junto com discos"],
+["\"Erro nas trocas de acorde\"","não ouve a harmonia","notas-guia (3.2), arpejos (3.1), cantar as notas-guia"],
+["\"Me perco na forma\"","não sabe a música","cantar a melodia durante o solo (mentalmente), método de 9 passos (6.4)"],
+["\"Soa sem emoção\"","sem dinâmica, sem arco","o arco do solo (2.5), tensão e resolução (3.4)"],
+["\"Meu som é feio\"","fundamentos fracos","notas longas e escalas lentas com som bonito, todos os dias"],
+["\"Sei teoria, mas não sai\"","pouca prática aplicada e pouco ouvido","bases deste site todos os dias, jogo do eco (1.4), Trilha do Ouvido"],
+["\"Travo quando toco com outros\"","falta de experiência","troca de quatro com a base (5.5 e 8.4), jams"],
+["\"Tudo que toco soa igual\"","sempre o mesmo ritmo e registro","deslocamento (2.2), variar registro, modos e pentatônicas diferentes"],
+["\"Toco rápido, mas sujo\"","velocidade antes da precisão","metrônomo lento, padrões nos 12 tons, aumentar 4 bpm por dia"]])}
+<h2>Os 5 hábitos dos que evoluem rápido</h2>
+<ol><li>Gravam-se toda semana.</li><li>Transcrevem sempre.</li><li>Cantam o que tocam.</li><li>Estudam em 12 tons.</li><li>Tocam com outras pessoas o máximo possível.</li></ol>
+${missao("Faça o diagnóstico hoje. Escolha os 2 sintomas mais fortes e monte 2 semanas de rotina só com os exercícios indicados. Grave de novo no fim e compare.")}
+`,
+quiz:[],
+pdf:[pdfI("Conselhos para estudantes de jazz (Michael Tracy)","Conselhos-para-estudantes-de-jazz-Michael-Tracy.pdf",1)]},
+
+{t:"Sua própria voz e o jazz moderno", e:"🌌", min:"40 min", sub:"Outside, superposição, Coltrane changes e o plano de um ano",
+goal:"conhecer os recursos avançados do jazz moderno e montar um plano de longo prazo para desenvolver um estilo próprio.",
+body:`
+<h2>Recursos avançados</h2>
+${tbl(["Recurso","O que é"],[["Outside / side-slipping","tocar meio tom acima (ou abaixo) da harmonia por um momento e voltar, criando tensão controlada"],["Superposição","tocar sobre um acorde as notas de outro (ex.: arpejo de Em7 sobre C7M soa como C7M(9))"],["Pares de tríades","duas tríades vizinhas alternadas (Módulo 4)"],["Quartas","melodias e acordes em intervalos de 4ª (McCoy Tyner, Herbie Hancock)"],["Coltrane changes","ciclos de 3ªs maiores, como em <i>Giant Steps</i>"]])}
+${ex("G","D4/e E4/e F4/e A4/e C5/q A4/q | Eb4/e F4/e Gb4/e Bb4/e Db5/q Bb4/q | A4/e G4/e F4/e E4/e D4/h",{t:"Side-slipping sobre Dm7: dentro, meio tom acima (fora), dentro",bpm:100,time:"4/4"})}
+${base({t:"Base 47 · Coltrane changes (os 8 primeiros compassos de Giant Steps)",prog:"B7M D7 | G7M Bb7 | Eb7M | Am7 D7 | G7M Bb7 | Eb7M F#7 | B7M | Fm7 Bb7",estilo:"swing",bpm:[60,90,130],how:"Comece bem devagar, tocando só o padrão 1-2-3-5 de cada acorde (como Coltrane). É um dos maiores desafios do jazz."})}
+<h2>Encontrar sua voz</h2>
+<p>Ninguém cria do nada. Ademir Junior: \"Ninguém cria algo que já não esteja sendo feito de outra forma por alguém\"; a originalidade nasce de <b>misturar influências</b> com a sua história. Ele também lembra: \"Fale pelo coração ao tocar\". E Coltrane, citado no <i>Solo Fluency</i> de Philip Tauber: \"Minha música é a expressão espiritual do que eu sou.\"</p>
+<ol><li>Escolha 3 músicos que você ama e transcreva muito de cada um.</li><li>Misture: frases de um com o ritmo de outro.</li><li>Traga a música da sua origem (samba, forró, louvor, rock) para o seu improviso.</li><li>Grave, ouça e fique com o que soa como você.</li></ol>
+<h2>Plano de 1 ano</h2>
+${tbl(["Meses","Foco"],[["1-2","Módulos 1 e 2: ritmo, frases, pentatônica, motivos; 1 blues de cor"],["3-4","Módulo 3: arpejos e notas-guia em 12 tons; 2 standards"],["5-6","Módulos 4 e 5: escalas, bebop, blues de jazz; primeira transcrição completa"],["7-9","Módulo 6: II–V–I em 12 tons, 4 standards, rhythm changes"],["10-12","Módulos 7 e 8: brasileiro, recursos modernos, jams; 2 transcrições; gravar um solo seu do qual você se orgulhe"]])}
+${missao("Escreva hoje: (1) os 3 músicos que você vai estudar a fundo; (2) a música que você quer improvisar muito bem daqui a 1 ano. Volte a esta aula a cada 3 meses e confira.")}
+`,
+quiz:[],
+pdf:[pdfI("Jazz Improvisation 3 (Alex Noppe) · Coltrane changes","Alex Noppe - Jazz Improvisation 3.pdf",19,16),pdfI("Caminhos da Improvisação (Ademir Junior)","Esboço Caminhos da Improvisação.pdf"),pdfI("The Complete Method for Improvisation (Jerry Coker)","Jerry Coker - The Complete Method for Improvisation.PDF")]}
+]});
+
+CURSO.push({id:"im", nome:"Trilha de Improvisação", emoji:"🎷", pill:"Do zero à maestria · com banda virtual para tocar junto",
+desc:"O curso completo de improvisação, baseado nos melhores métodos da pasta de estudos (Alex Noppe, Jamey Aebersold, Michael Tracy, Jerry Coker, Turi Collura, Ademir Junior, Nelson Faria) e no caminho que os grandes seguiram: perder o medo, ritmo e fraseado, notas do acorde, escalas e modos, blues, II–V–I e standards, improviso brasileiro e rumo à maestria. Cada aula tem uma base de acompanhamento (bateria, baixo e piano) em vários estilos, com troca de tom, notas do acorde, escalas, notas-alvo e jogo de pergunta e resposta.",
+mods:IMMODS});
 
 </script>
 <script>
@@ -7219,7 +7896,7 @@ function playSeq(notes,bpm,btn,drum,opt){
   const ms=(t-a.currentTime)*1000;
   playing.timer=setTimeout(()=>{ if(btn) btn.classList.remove("on"); playing=null; },ms);
 }
-function stopAll(){ if(!playing) return; playing.nodes.forEach(n=>{try{n.stop()}catch(e){}}); clearTimeout(playing.timer); if(playing.btn) playing.btn.classList.remove("on"); playing=null; }
+function stopAll(){ if(typeof PLAYB!=="undefined"&&PLAYB) stopBase(); if(!playing) return; playing.nodes.forEach(n=>{try{n.stop()}catch(e){}}); clearTimeout(playing.timer); if(playing.btn) playing.btn.classList.remove("on"); playing=null; }
 
 /* ================= RITMOS DE BATERIA (grade + loop) ================= */
 const INST={BD:["Bumbo","F4"],SN:["Caixa","C5"],XS:["Aro","xC5"],HH:["Chimbal","xG5"],HP:["Chimbal (pé)","xD4"],RD:["Condução","xF5"],CR:["Ataque","xA5"],T1:["Tom 1","E5"],T2:["Tom 2","D5"],FT:["Surdo","A4"],CB:["Cowbell","xE5"],CS:["Casco do surdo","xA4"]};
@@ -7728,6 +8405,121 @@ function mountVoz(el,o){
   };
 }
 
+
+/* ================= PLAYB DE ACOMPANHAMENTO (PLAY-ALONG) ================= */
+const LETR=["C","D","E","F","G","A","B"], LPT=["Dó","Ré","Mi","Fá","Sol","Lá","Si"], LPC=[0,2,4,5,7,9,11];
+/* tipos: [regex, [[semitom,grau]...] (tons do acorde), [escala semitons], nome da escala] */
+const MAJS=[0,2,4,5,7,9,11], DOR=[0,2,3,5,7,9,10], MIX=[0,2,4,5,7,9,10], LOC=[0,1,3,5,6,8,10], ALT=[0,1,3,4,6,8,10], LYD=[0,2,4,6,7,9,11], LYDD=[0,2,4,6,7,9,10], MELM=[0,2,3,5,7,9,11], DIMS=[0,2,3,5,6,8,9,11], WT=[0,2,4,6,8,10], AEO=[0,2,3,5,7,8,10], HMIN=[0,2,3,5,7,8,11];
+const QT=[
+ [/^(7M|maj7|Δ|7M\(9\)|maj9|6|6\(9\)|69|add9)$/,[[0,1],[4,3],[7,5],[11,7],[14,9]],MAJS,"jônio (maior)"],
+ [/^7M\(#11\)$|^7M\(♯11\)$/,[[0,1],[4,3],[11,7],[14,9],[18,11]],LYD,"lídio"],
+ [/^$/,[[0,1],[4,3],[7,5],[14,9]],MAJS,"maior (jônio)"],
+ [/^(m|min)$/,[[0,1],[3,3],[7,5],[14,9]],DOR,"dórico"],
+ [/^(m7|m9|m7\(9\)|m7\(11\)|m11|-7)$/,[[0,1],[3,3],[7,5],[10,7],[14,9]],DOR,"dórico"],
+ [/^(m6|m\(7M\)|m7M|mMaj7)$/,[[0,1],[3,3],[7,5],[9,6],[14,9]],MELM,"menor melódica"],
+ [/^(m7\(b5\)|m7\(♭5\)|ø|m7b5)$/,[[0,1],[3,3],[6,5],[10,7]],LOC,"lócrio"],
+ [/^(°|°7|dim|dim7|o7)$/,[[0,1],[3,3],[6,5],[9,7]],DIMS,"diminuta (tom-semitom)"],
+ [/^(7|9|13|7\(9\)|7\(13\)|7\(9,13\))$/,[[0,1],[4,3],[10,7],[14,9],[21,13]],MIX,"mixolídio"],
+ [/^(7sus4|sus4|7\(4\)|sus)$/,[[0,1],[5,4],[7,5],[10,7],[14,9]],MIX,"mixolídio"],
+ [/^(7\(#11\)|7\(♯11\))$/,[[0,1],[4,3],[10,7],[14,9],[18,11]],LYDD,"lídio dominante"],
+ [/^(7\(b9\)|7\(♭9\)|7\(#9\)|7\(♯9\)|7\(b13\)|7\(♭13\)|7alt|7\(b9,b13\)|7\(♭9 ♭13\))$/,[[0,1],[4,3],[10,7],[13,9],[20,13]],ALT,"alterada"],
+ [/^(\+|aug|7\(#5\)|7\(♯5\))$/,[[0,1],[4,3],[8,5],[10,7]],WT,"tons inteiros"]];
+function cifra(sym){ const m=/^([A-G])([#b♯♭]?)(.*?)(?:\/([A-G][#b♯♭]?))?$/.exec(sym.trim()); if(!m) return null;
+  const li=LETR.indexOf(m[1]), acc={"#":1,"♯":1,"b":-1,"♭":-1}[m[2]]||0, pc=(LPC[li]+acc+12)%12, q=m[3];
+  const t=QT.find(x=>x[0].test(q))||QT[2]; return {sym,li,pc,q,tones:t[1],scale:t[2],sname:t[3],bass:m[4]}; }
+const SPELL=[["C",0],["Db",1],["D",2],["Eb",3],["E",4],["F",5],["F#",6],["G",7],["Ab",8],["A",9],["Bb",10],["B",11]];
+function transp(sym,k){ if(!k) return sym; return sym.replace(/^([A-G])([#b♯♭]?)/,(a,l,ac)=>{ const pc=(LPC[LETR.indexOf(l)]+({"#":1,"♯":1,"b":-1,"♭":-1}[ac]||0)+k+120)%12; return SPELL[pc][0]; }).replace(/\/([A-G])([#b♯♭]?)$/,(a,l,ac)=>{ const pc=(LPC[LETR.indexOf(l)]+({"#":1,"♯":1,"b":-1,"♭":-1}[ac]||0)+k+120)%12; return "/"+SPELL[pc][0]; }); }
+/* nome em português grafado pelo grau (ex.: 7ª de Dó = Si♭) */
+function nomeGrau(li,pc,semi,grau){ const L=(li+grau-1)%7, want=(pc+semi)%12, nat=LPC[L]; let d=((want-nat)%12+12)%12; if(d>6) d-=12; return LPT[L]+(d===1?"♯":d===2?"𝄪":d===-1?"♭":d===-2?"♭♭":""); }
+function rootPT(c){ let d=((c.pc-LPC[c.li])%12+12)%12; if(d>6) d-=12; return LPT[c.li]+(d===1?"♯":d===-1?"♭":""); }
+function escNomes(c){ if(c.scale.length===7) return c.scale.map((s,i)=>nomeGrau(c.li,c.pc,s,i+1)); return c.scale.map(s=>NPT[(c.pc+s)%12]); }
+function vIv(root,ivs,prev,lo,hi){ const pcs=[...new Set(ivs.map(i=>((root+i)%12+12)%12))]; let best=null,bc=1e9; lo=lo||52; hi=hi||76;
+  for(let r=0;r<pcs.length;r++){ const ord=pcs.slice(r).concat(pcs.slice(0,r));
+    for(let st=lo;st<lo+12;st++){ if(st%12!==ord[0]) continue; const v=[st]; for(let k=1;k<ord.length;k++){ let m=v[k-1]+1; while(m%12!==ord[k]) m++; v.push(m); } if(v[v.length-1]>hi) continue;
+      const c=prev?v.reduce((s,m,i)=>s+Math.abs(m-prev[Math.min(i,prev.length-1)]),0):Math.abs(v.reduce((s,m)=>s+m,0)/v.length-64); if(c<bc){ bc=c; best=v; } } }
+  return best||ivs.map(i=>60+i); }
+function bassTone(f,t0,dur,vol){ const a=ac(), o=a.createOscillator(), o2=a.createOscillator(), g=a.createGain(), lp=a.createBiquadFilter(); o.type="triangle"; o2.type="sine"; o.frequency.value=f; o2.frequency.value=f;
+  lp.type="lowpass"; lp.frequency.value=900; const v=vol||.5, end=t0+Math.max(.12,dur); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(v,t0+.012); g.gain.setTargetAtTime(v*.55,t0+.03,.18); g.gain.setTargetAtTime(0,end,.05);
+  o.connect(g); o2.connect(g); g.connect(lp); lp.connect(a.destination); o.start(t0); o2.start(t0); o.stop(end+.3); o2.stop(end+.3); return [o,o2]; }
+const DP=s=>partPitch(s);
+/* padrões por estilo: S = subdivisões por tempo */
+const ESTILOS={
+ swing:{S:3,nome:"Swing (jazz)",dr:B=>{ const e=[]; for(let b=0;b<B;b++){ e.push(["xF5",b*3,.55]); if(b%2===1){ e.push(["xF5",b*3+2,.32]); e.push(["xD4",b*3,.5]); } e.push(["F4",b*3,.12]); } return e; },bass:"walk",pn:B=>B===4?[[0,1],[5,.6]]:[[0,1],[5,.6]]},
+ blues:{S:3,nome:"Blues shuffle",dr:B=>{ const e=[]; for(let b=0;b<B;b++){ e.push(["xG5",b*3,.5]); e.push(["xG5",b*3+2,.3]); if(b%2===1) e.push(["C5",b*3,.55]); else e.push(["F4",b*3,.7]); } return e; },bass:"walk",pn:B=>[[0,1],[5,.5],[9,.5]]},
+ valsa:{S:3,nome:"Valsa jazz (3/4)",dr:B=>{ const e=[]; for(let b=0;b<B;b++){ e.push(["xF5",b*3,.5]); if(b===1) e.push(["xF5",b*3+2,.3]); if(b>0) e.push(["xD4",b*3,.4]); } e.push(["F4",0,.3]); return e; },bass:"waltz",pn:B=>[[3,1],[6,.6]]},
+ balada:{S:2,nome:"Balada",dr:B=>{ const e=[]; for(let b=0;b<B;b++){ e.push(["xF5",b*2,.35]); if(b%2===1) e.push(["xC5",b*2,.35]); } e.push(["F4",0,.4]); return e; },bass:"half",pn:B=>[[0,4]]},
+ bossa:{S:4,nome:"Bossa nova",dr:B=>{ const e=[]; for(let i=0;i<16;i+=2) e.push(["xG5",i,.22]); [0,3,6,10,13].forEach(i=>e.push(["xC5",i,.5])); [0,6,8,14].forEach(i=>e.push(["F4",i,.5])); return e; },bass:"bossa",pn:B=>[[0,.7],[3,.7],[6,1],[10,.7],[13,.7]]},
+ samba:{S:4,nome:"Samba",dr:B=>{ const e=[]; for(let i=0;i<16;i++) e.push(["xG5",i,i%4===0?.35:.18]); [4,12].forEach(i=>e.push(["A4",i,.8])); [0,8].forEach(i=>e.push(["F4",i,.4])); [2,5,7,10,13,15].forEach(i=>e.push(["xC5",i,.4])); return e; },bass:"samba",pn:B=>[[2,.5],[5,.5],[7,.5],[10,.5],[13,.5]]},
+ baiao:{S:4,nome:"Baião",dr:B=>{ const e=[]; for(let i=0;i<16;i++) e.push([i%2?"xG5":"oG5",i,.18]); [0,3,8,11].forEach(i=>e.push(["F4",i,.7])); [4,12].forEach(i=>e.push(["xC5",i,.35])); return e; },bass:"baiao",pn:B=>[[2,.4],[6,.4],[10,.4],[14,.4]]},
+ pop:{S:4,nome:"Pop / rock",dr:B=>{ const e=[]; for(let i=0;i<16;i+=2) e.push(["xG5",i,.35]); [4,12].forEach(i=>e.push(["C5",i,.7])); [0,8,10].forEach(i=>e.push(["F4",i,.8])); return e; },bass:"eighth",pn:B=>[[0,2],[8,2]]}
+};
+let PLAYB=null;
+function stopBase(){ if(!PLAYB) return; clearInterval(PLAYB.timer); PLAYB.vis.forEach(clearTimeout); PLAYB.nodes.forEach(n=>{try{n.stop()}catch(e){}}); PLAYB.btn.classList.remove("on"); PLAYB.btn.textContent="▶ Tocar a base"; PLAYB.el.querySelectorAll(".pabar.cur").forEach(b=>b.classList.remove("cur")); const st=PLAYB.el.querySelector(".pastat"); if(st) st.textContent=""; PLAYB=null; }
+function mountBase(el,o){
+  const bars0=o.prog.split("|").map(b=>b.trim().split(/\s+/).filter(Boolean)).filter(b=>b.length);
+  const tempos=o.bpm||[70,100,130]; let bpm=tempos[1], k=0, est=o.estilo||"swing", show=o.notas!==false, mute={dr:false,bx:false,pn:false};
+  const B=()=>est==="valsa"?3:(o.beats||4);
+  const keyOpts=[-5,-4,-3,-2,-1,0,1,2,3,4,5,6];
+  const draw=()=>{
+    const cell=b=>`<div class="pach">${b.map(sym=>{ const t=transp(sym,k), c=cifra(t); if(!c) return `<div><div class="pasym">${esc(t)}</div></div>`;
+      let at=c.tones.filter(([sm,g])=>[1,3,5,7,6].includes(g)&&!(g===6&&c.tones.some(x=>x[1]===7))); if(!at.some(x=>x[1]===5)&&c.sname!=="alterada") at.splice(2,0,[7,5]); const tn=at.map(([sm,g])=>nomeGrau(c.li,c.pc,sm,g)).join(" ");
+      const al=o.alvo?c.tones.filter(([sm,g])=>(o.alvo.includes("3")&&g===3)||(o.alvo.includes("7")&&g===7)).map(([sm,g])=>nomeGrau(c.li,c.pc,sm,g)+" ("+g+"ª)").join(" · "):"";
+      return `<div><div class="pasym">${esc(t)}</div>${show?`<div class="panotes">arpejo: <b>${tn}</b><br>escala: ${rootPT(c)} ${c.sname}</div>`:""}${al?`<div class="paalvo">🎯 ${al}</div>`:""}</div>`; }).join("")}</div>`;
+    el.querySelector(".pagrid").innerHTML=bars0.map((b,i)=>`<div class="pabar" data-b="${i}">${cell(b)}</div>`).join(""); };
+  el.innerHTML=(o.t?`<div class="gtitle">${o.t}</div>`:"")+(o.d?`<div class="gsub">${o.d}</div>`:"")+`<div class="pa">
+    <div class="paopts"><button class="play pago">▶ Tocar a base</button>${tempos.map((b,i)=>`<span class="chip${i===1?" on":""}" data-b="${b}">${["🐢 ","",""][i]}${b} bpm</span>`).join("")}
+    <select class="pakey">${keyOpts.map(x=>`<option value="${x}"${x===0?" selected":""}>${x===0?"Tom original":(x>0?"+":"")+x+" semitom"+(Math.abs(x)>1?"s":"")}</option>`).join("")}</select>
+    <select class="paest">${Object.keys(ESTILOS).filter(x=>(o.estilos||Object.keys(ESTILOS)).includes(x)).map(x=>`<option value="${x}"${x===est?" selected":""}>${ESTILOS[x].nome}</option>`).join("")}</select></div>
+    <div class="paopts"><span class="chip pam" data-m="dr">🥁 Bateria</span><span class="chip pam" data-m="bx">🎸 Baixo</span><span class="chip pam" data-m="pn">🎹 Piano</span><span class="chip pashow${show?" on":""}">👁 Notas e escalas</span><span class="pastat"></span></div>
+    <div class="pagrid"></div></div>`+(o.how?`<div class="how">${o.how}</div>`:"");
+  draw();
+  const btn=el.querySelector(".pago"), stat=el.querySelector(".pastat"), chips=[...el.querySelectorAll(".chip[data-b]")];
+  chips.forEach(c=>c.onclick=()=>{ bpm=+c.dataset.b; chips.forEach(x=>x.classList.toggle("on",x===c)); });
+  el.querySelector(".pakey").onchange=e=>{ k=+e.target.value; draw(); };
+  el.querySelector(".paest").onchange=e=>{ est=e.target.value; if(PLAYB&&PLAYB.btn===btn){ stopBase(); btn.click(); } };
+  el.querySelectorAll(".pam").forEach(c=>{ c.classList.add("on"); c.onclick=()=>{ mute[c.dataset.m]=!mute[c.dataset.m]; c.classList.toggle("on",!mute[c.dataset.m]); }; });
+  el.querySelector(".pashow").onclick=e=>{ show=!show; e.target.classList.toggle("on",show); draw(); };
+  btn.onclick=()=>{
+    if(PLAYB&&PLAYB.btn===btn){ stopBase(); return; }
+    stopAll(); stopGroove(); stopBase(); clearTimeout(metroTimer);
+    const a=ac(); const G={btn,el,nodes:[],vis:[]}; PLAYB=G; btn.classList.add("on"); btn.textContent="■ Parar";
+    const nb=bars0.length; let bar=-1, next=a.currentTime+.15; let prevV=null, ecoPh=null;
+    const chordsAt=bi=>bars0[bi].map(s=>cifra(transp(s,k))).filter(Boolean);
+    const schedBar=(bi,t0,count)=>{
+      const E=ESTILOS[est], Bt=B(), S=E.S, q=60/bpm, step=i=>{ const beat=Math.floor(i/S), sub=i%S; if(S===3){ return t0+beat*q+(sub===0?0:sub===1?q/3:q*2/3); } return t0+(beat+sub/S)*q; };
+      if(count){ for(let b=0;b<Bt;b++) G.nodes.push(...click(t0+b*q,b===0)); return; }
+      const cs=chordsAt(bi), per=Bt/cs.length, chordAtBeat=b=>cs[Math.min(cs.length-1,Math.floor(b/per))];
+      if(!mute.dr) E.dr(Bt).forEach(([p,i,v])=>{ if(Math.floor(i/S)<Bt) G.nodes.push(...drumHit(DP(p),step(i),false,false).map(n=>n)); });
+      /* baixo */
+      if(!mute.bx){ const nextC=chordsAt((bi+1)%nb)[0]; const rootM=c=>{ let r=28+((c.pc-4+12)%12); if(r<33) r+=12; return r; };
+        const tone=(c,deg)=>{ const t=c.tones.find(x=>x[1]===deg); return t?rootM(c)+t[0]:rootM(c)+7; };
+        const add=(m,t,d,v)=>G.nodes.push(...bassTone(freq(m),t,d,v||.55));
+        if(E.bass==="walk"){ for(let b=0;b<Bt;b++){ const c=chordAtBeat(b), first=b===0||chordAtBeat(b-1)!==c, last=b===Bt-1||chordAtBeat(b+1)!==c; let m;
+            if(first) m=rootM(c); else if(last){ const nc=b===Bt-1?nextC:chordAtBeat(b+1); const tr=rootM(nc); m=tr+(Math.random()<.5?1:-1); }
+            else m=b%2?tone(c,3):tone(c,5); add(m,t0+b*q,q*.9,.6); } }
+        else if(E.bass==="half"){ cs.forEach((c,i)=>{ add(rootM(c),t0+i*per*q,per*q*.5,.55); if(per>=2) add(tone(c,5),t0+(i*per+per/2)*q,per*q*.45,.45); }); }
+        else if(E.bass==="waltz"){ add(rootM(cs[0]),t0,q*.9,.6); add(tone(cs[0],5),t0+q,q*.8,.4); add(tone(cs[0],5)-12+12,t0+2*q,q*.8,.4); }
+        else if(E.bass==="bossa"){ [[0,6,1],[6,2,5],[8,6,1],[14,2,5]].forEach(([i,len,d])=>{ const c=chordAtBeat(Math.floor(i/4)); add(d===1?rootM(c):tone(c,5),step(i),len/4*q*.95,.55); }); }
+        else if(E.bass==="samba"){ [[0,1],[3,5],[4,5],[8,1],[11,5],[12,5]].forEach(([i,d])=>{ const c=chordAtBeat(Math.floor(i/4)); add(d===1?rootM(c):tone(c,5),step(i),q*.4,.55); }); }
+        else if(E.bass==="baiao"){ [[0,1],[3,5],[8,1],[11,5]].forEach(([i,d])=>{ const c=chordAtBeat(Math.floor(i/4)); add(d===1?rootM(c):tone(c,5),step(i),q*.6,.6); }); }
+        else { for(let i=0;i<16;i+=2){ const c=chordAtBeat(Math.floor(i/4)); add(rootM(c),step(i),q*.4,.5); } } }
+      /* piano */
+      if(!mute.pn){ E.pn(Bt).forEach(([i,len])=>{ const b=Math.floor(i/S); if(b>=Bt) return; const c=chordAtBeat(b);
+          const ivs=c.tones.map(x=>x[0]).filter(x=>!(est!=="pop"&&est!=="balada"&&x===0&&c.tones.length>3)); const v=vIv(c.pc+48,ivs,prevV,52,74); prevV=v;
+          v.forEach(m=>G.nodes.push(...pianoTone(freq(m),step(i),len*q*.9,.11))); }); }
+      /* eco: o computador toca 2 compassos, você responde nos 2 seguintes */
+      if(o.eco){ const fase=Math.floor(bi/(o.ecoN||2))%2; if(fase===0){ const c=cs[0], sc=c.scale, base=60+c.pc-(c.pc>7?12:0); const ritmos=[[0,1,1.5,2,3],[0,.5,1,2],[.5,1,1.5,2.5,3],[0,1,2,2.5,3]]; const r=pick(ritmos);
+          let deg=pick([0,2,4].map(x=>Math.min(x,sc.length-1))); r.forEach((tb,j)=>{ if(tb>=Bt) return; deg=Math.max(0,Math.min(sc.length-1,deg+pick([-1,1,1,2,-2]))); const m=base+sc[deg]+(j===r.length-1?0:0); G.nodes.push(...tone(freq(m+12),t0+tb*q,Math.min(q*.9,(r[j+1]!==undefined?r[j+1]-tb:1)*q*.9),.2)); }); }
+        G.vis.push(setTimeout(()=>{ stat.textContent=fase===0?"🎧 Ouça a frase…":"🎤 Sua vez: responda!"; },Math.max(0,(t0-a.currentTime)*1000))); }
+      G.vis.push(setTimeout(()=>{ el.querySelectorAll(".pabar.cur").forEach(x=>x.classList.remove("cur")); const be=el.querySelector(`.pabar[data-b="${bi}"]`); if(be) be.classList.add("cur"); },Math.max(0,(t0-a.currentTime)*1000)));
+    };
+    G.timer=setInterval(()=>{ while(next<a.currentTime+.3){ const Bt=B(), q=60/bpm;
+        if(bar===-1){ schedBar(0,next,true); next+=Bt*q; bar=0; continue; }
+        schedBar(bar,next,false); next+=Bt*q; bar=(bar+1)%nb;
+        if(G.nodes.length>900) G.nodes.splice(0,450); if(G.vis.length>300) G.vis.splice(0,150); } },40);
+  };
+}
+
 /* ================= METRÔNOMO ================= */
 let metroTimer=null;
 function mountMetro(el,o){
@@ -7760,6 +8552,7 @@ function hydrate(root){
   root.querySelectorAll("[data-groove]").forEach(el=>mountGroove(el,JSON.parse(decodeURIComponent(el.dataset.groove))));
   root.querySelectorAll("[data-strum]").forEach(el=>mountStrum(el,JSON.parse(decodeURIComponent(el.dataset.strum))));
   root.querySelectorAll("[data-ear]").forEach(el=>mountEar(el,JSON.parse(decodeURIComponent(el.dataset.ear))));
+  root.querySelectorAll("[data-base]").forEach(el=>mountBase(el,JSON.parse(decodeURIComponent(el.dataset.base))));
   root.querySelectorAll("[data-dit]").forEach(el=>mountDit(el,JSON.parse(decodeURIComponent(el.dataset.dit))));
   root.querySelectorAll("[data-voz]").forEach(el=>mountVoz(el,JSON.parse(decodeURIComponent(el.dataset.voz))));
   root.querySelectorAll("[data-chords]").forEach(el=>{ const o=JSON.parse(decodeURIComponent(el.dataset.chords));
@@ -7861,7 +8654,7 @@ function lessonPage(A){
     ${next?`<a class="btn pri" href="#/a/${next.id}" id="nextbtn">Próxima →</a>`:`<a class="btn pri" href="#/">🏁 Fim do curso</a>`}</div></div>`;
 }
 
-function route(){ if(typeof VOZ!=="undefined"&&VOZ){ VOZ.stop(); VOZ=null; }
+function route(){ if(typeof VOZ!=="undefined"&&VOZ){ VOZ.stop(); VOZ=null; } if(typeof stopBase==="function") stopBase();
   stopAll(); stopGroove(); clearTimeout(metroTimer);
   const h=location.hash||"#/", app=document.getElementById("app");
   let m;
